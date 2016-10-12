@@ -13,7 +13,6 @@ namespace Sophophile.Models
         public int Content { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool Solved { get; set; }
-        public string[] Tags { get; set; }
 
         public ICollection<Answer> Answers { get; set; }
         public ApplicationUser User { get; set; }

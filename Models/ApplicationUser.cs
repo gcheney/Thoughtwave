@@ -9,7 +9,10 @@ namespace Sophophile.Models
     // Add profile data for application users by adding properties to the User class
     public class ApplicationUser : IdentityUser
     {
-         public ICollection<Question> Questions { get; set; }
-         public ICollection<Answer> Answers { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime SignUpDate { get; set; }
+        public ICollection<Question> Questions { get; set; }
+        public ICollection<Answer> Answers { get; set; }
     }
 }
