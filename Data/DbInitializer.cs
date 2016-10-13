@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
@@ -38,7 +39,7 @@ namespace Sophophile.Data
 
                     foreach (ApplicationUser user in users)
                     {
-                        userManager.CreateAsync(user, "pa$$word1");
+                        userManager.CreateAsync(user, "Password1");
                     }
              }
         }
