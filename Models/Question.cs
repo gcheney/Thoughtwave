@@ -14,7 +14,8 @@ namespace Sophophile.Models
         public DateTime CreatedOn { get; set; }
         public bool Solved { get; set; }
 
-        public ICollection<Answer> Answers { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Answer> Answers { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

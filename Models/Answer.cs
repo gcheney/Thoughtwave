@@ -12,7 +12,7 @@ namespace Sophophile.Models
         public string Response { get; set; }
         public DateTime CreatedOn { get; set; }
 
-        public Question Question { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual Question Question { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }
