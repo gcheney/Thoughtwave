@@ -1,7 +1,128 @@
 @{
     ViewData["Title"] = "About";
 }
-<h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+<!-- Question Header -->
+<header class="intro-header" style="background-image: url('/img/post-bg.jpg')">
+    <div class="container">
+        <div class="row">
+
+        </div>
+    </div>
+</header>
+
+ <!-- Question Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="well well-lg clearfix">
+                    <a target="_blank" href="/read">
+                        <h1 class="section-heading text-center">How Can I Do Things</h1>
+                    </a>
+                    <p class="text-muted">
+                        Posted by <a href="#">Generic User</a> on September 18, 2001 in 
+                        <a href="">Technology</a>
+                    </p>
+                    <p class="lead">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+                    </p>
+                    <hr />
+                </div>
+            </div>             
+        </div>
+    </div>
+</article>
+
+<!-- Author info and comments -->
+<div class="container">
+    <div class="row">   
+        <!-- Author details/bio -->
+        <div class="well well-lg clearfix">
+            <a href="#"><h2>Jackie Johnson</h2></a>
+            <a href="#" class="pull-left">
+                <img alt="user image" src="http://api.randomuser.me/portraits/thumb/men/58.jpg" class="img-circle bio-img">
+            </a>
+            <p class="col-md-9 pull-right">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+            </p>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- author social links -->
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="<%= post.author.social.twitter %>" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<%= post.author.social.facebook %>" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<%= post.author.social.instagram %>" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<%= post.author.social.linkedin %>" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Blog Comments -->
+        
+        <!-- Comments Form -->
+        <div class="well">
+            <h4>Leave a Comment:</h4>
+            <form role="form">
+                <div class="form-group">
+                    <textarea class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <hr>
+
+        <!-- Posted Comments -->
+        <!-- Comment -->
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://api.randomuser.me/portraits/thumb/men/58.jpg" alt="User Image">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">Jack Johnson<small>September 18, 2016 9:58 pm</small></h4>
+                Oh well you know you just need to do Blah Blah Blah
+            </div>
+        </div>
+
+        <!-- Comment -->
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://api.randomuser.me/portraits/thumb/men/58.jpg" alt="User Image">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">Jack Johnson
+                    <small>September 18, 2016 9:58 pm</small>
+                </h4>
+                Oh well you know you just need to do Blah Blah Blah
+            </div>
+        </div>
+    </div>
+</div>
