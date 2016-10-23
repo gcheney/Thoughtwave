@@ -3,8 +3,6 @@ var gulp        = require('gulp'),
     stylish     = require('jshint-stylish'),
     imagemin    = require('gulp-imagemin'),
     bower       = require('gulp-bower'),
-    nodemon     = require('gulp-nodemon'),
-    inject      = require('gulp-inject'),
     bowerFiles  = require('main-bower-files'),
     filter      = require('gulp-filter'),
     rename      = require('gulp-rename'),
@@ -19,47 +17,40 @@ var gulp        = require('gulp'),
 
 var config = {
     bowerDir: './wwwroot/lib',
-    jsDest: 'wwwroot/dist/js',
     jsSrc: 'wwwroot/js/main.js',
-    jsDir: 'wwwroot/js',
-    jsBundle: './wwwroot/dist/js/bundle.js',
-    jsAssets: ['wwwroot/**/*.js'],
+    jsDest: 'wwwroot/dist/js',
+    cssSrc: 'wwwroot/css/site.css',
     cssDest: 'wwwroot/dist/css',
-    cssSrc: 'wwwroot/css/*.css',
     fontSrc: [ 'wwwroot/lib/font-awesome/fonts/**.*', 
               'wwwroot/lib/bootstrap/fonts/**.*'],
     fontDest: 'wwwroot/dist/fonts',
     imageSrc: './wwwroot/images/**',
     imageDest: './wwwroot/dist/images',
-    injectFiles: ['./wwwroot/dist/**/*.min.js', './wwwroot/dist/**/*.min.css'],
-    injectSrc: './src/views/partials/*.ejs',
-    injectDest: './src/views/partials'
+    distDirs: ['wwwroot/dist/js', 'wwwroot/dist/css', 
+                'wwwroot/dist/fonts', './wwwroot/dist/images']
 };
 
 gulp.task('bower', function() {
-    return bower()
-        .pipe(gulp.dest(config.bowerDir));
+    return bower().pipe(gulp.dest(config.bowerDir));
 });
 
 gulp.task('jslint', function() {
     console.log('Checking coding style...');
     
-    return gulp.src(config.jsAssets)
+    return gulp.src(config.jsSrc)
         .pipe(jshint())
         .pipe(jshint.reporter(stylish));
 });
 
 gulp.task('clean', function () {
-    console.log('Cleaning dist folder...');
+    console.log('Cleaning dist folders...');
     
-	return gulp.src(config.jsDest, {read: false})
+	return gulp.src(config.distDirs, {read: false})
         .pipe(clean());
 });
 
 gulp.task('css', function() {
-    console.log('Minifying and concatenating CSS...');
-
-	gulp.src(bowerFiles().concat(config.cssSrc))
+	return gulp.src(bowerFiles())
 		.pipe(filter('**/*.css'))
         .pipe(debug({title: 'css'}))
 		.pipe(order(['normalize.css', '*']))
@@ -70,9 +61,9 @@ gulp.task('css', function() {
 });
 
 gulp.task('uglify',function() {
-    console.log('Minifying and bundling JS files...');
-    
-    return gulp.src(config.jsSrc)
+    return gulp.src(bowerFiles())
+        .pipe(filter('**/*.js'))
+        .pipe(debug({title: 'js'}))
         .pipe(concat('bundle.js'))
         .pipe(uglify())
         .pipe(rename('bundle.min.js'))
@@ -87,52 +78,17 @@ gulp.task('fonts', function() {
 
 gulp.task('images', function(){
     return gulp.src(config.imageSrc)
-        .pipe(imagemin())
         .pipe(debug({title: 'images'}))
+        .pipe(imagemin())
         .pipe(gulp.dest(config.imageDest));
-});
-
-
-gulp.task('inject', function () {
-    console.log('Injecting minified files...');
-    
-    var files = gulp.src(config.injectFiles, {read: false});
-    
-    var options = { ignorePath: '/public' };
- 
-    return gulp.src(config.injectSrc)
-        .pipe(inject(files, options))
-        .pipe(gulp.dest(config.injectDest));
 });
 
 gulp.task('build', function (callback) {
     console.log('Building files...');
-    runSequence('clean', 'jslint', ['css', 'uglify', 'fonts', 'images'], 
-                'inject', callback);
-});
-
-// Watch Files For Changes
-gulp.task('watch', function () {
-    gulp.watch(config.jsAssets, ['build']);
-    gulp.watch(config.cssSrc, ['build']);
-});
-
-gulp.task('serve', ['build'], function () {
-    console.log('Serving it up...');
-
-    return nodemon({
-            script: './bin/www',
-            delayTime: 1,
-            env: {
-              'NODE_ENV': 'development'
-            }
-        })
-        .on('start', ['watch'])
-        .on('change', ['watch'])
-        .on('restart', function () {
-            console.log('Restarting...');
-        });
+    runSequence('clean', 'jslint', 
+                ['css', 'uglify', 'fonts', 'images'], 
+                callback);
 });
 
 // Default Task
-gulp.task('default', ['serve']);
+gulp.task('default', ['build']);
