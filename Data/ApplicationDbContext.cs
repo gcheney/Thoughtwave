@@ -24,6 +24,18 @@ namespace Sophophile.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Question>().ToTable("Questions");
             modelBuilder.Entity<Answer>().ToTable("Answers");
+
+            modelBuilder.Entity<Answer>()
+                .HasOne(a => a.Question)
+                .WithMany(q => q.Answers);
+
+            modelBuilder.Entity<Answer>()
+                .HasOne(a => a.User)
+                .WithMany(u => u.Answers);
+
+            modelBuilder.Entity<Question>()
+                .HasOne(q => q.User)
+                .WithMany(u => u.Questions);
         }
     }
 }
