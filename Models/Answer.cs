@@ -6,10 +6,8 @@ namespace Sophophile.Models
     public class Answer
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; }
-        public int QuestionID { get; set; }
-        public string ApplicationUserID { get; set; }
-        public string Response { get; set; }
+        public int AnswerId { get; set; }
+        public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public virtual Question Question { get; set; }

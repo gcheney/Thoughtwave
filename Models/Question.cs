@@ -7,14 +7,12 @@ namespace Sophophile.Models
     public class Question
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; }
-        public string ApplicationUserID { get; set; }
+        public int QuestionId { get; set; }
         public string Title { get; set; }
-        public int Content { get; set; }
+        public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool Solved { get; set; }
 
-        public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
