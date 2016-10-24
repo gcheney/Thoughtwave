@@ -124,21 +124,21 @@ namespace Sophophile.Data.Migrations
 
             modelBuilder.Entity("Sophophile.Models.Answer", b =>
                 {
-                    b.Property<int>("ID");
+                    b.Property<int>("AnswerId");
 
-                    b.Property<string>("ApplicationUserID");
+                    b.Property<string>("Content");
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<int>("QuestionID");
+                    b.Property<int?>("QuestionId");
 
-                    b.Property<string>("Response");
+                    b.Property<string>("UserId");
 
-                    b.HasKey("ID");
+                    b.HasKey("AnswerId");
 
-                    b.HasIndex("ApplicationUserID");
+                    b.HasIndex("QuestionId");
 
-                    b.HasIndex("QuestionID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Answers");
                 });
@@ -200,11 +200,9 @@ namespace Sophophile.Data.Migrations
 
             modelBuilder.Entity("Sophophile.Models.Question", b =>
                 {
-                    b.Property<int>("ID");
+                    b.Property<int>("QuestionId");
 
-                    b.Property<string>("ApplicationUserID");
-
-                    b.Property<int>("Content");
+                    b.Property<string>("Content");
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -212,9 +210,11 @@ namespace Sophophile.Data.Migrations
 
                     b.Property<string>("Title");
 
-                    b.HasKey("ID");
+                    b.Property<string>("UserId");
 
-                    b.HasIndex("ApplicationUserID");
+                    b.HasKey("QuestionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Questions");
                 });
@@ -258,21 +258,20 @@ namespace Sophophile.Data.Migrations
 
             modelBuilder.Entity("Sophophile.Models.Answer", b =>
                 {
-                    b.HasOne("Sophophile.Models.ApplicationUser", "User")
-                        .WithMany("Answers")
-                        .HasForeignKey("ApplicationUserID");
-
                     b.HasOne("Sophophile.Models.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("QuestionId");
+
+                    b.HasOne("Sophophile.Models.ApplicationUser", "User")
+                        .WithMany("Answers")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Sophophile.Models.Question", b =>
                 {
                     b.HasOne("Sophophile.Models.ApplicationUser", "User")
                         .WithMany("Questions")
-                        .HasForeignKey("ApplicationUserID");
+                        .HasForeignKey("UserId");
                 });
         }
     }
