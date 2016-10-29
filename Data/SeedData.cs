@@ -12,7 +12,7 @@ namespace Sophophile.Data
 {
     public static class SeedData
     {
-        private const string adminUser = "admin";
+        private const string adminUsername = "admin";
         private const string adminEmail = "admin@company.com";
         private const string adminPassword = "Password123$";
 
@@ -22,11 +22,14 @@ namespace Sophophile.Data
             UserManager<ApplicationUser> userManager = app.ApplicationServices
                 .GetRequiredService<UserManager<ApplicationUser>>();
 
-            ApplicationUser user = await userManager.FindByIdAsync(adminUser);
+            ApplicationUser user = await userManager.FindByNameAsync(adminUsername);
 
             if (user == null) {
-                user = new ApplicationUser { UserName = adminUser, Email = adminEmail };
+                user = new ApplicationUser { UserName = adminUsername, Email = adminEmail };
+                Console.WriteLine("Adding admin user to database");
                 await userManager.CreateAsync(user, adminPassword);
+            } else {
+                Console.WriteLine("admin user already exist");
             }
 
             // Seed other data
