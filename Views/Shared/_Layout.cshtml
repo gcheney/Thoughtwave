@@ -39,14 +39,7 @@
                         <a href="#">Ask a Question</a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/account/register"><i class="fa fa-user" aria-hidden="true"></i> Register</a>
-                    </li>
-                    <li>
-                        <a href="/account/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
-                    </li>
-                </ul>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
             <!-- /.navbar-collapse -->
         </div>
