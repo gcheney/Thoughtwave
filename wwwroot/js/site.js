@@ -1,4 +1,3 @@
-// Write your Javascript code.
 // Navigation script to Show Header on Scroll-Up
 $(document).ready(function() {
     var MQL = 1170;

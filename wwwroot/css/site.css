@@ -99,7 +99,8 @@ a {
           color: rgba(255, 255, 255, 0.8);
       }
 
-      .navbar-custom .nav li a {
+      .navbar-custom .nav li a,
+      .navbar-custom .nav li btn {
         color: white;
         padding: 20px;
       }
@@ -446,6 +447,10 @@ form .row:first-child .floating-label-form-group {
     background-color: #0085a1;
     border: 1px solid #0085a1;
     color: white;
+}
+
+.btn-link {
+    text-decoration: none;
 }
 
 /* Image Styles */
