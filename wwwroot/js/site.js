@@ -1,5 +1,6 @@
-// Navigation script to Show Header on Scroll-Up
 $(document).ready(function() {
+
+    // Navigation script to Show Header on Scroll-Up
     var MQL = 1170;
 
     //primary navigation slide-in effect
@@ -28,4 +29,11 @@ $(document).ready(function() {
             }
         );
     }
+
+
+    // Handle logout form link
+    $('#logoutLink').on('click', function(e) {
+        e.preventDefault();
+        $('#logoutForm').submit();
+    });
 });
