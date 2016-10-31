@@ -61,6 +61,11 @@ a {
         cursor: pointer;
     }
 
+#logoutLink {
+    cursor: pointer; 
+    cursor: hand;
+}
+
 /* Navbar Styles */
 
 .navbar-custom {
