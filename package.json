@@ -16,9 +16,7 @@
     "url": "https://github.com/gcheney/sophophile/issues"
   },
   "homepage": "https://github.com/gcheney/sophophile#readme",
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-bower": "0.0.13",

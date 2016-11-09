@@ -60,7 +60,7 @@ gulp.task('css', function() {
 		.pipe(gulp.dest(config.cssDest));
 });
 
-gulp.task('uglify',function() {
+gulp.task('uglify', function() {
     return gulp.src(bowerFiles())
         .pipe(filter('**/*.js'))
         .pipe(debug({title: 'js'}))
