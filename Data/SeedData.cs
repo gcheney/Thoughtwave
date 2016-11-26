@@ -12,57 +12,88 @@ namespace Sophophile.Data
 {
     public static class SeedData
     {
-        public static async void Initialize(IApplicationBuilder app)
+        public static async Task Initialize(IApplicationBuilder app)
         {
-            // Seed users
-            UserManager<ApplicationUser> userManager = app.ApplicationServices
-                .GetRequiredService<UserManager<ApplicationUser>>();
-
-            SeedUserData(userManager, "genericuser1", "genericuser1@email.com", "Pa$$word1");
-            SeedUserData(userManager, "genericuser2", "genericuser2@email.com", "Pa$$word2");
-
-            // Seed other data
+            // Get database context
             ApplicationDbContext context = app.ApplicationServices
                 .GetRequiredService<ApplicationDbContext>();
 
             context.Database.EnsureCreated();
 
+            // Get user manager
+            UserManager<ApplicationUser> userManager = app.ApplicationServices
+                .GetRequiredService<UserManager<ApplicationUser>>();
+
+            // seed user data
+            var user1 = await SeedUserDataAsync(userManager, "genericuser1", "genericuser1@email.com", "Pa$$word1");
+            var user2 = await SeedUserDataAsync(userManager, "genericuser2", "genericuser2@email.com", "Pa$$word2");
+            var user3 = await SeedUserDataAsync(userManager, "genericuser3", "genericuser3@email.com", "Pa$$word3");
+
+            // Seed other data
             if (!context.Questions.Any())
             {
-                var newQuestion = new Question()
+                var question1 = new Question()
                 {
                     CreatedOn = DateTime.UtcNow,
                     Title = "How Can I LIve Better",
                     Content = "I am trying to lead a better life, but I am not sure how. Does anyone have any advice?",
-                    User = await userManager.FindByNameAsync("genericuser1"),
+                    User = user1,
                     Answers = new List<Answer>()
                     {
                         new Answer() 
                         {  
                             Content = "Look to the way of Zen, man", 
                             CreatedOn = new DateTime(2016, 12, 4), 
-                            User = await userManager.FindByNameAsync("genericuser2"),
+                            User = user2,
                         },
                         new Answer() 
                         {  
-                            Content = "Answering my own question here, the answer is 42!", 
+                            Content = "Learning is the answer", 
                             CreatedOn = new DateTime(2016, 12, 10), 
-                            User = await userManager.FindByNameAsync("genericuser1"),
+                            User = user3,
                         }
                     }
                 };
 
-                context.Questions.Add(newQuestion);
-                context.Answers.AddRange(newQuestion.Answers);
+                context.Questions.Add(question1);
+                context.Answers.AddRange(question1.Answers);
+
+                var question2 = new Question()
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    Title = "What is the answer..",
+                    Content = "...to life, the universe, and everything?",
+                    User = user2,
+                    Answers = new List<Answer>()
+                    {
+                        new Answer() 
+                        {  
+                            Content = "I had learned once that it was 24?", 
+                            CreatedOn = new DateTime(2016, 12, 4), 
+                            User = user1,
+                        },
+                        new Answer() 
+                        {  
+                            Content = "The answer is 42!", 
+                            CreatedOn = new DateTime(2016, 12, 10), 
+                            User = user3,
+                        }
+                    }
+                };
+
+                context.Questions.Add(question2);
+                context.Answers.AddRange(question2.Answers);
 
                 await context.SaveChangesAsync();
             }
         }
 
-        public async static void SeedUserData(UserManager<ApplicationUser> userManager, string userName, 
-            string email, string password)
+        public async static Task<ApplicationUser> SeedUserDataAsync(UserManager<ApplicationUser> userManager, 
+            string userName, string email, string password)
         {
-            if (await userManager.FindByNameAsync(userName) == null)
+            var user = await userManager.FindByNameAsync(userName);
+
+            if (user == null)
             {
                 var newUser = new ApplicationUser
                 {
@@ -74,7 +105,7 @@ namespace Sophophile.Data
                     Avatar = "/dist/images/generic-user.jpg"
                 };
 
-                var result = await userManager.CreateAsync(newUser, password);
+                IdentityResult result = await userManager.CreateAsync(newUser, password);
                 if (result.Succeeded) 
                 {
                     Console.WriteLine($"User {newUser} successfully created");
@@ -87,7 +118,11 @@ namespace Sophophile.Data
                         Console.WriteLine(error);
                     }
                 }
+
+                return newUser;
             }
+
+            return user;
         }
     }
 }
