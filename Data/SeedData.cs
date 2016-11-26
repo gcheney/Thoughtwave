@@ -67,7 +67,11 @@ namespace Sophophile.Data
                 var newUser = new ApplicationUser
                 {
                     UserName = userName,
-                    Email = email
+                    Email = email,
+                    FirstName = "John",
+                    LastName = "Doe",
+                    SignUpDate = DateTime.UtcNow,
+                    Avatar = "/dist/images/generic-user.jpg"
                 };
 
                 var result = await userManager.CreateAsync(newUser, password);

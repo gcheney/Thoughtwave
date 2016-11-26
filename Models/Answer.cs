@@ -1,11 +1,9 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sophophile.Models
 {
     public class Answer
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }

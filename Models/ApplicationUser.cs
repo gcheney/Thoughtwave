@@ -10,7 +10,16 @@ namespace Sophophile.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime SignUpDate { get; set; }
+        public string Avatar { get; set; }
 
+        public string FullName 
+        { 
+            get 
+            {
+                return this.FirstName + " " + this.LastName;
+            }
+        }
+        
         public virtual ICollection<Question> Questions { get; set; }
         public virtual ICollection<Answer> Answers { get; set; }
     }
