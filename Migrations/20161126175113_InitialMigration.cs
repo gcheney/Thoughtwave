@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Sophophile.Data.Migrations
+namespace Sophophile.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,7 +154,7 @@ namespace Sophophile.Data.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    QuestionId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     Solved = table.Column<bool>(nullable: false),
@@ -163,7 +163,7 @@ namespace Sophophile.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Questions", x => x.QuestionId);
+                    table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Questions_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -176,7 +176,7 @@ namespace Sophophile.Data.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    AnswerId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     QuestionId = table.Column<int>(nullable: true),
@@ -184,12 +184,12 @@ namespace Sophophile.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Answers", x => x.AnswerId);
+                    table.PrimaryKey("PK_Answers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Answers_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
-                        principalColumn: "QuestionId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Answers_AspNetUsers_UserId",

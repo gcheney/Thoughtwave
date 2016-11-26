@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Sophophile.Data;
 
-namespace Sophophile.Data.Migrations
+namespace Sophophile.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161126173100_ModelIdUpdate")]
-    partial class ModelIdUpdate
+    [Migration("20161126175113_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

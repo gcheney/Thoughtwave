@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Sophophile.Data;
 
-namespace Sophophile.Data.Migrations
+namespace Sophophile.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161024180259_Initial")]
-    partial class Initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");
@@ -125,7 +124,7 @@ namespace Sophophile.Data.Migrations
 
             modelBuilder.Entity("Sophophile.Models.Answer", b =>
                 {
-                    b.Property<int>("AnswerId");
+                    b.Property<int>("Id");
 
                     b.Property<string>("Content");
 
@@ -135,7 +134,7 @@ namespace Sophophile.Data.Migrations
 
                     b.Property<string>("UserId");
 
-                    b.HasKey("AnswerId");
+                    b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
@@ -201,7 +200,7 @@ namespace Sophophile.Data.Migrations
 
             modelBuilder.Entity("Sophophile.Models.Question", b =>
                 {
-                    b.Property<int>("QuestionId");
+                    b.Property<int>("Id");
 
                     b.Property<string>("Content");
 
@@ -213,7 +212,7 @@ namespace Sophophile.Data.Migrations
 
                     b.Property<string>("UserId");
 
-                    b.HasKey("QuestionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
