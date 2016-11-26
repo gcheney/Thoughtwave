@@ -7,7 +7,7 @@ namespace Sophophile.Models
     public class Question
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int QuestionId { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
