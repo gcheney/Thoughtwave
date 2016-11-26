@@ -124,7 +124,8 @@ namespace Sophophile.Migrations
 
             modelBuilder.Entity("Sophophile.Models.Answer", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content");
 
@@ -148,6 +149,8 @@ namespace Sophophile.Migrations
                     b.Property<string>("Id");
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("Avatar");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -200,7 +203,8 @@ namespace Sophophile.Migrations
 
             modelBuilder.Entity("Sophophile.Models.Question", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content");
 
