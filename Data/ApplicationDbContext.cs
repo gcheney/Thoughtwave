@@ -16,7 +16,7 @@ namespace Sophophile.Data
             optionsBuilder.UseSqlite("Filename=./Sophophile.db");
         }
 
-        public DbSet<Question> Qustions { get; set; }
+        public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

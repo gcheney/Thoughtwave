@@ -12,31 +12,78 @@ namespace Sophophile.Data
 {
     public static class SeedData
     {
-        private const string adminUsername = "admin";
-        private const string adminEmail = "admin@company.com";
-        private const string adminPassword = "Password123$";
-
         public static async void Initialize(IApplicationBuilder app)
         {
             // Seed users
             UserManager<ApplicationUser> userManager = app.ApplicationServices
                 .GetRequiredService<UserManager<ApplicationUser>>();
 
-            ApplicationUser user = await userManager.FindByNameAsync(adminUsername);
-
-            if (user == null) {
-                user = new ApplicationUser { UserName = adminUsername, Email = adminEmail };
-                Console.WriteLine("Adding admin user to database");
-                await userManager.CreateAsync(user, adminPassword);
-            } else {
-                Console.WriteLine("admin user already exist");
-            }
+            SeedUserData(userManager, "genericuser1", "genericuser1@email.com", "Pa$$word1");
+            SeedUserData(userManager, "genericuser2", "genericuser2@email.com", "Pa$$word2");
 
             // Seed other data
             ApplicationDbContext context = app.ApplicationServices
                 .GetRequiredService<ApplicationDbContext>();
 
             context.Database.EnsureCreated();
+
+            if (!context.Questions.Any())
+            {
+                var newQuestion = new Question()
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    Title = "How Can I LIve Better",
+                    Content = "I am trying to lead a better life, but I am not sure how. Does anyone have any advice?",
+                    User = await userManager.FindByNameAsync("genericuser1"),
+                    Answers = new List<Answer>()
+                    {
+                        new Answer() 
+                        {  
+                            Content = "Look to the way of Zen, man", 
+                            CreatedOn = new DateTime(2016, 12, 4), 
+                            User = await userManager.FindByNameAsync("genericuser2"),
+                        },
+                        new Answer() 
+                        {  
+                            Content = "Answering my own question here, the answer is 42!", 
+                            CreatedOn = new DateTime(2016, 12, 10), 
+                            User = await userManager.FindByNameAsync("genericuser1"),
+                        }
+                    }
+                };
+
+                context.Questions.Add(newQuestion);
+                context.Answers.AddRange(newQuestion.Answers);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async static void SeedUserData(UserManager<ApplicationUser> userManager, string userName, 
+            string email, string password)
+        {
+            if (await userManager.FindByNameAsync(userName) == null)
+            {
+                var newUser = new ApplicationUser
+                {
+                    UserName = userName,
+                    Email = email
+                };
+
+                var result = await userManager.CreateAsync(newUser, password);
+                if (result.Succeeded) 
+                {
+                    Console.WriteLine($"User {newUser} successfully created");
+                }
+                else 
+                {
+                    Console.WriteLine($"Errors occured trying to creat {newUser}");
+                    foreach (var error in result.Errors)
+                    {
+                        Console.WriteLine(error);
+                    }
+                }
+            }
         }
     }
 }
