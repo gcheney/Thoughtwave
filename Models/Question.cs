@@ -9,8 +9,7 @@ namespace Sophophile.Models
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
-        public bool Solved { get; set; }
-
+        
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
