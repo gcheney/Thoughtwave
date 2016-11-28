@@ -127,9 +127,13 @@ namespace Sophophile.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 3000);
 
-                    b.Property<DateTime>("CreatedOn");
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local));
 
                     b.Property<int?>("QuestionId");
 
@@ -150,7 +154,10 @@ namespace Sophophile.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Avatar");
+                    b.Property<string>("Avatar")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("/dist/images/generic-user.jpg");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -160,9 +167,15 @@ namespace Sophophile.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("Anonymous");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("User");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -182,7 +195,9 @@ namespace Sophophile.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<DateTime>("SignUpDate");
+                    b.Property<DateTime>("SignUpDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2016, 11, 28, 13, 4, 6, 906, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -206,13 +221,17 @@ namespace Sophophile.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 1000);
 
-                    b.Property<DateTime>("CreatedOn");
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local));
 
-                    b.Property<bool>("Solved");
-
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("UserId");
 

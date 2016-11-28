@@ -42,12 +42,12 @@ namespace Sophophile.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Avatar = table.Column<string>(nullable: true),
+                    Avatar = table.Column<string>(nullable: false, defaultValue: "/dist/images/generic-user.jpg"),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: false, defaultValue: "Anonymous"),
+                    LastName = table.Column<string>(nullable: false, defaultValue: "User"),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -56,7 +56,7 @@ namespace Sophophile.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
-                    SignUpDate = table.Column<DateTime>(nullable: false),
+                    SignUpDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 11, 28, 13, 4, 6, 906, DateTimeKind.Local)),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -157,10 +157,9 @@ namespace Sophophile.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    Content = table.Column<string>(nullable: true),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    Solved = table.Column<bool>(nullable: false),
-                    Title = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(maxLength: 1000, nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local)),
+                    Title = table.Column<string>(maxLength: 100, nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -180,8 +179,8 @@ namespace Sophophile.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    Content = table.Column<string>(nullable: true),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    Content = table.Column<string>(maxLength: 3000, nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local)),
                     QuestionId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
