@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sophophile.Models.ManageViewModels
+namespace Sophophile.ViewModels.ManageViewModels
 {
     public class FactorViewModel
     {

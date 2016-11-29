@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Sophophile.Models.ManageViewModels
+namespace Sophophile.ViewModels.ManageViewModels
 {
     public class IndexViewModel
     {

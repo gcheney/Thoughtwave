@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sophophile.Models.AccountViewModels
+namespace Sophophile.ViewModels.AccountViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {

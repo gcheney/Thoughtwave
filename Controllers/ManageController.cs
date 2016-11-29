@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sophophile.Models;
-using Sophophile.Models.ManageViewModels;
+using Sophophile.ViewModels.ManageViewModels;
 using Sophophile.Services;
 
 namespace Sophophile.Controllers

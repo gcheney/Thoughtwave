@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Sophophile.Models;
-using Sophophile.Models.AccountViewModels;
+using Sophophile.ViewModels.AccountViewModels;
 using Sophophile.Services;
 
 namespace Sophophile.Controllers
