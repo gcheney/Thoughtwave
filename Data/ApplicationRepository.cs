@@ -29,6 +29,14 @@ namespace Sophophile.Data
                 .ToList();
         }
 
+        public async Task<List<Question>> GetAllQuestionsAsync()
+        {
+            return await _context.Questions
+                .Include(q => q.User)
+                .OrderBy(q => q.CreatedOn)
+                .ToListAsync();
+        }
+
         public Question GetQuestionById(int id)
         {
             return _context.Questions
@@ -37,6 +45,16 @@ namespace Sophophile.Data
                     .ThenInclude(a => a.User)
                 .Where(q => q.Id == id)
                 .FirstOrDefault();
+        }
+
+        public async Task<Question> GetQuestionByIdAsync(int id)
+        {
+            return await _context.Questions
+                .Include(q => q.User)
+                .Include(q => q.Answers)
+                    .ThenInclude(a => a.User)
+                .Where(q => q.Id == id)
+                .FirstOrDefaultAsync();
         }
     }
 }
