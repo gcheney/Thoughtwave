@@ -108,7 +108,7 @@ namespace Sophophile
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            SeedData.Initialize(app).Wait();
+            DatabaseInitializer.Initialize(app).Wait();
         }
     }
 }
