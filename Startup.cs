@@ -71,6 +71,11 @@ namespace Sophophile
 
             services.AddMvc();
 
+            services.AddLogging();
+
+            services.AddScoped<IApplicationRepository, ApplicationRepository>();
+
+            // use lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
 
             // Add application services.
@@ -78,8 +83,9 @@ namespace Sophophile
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
