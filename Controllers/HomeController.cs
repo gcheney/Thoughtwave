@@ -1,16 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Sophophile.Data;
+using Sophophile.Models;
 
 namespace Sophophile.Controllers
 {
     public class HomeController : Controller
     {
+        private IApplicationRepository _repository;
+        private ILogger<HomeController> _logger;
+
+        public HomeController(IApplicationRepository repository, 
+            ILogger<HomeController> logger)
+        {
+            _repository = repository;
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var questions = _repository.GetAllQuestions();
+            return View(questions);
         }
 
         public IActionResult About()
