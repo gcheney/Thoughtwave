@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sophophile.Data;
 using Sophophile.Models;
+using Sophophile.ViewModels.HomeViewModels;
 
 namespace Sophophile.Controllers
 {
@@ -23,8 +24,12 @@ namespace Sophophile.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var questions = await _repository.GetAllQuestionsAsync();
-            return View(questions);
+            var vm = new HomePageViewModel()
+            {
+                Questions = await _repository.GetAllQuestionsAsync()
+            };
+            
+            return View(vm);
         }
 
         public IActionResult About()

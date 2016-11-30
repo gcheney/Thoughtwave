@@ -1,4 +1,4 @@
-@model IEnumerable<Question>
+@model HomePageViewModel
 
 @{
     ViewData["Title"] = "Home";
@@ -29,7 +29,7 @@
 <h1 class="text-center">Latest Questions</h1>
 <hr class="large"/>
 
-@foreach (var question in Model)
+@foreach (var question in Model.Questions)
 {
     @Html.Partial("_QuestionPreview", question)
 }
