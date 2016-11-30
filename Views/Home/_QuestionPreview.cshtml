@@ -1,0 +1,28 @@
+@model Question
+
+<div class="content-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-preview">
+                    <div class="well well-lg clearfix">
+                        <a target="_blank" href="/read">
+                            <h1 class="section-heading text-center">@Model.Title</h1>
+                        </a>
+                        <img alt="User Image" src="@Model.User.Avatar" class="pull-left user-img img-circle">
+                        <p class="text-muted">
+                            Posted by <a href="#">@Model.User.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy")
+                        </p>
+                        <p class="lead">
+                            @Model.Content
+                        </p>
+                        <hr />
+                        <a href="/read" class="btn pull-right">
+                            See Answers <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

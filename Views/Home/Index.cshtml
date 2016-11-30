@@ -1,4 +1,4 @@
-@model IEnumerable<Sophophile.Models.Question>
+@model IEnumerable<Question>
 
 @{
     ViewData["Title"] = "Home";
@@ -11,6 +11,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
                     <h1>Sophophile</h1>
+                    <h3>A place for lovers of learning and teaching</h3>
                     <hr class="large">
                     <a href="/account/login" class="btn btn-success btn-intro-header ">
                         <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In
@@ -30,31 +31,6 @@
 
 @foreach (var question in Model)
 {
-    <div class="content-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-preview">
-                        <div class="well well-lg clearfix">
-                            <a target="_blank" href="/read">
-                                <h1 class="section-heading text-center">@question.Title</h1>
-                            </a>
-                            <img alt="User Image" src="@question.User.Avatar" class="pull-left user-img img-circle">
-                            <p class="text-muted">
-                                Posted by <a href="#">@question.User.FullName</a> on @question.CreatedOn.ToString("MM/dd/yyyy")
-                            </p>
-                            <p class="lead">
-                                @question.Content
-                            </p>
-                            <hr />
-                            <a href="/read" class="btn pull-right">
-                                See Answers <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @Html.Partial("_QuestionPreview", question)
 }
 
