@@ -17,7 +17,7 @@
                             @Model.Content
                         </p>
                         <hr />
-                        <a href="/read" class="btn pull-right">
+                        <a asp-action="Read" asp-controller="Question" asp-route-id="@Model.Id" class="btn pull-right">
                             See Answers <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
