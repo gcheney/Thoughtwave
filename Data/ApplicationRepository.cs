@@ -21,11 +21,32 @@ namespace Sophophile.Data
             _logger = logger;
         }
 
+    #region GetRecentQuestions  
+        public IEnumerable<Question> GetRecentQuestions()
+        {
+            return _context.Questions
+                .Include(q => q.User)
+                .OrderByDescending(q => q.CreatedOn)
+                .Take(5)
+                .ToList();
+        }
+
+        public async Task<List<Question>> GetRecentQuestionsAsync()
+        {
+            return await _context.Questions
+                .Include(q => q.User)
+                .OrderByDescending(q => q.CreatedOn)
+                .Take(5)
+                .ToListAsync();
+        }
+    #endregion
+
+    #region GetAllQuestions
         public IEnumerable<Question> GetAllQuestions()
         {
             return _context.Questions
                 .Include(q => q.User)
-                .OrderBy(q => q.CreatedOn)
+                .OrderByDescending(q => q.CreatedOn)
                 .ToList();
         }
 
@@ -33,10 +54,12 @@ namespace Sophophile.Data
         {
             return await _context.Questions
                 .Include(q => q.User)
-                .OrderBy(q => q.CreatedOn)
+                .OrderByDescending(q => q.CreatedOn)
                 .ToListAsync();
         }
+    #endregion
 
+    #region GetQuestionById
         public Question GetQuestionById(int id)
         {
             return _context.Questions
@@ -56,5 +79,7 @@ namespace Sophophile.Data
                 .Where(q => q.Id == id)
                 .FirstOrDefaultAsync();
         }
+    #endregion
+
     }
 }

@@ -6,6 +6,9 @@ namespace Sophophile.Data
 {
     public interface IApplicationRepository
     {
+        IEnumerable<Question> GetRecentQuestions();
+        Task<List<Question>> GetRecentQuestionsAsync();
+
         IEnumerable<Question> GetAllQuestions();
         Task<List<Question>> GetAllQuestionsAsync();
 
