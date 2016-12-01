@@ -1,4 +1,4 @@
-@model Question
+@model Article
 
 <div class="content-section">
     <div class="container">
@@ -9,16 +9,16 @@
                         <a target="_blank" href="/read">
                             <h1 class="section-heading text-center">@Model.Title</h1>
                         </a>
-                        <img alt="User Image" src="@Model.User.Avatar" class="pull-left user-img img-circle">
+                        <img alt="User Image" src="@Model.Author.Avatar" class="pull-left user-img img-circle">
                         <p class="text-muted">
-                            Posted by <a href="#">@Model.User.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy")
+                            Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy")
                         </p>
                         <p class="lead">
                             @Model.Content
                         </p>
                         <hr />
-                        <a asp-action="Read" asp-controller="Question" asp-route-id="@Model.Id" class="btn pull-right">
-                            See Answers <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        <a asp-action="Read" asp-controller="Article" asp-route-id="@Model.Id" class="btn pull-right">
+                            Read Article <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

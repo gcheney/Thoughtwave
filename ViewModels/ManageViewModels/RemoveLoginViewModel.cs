@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sophophile.ViewModels.ManageViewModels
+namespace Thoughtwave.ViewModels.ManageViewModels
 {
     public class RemoveLoginViewModel
     {

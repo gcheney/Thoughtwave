@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Sophophile": {
+    "Thoughtwave": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "http://localhost:5000",

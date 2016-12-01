@@ -8,24 +8,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Sophophile.Models;
-using Sophophile.ViewModels.AccountViewModels;
-using Sophophile.Services;
+using Thoughtwave.Models;
+using Thoughtwave.ViewModels.AccountViewModels;
+using Thoughtwave.Services;
 
-namespace Sophophile.Controllers
+namespace Thoughtwave.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory)
@@ -106,7 +106,7 @@ namespace Sophophile.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
+                var user = new User { UserName = model.Username, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -211,7 +211,7 @@ namespace Sophophile.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -454,7 +454,7 @@ namespace Sophophile.Controllers
             }
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync()
+        private Task<User> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(HttpContext.User);
         }

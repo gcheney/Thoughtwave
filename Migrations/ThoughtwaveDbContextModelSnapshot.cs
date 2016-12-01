@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Sophophile.Data;
+using Thoughtwave.Data;
 
-namespace Sophophile.Migrations
+namespace Thoughtwave.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ThoughtwaveDbContext))]
+    partial class ThoughtwaveDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -122,10 +122,38 @@ namespace Sophophile.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Sophophile.Models.Answer", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 1000);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2016, 12, 1, 9, 59, 53, 465, DateTimeKind.Local));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("Thoughtwave.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -133,22 +161,20 @@ namespace Sophophile.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local));
-
-                    b.Property<int?>("QuestionId");
+                        .HasDefaultValue(new DateTime(2016, 12, 1, 9, 59, 53, 465, DateTimeKind.Local));
 
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Sophophile.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Thoughtwave.Models.User", b =>
                 {
                     b.Property<string>("Id");
 
@@ -197,7 +223,7 @@ namespace Sophophile.Migrations
 
                     b.Property<DateTime>("SignUpDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 11, 28, 13, 4, 6, 906, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 1, 9, 59, 53, 456, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -216,32 +242,6 @@ namespace Sophophile.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Sophophile.Models.Question", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 1000);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Questions");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -252,7 +252,7 @@ namespace Sophophile.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Sophophile.Models.ApplicationUser")
+                    b.HasOne("Thoughtwave.Models.User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -260,7 +260,7 @@ namespace Sophophile.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Sophophile.Models.ApplicationUser")
+                    b.HasOne("Thoughtwave.Models.User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -273,27 +273,27 @@ namespace Sophophile.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Sophophile.Models.ApplicationUser")
+                    b.HasOne("Thoughtwave.Models.User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Sophophile.Models.Answer", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Article", b =>
                 {
-                    b.HasOne("Sophophile.Models.Question", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
-
-                    b.HasOne("Sophophile.Models.ApplicationUser", "User")
-                        .WithMany("Answers")
-                        .HasForeignKey("UserId");
+                    b.HasOne("Thoughtwave.Models.User", "Author")
+                        .WithMany("Articles")
+                        .HasForeignKey("AuthorId");
                 });
 
-            modelBuilder.Entity("Sophophile.Models.Question", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Comment", b =>
                 {
-                    b.HasOne("Sophophile.Models.ApplicationUser", "User")
-                        .WithMany("Questions")
+                    b.HasOne("Thoughtwave.Models.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId");
+
+                    b.HasOne("Thoughtwave.Models.User", "User")
+                        .WithMany("Comments")
                         .HasForeignKey("UserId");
                 });
         }

@@ -1,5 +1,5 @@
 {
-  "userSecretsId": "aspnet-Sophophile-45d0febc-4fd0-49ad-832a-5bbabeac0fba",
+  "userSecretsId": "aspnet-Thoughtwave-45d0febc-4fd0-49ad-832a-5bbabeac0fba",
 
   "dependencies": {
     "Microsoft.NETCore.App": {
@@ -97,6 +97,6 @@
   },
 
   "tooling": {
-    "defaultNamespace": "Sophophile"
+    "defaultNamespace": "Thoughtwave"
   }
 }

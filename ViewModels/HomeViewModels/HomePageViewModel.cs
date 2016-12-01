@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Sophophile.Models;
+using Thoughtwave.Models;
 
-namespace Sophophile.ViewModels.HomeViewModels
+namespace Thoughtwave.ViewModels.HomeViewModels
 {
     public class HomePageViewModel
     {
-        public IEnumerable<Question> Questions { get; set; }
+        public IEnumerable<Article> Articles { get; set; }
     }
 }

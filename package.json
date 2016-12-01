@@ -1,5 +1,5 @@
 {
-  "name": "sophophile",
+  "name": "Thoughtwave",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gcheney/sophophile.git"
+    "url": "git+https://github.com/gcheney/Thoughtwave.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gcheney/sophophile/issues"
+    "url": "https://github.com/gcheney/Thoughtwave/issues"
   },
-  "homepage": "https://github.com/gcheney/sophophile#readme",
+  "homepage": "https://github.com/gcheney/Thoughtwave#readme",
   "dependencies": {},
   "devDependencies": {
     "gulp": "^3.9.1",

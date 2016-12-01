@@ -1,6 +1,6 @@
-# Sophophile
+# Thoughtwave
 
-Sophophile is a web-based question and answer site. 
+Thoughtwave is a web-based Article and Comment site. 
 
 It is being built using the new ASP.NET Core 1.0 framework.
 

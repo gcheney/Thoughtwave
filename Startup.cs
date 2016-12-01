@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sophophile.Data;
-using Sophophile.Models;
-using Sophophile.Services;
+using Thoughtwave.Data;
+using Thoughtwave.Models;
+using Thoughtwave.Services;
 
-namespace Sophophile
+namespace Thoughtwave
 {
     public class Startup
     {
@@ -26,7 +26,6 @@ namespace Sophophile
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets();
             }
 
@@ -36,11 +35,10 @@ namespace Sophophile
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ThoughtwaveDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.Configure<IdentityOptions>(options =>
@@ -65,15 +63,15 @@ namespace Sophophile
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ThoughtwaveDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
 
             services.AddLogging();
 
-            services.AddScoped<IApplicationRepository, ApplicationRepository>();
+            services.AddScoped<IThoughtwaveRepository, ThoughtwaveRepository>();
 
             // use lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);

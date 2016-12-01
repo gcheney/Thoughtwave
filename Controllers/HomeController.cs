@@ -4,18 +4,18 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sophophile.Data;
-using Sophophile.Models;
-using Sophophile.ViewModels.HomeViewModels;
+using Thoughtwave.Data;
+using Thoughtwave.Models;
+using Thoughtwave.ViewModels.HomeViewModels;
 
-namespace Sophophile.Controllers
+namespace Thoughtwave.Controllers
 {
     public class HomeController : Controller
     {
-        private IApplicationRepository _repository;
+        private IThoughtwaveRepository _repository;
         private ILogger<HomeController> _logger;
 
-        public HomeController(IApplicationRepository repository, 
+        public HomeController(IThoughtwaveRepository repository, 
             ILogger<HomeController> logger)
         {
             _repository = repository;
@@ -26,7 +26,7 @@ namespace Sophophile.Controllers
         {
             var vm = new HomePageViewModel()
             {
-                Questions = await _repository.GetRecentQuestionsAsync()
+                Articles = await _repository.GetRecentArticlesAsync()
             };
 
             return View(vm);
