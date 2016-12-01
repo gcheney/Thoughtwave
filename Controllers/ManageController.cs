@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sophophile.Models;
-using Sophophile.ViewModels.ManageViewModels;
-using Sophophile.Services;
+using Thoughtwave.Models;
+using Thoughtwave.ViewModels.ManageViewModels;
+using Thoughtwave.Services;
 
-namespace Sophophile.Controllers
+namespace Thoughtwave.Controllers
 {
     [Authorize]
     public class ManageController : Controller

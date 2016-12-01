@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Sophophile.Data;
+using Thoughtwave.Data;
 
-namespace Sophophile.Migrations
+namespace Thoughtwave.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20161128190407_InitialMigration")]
@@ -123,7 +123,7 @@ namespace Sophophile.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Sophophile.Models.Answer", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -136,20 +136,20 @@ namespace Sophophile.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local));
 
-                    b.Property<int?>("QuestionId");
+                    b.Property<int?>("ArticleId");
 
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Sophophile.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Thoughtwave.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
 
@@ -217,7 +217,7 @@ namespace Sophophile.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Sophophile.Models.Question", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -240,7 +240,7 @@ namespace Sophophile.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -253,7 +253,7 @@ namespace Sophophile.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Sophophile.Models.ApplicationUser")
+                    b.HasOne("Thoughtwave.Models.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -261,7 +261,7 @@ namespace Sophophile.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Sophophile.Models.ApplicationUser")
+                    b.HasOne("Thoughtwave.Models.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -274,27 +274,27 @@ namespace Sophophile.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Sophophile.Models.ApplicationUser")
+                    b.HasOne("Thoughtwave.Models.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Sophophile.Models.Answer", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Comment", b =>
                 {
-                    b.HasOne("Sophophile.Models.Question", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
+                    b.HasOne("Thoughtwave.Models.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId");
 
-                    b.HasOne("Sophophile.Models.ApplicationUser", "User")
-                        .WithMany("Answers")
+                    b.HasOne("Thoughtwave.Models.ApplicationUser", "User")
+                        .WithMany("Comments")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Sophophile.Models.Question", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Article", b =>
                 {
-                    b.HasOne("Sophophile.Models.ApplicationUser", "User")
-                        .WithMany("Questions")
+                    b.HasOne("Thoughtwave.Models.ApplicationUser", "User")
+                        .WithMany("Articles")
                         .HasForeignKey("UserId");
                 });
         }

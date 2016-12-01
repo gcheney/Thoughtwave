@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Sophophile.Models;
-using Sophophile.ViewModels.AccountViewModels;
-using Sophophile.Services;
+using Thoughtwave.Models;
+using Thoughtwave.ViewModels.AccountViewModels;
+using Thoughtwave.Services;
 
-namespace Sophophile.Controllers
+namespace Thoughtwave.Controllers
 {
     [Authorize]
     public class AccountController : Controller

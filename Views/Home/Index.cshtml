@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
-                    <h1>Sophophile</h1>
+                    <h1>Thoughtwave</h1>
                     <h3>A place for lovers of learning and teaching</h3>
                     <hr class="large">
                     <a href="/account/login" class="btn btn-success btn-intro-header ">
@@ -26,11 +26,11 @@
 </header>
 
 <!-- Page Content -->
-<h1 class="text-center">Latest Questions</h1>
+<h1 class="text-center">Latest Articles</h1>
 <hr class="large"/>
 
-@foreach (var question in Model.Questions)
+@foreach (var Article in Model.Articles)
 {
-    @await Html.PartialAsync("_QuestionPreview", question)
+    @await Html.PartialAsync("_ArticlePreview", Article)
 }
 

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Sophophile.Models;
+using Thoughtwave.Models;
 
-namespace Sophophile.Data
+namespace Thoughtwave.Data
 {
     public class ApplicationRepository : IApplicationRepository
     {
@@ -21,19 +21,19 @@ namespace Sophophile.Data
             _logger = logger;
         }
 
-    #region GetRecentQuestions  
-        public IEnumerable<Question> GetRecentQuestions()
+    #region GetRecentArticles  
+        public IEnumerable<Article> GetRecentArticles()
         {
-            return _context.Questions
+            return _context.Articles
                 .Include(q => q.User)
                 .OrderByDescending(q => q.CreatedOn)
                 .Take(5)
                 .ToList();
         }
 
-        public async Task<List<Question>> GetRecentQuestionsAsync()
+        public async Task<List<Article>> GetRecentArticlesAsync()
         {
-            return await _context.Questions
+            return await _context.Articles
                 .Include(q => q.User)
                 .OrderByDescending(q => q.CreatedOn)
                 .Take(5)
@@ -41,40 +41,40 @@ namespace Sophophile.Data
         }
     #endregion
 
-    #region GetAllQuestions
-        public IEnumerable<Question> GetAllQuestions()
+    #region GetAllArticles
+        public IEnumerable<Article> GetAllArticles()
         {
-            return _context.Questions
+            return _context.Articles
                 .Include(q => q.User)
                 .OrderByDescending(q => q.CreatedOn)
                 .ToList();
         }
 
-        public async Task<List<Question>> GetAllQuestionsAsync()
+        public async Task<List<Article>> GetAllArticlesAsync()
         {
-            return await _context.Questions
+            return await _context.Articles
                 .Include(q => q.User)
                 .OrderByDescending(q => q.CreatedOn)
                 .ToListAsync();
         }
     #endregion
 
-    #region GetQuestionById
-        public Question GetQuestionById(int id)
+    #region GetArticleById
+        public Article GetArticleById(int id)
         {
-            return _context.Questions
+            return _context.Articles
                 .Include(q => q.User)
-                .Include(q => q.Answers)
+                .Include(q => q.Comments)
                     .ThenInclude(a => a.User)
                 .Where(q => q.Id == id)
                 .FirstOrDefault();
         }
 
-        public async Task<Question> GetQuestionByIdAsync(int id)
+        public async Task<Article> GetArticleByIdAsync(int id)
         {
-            return await _context.Questions
+            return await _context.Articles
                 .Include(q => q.User)
-                .Include(q => q.Answers)
+                .Include(q => q.Comments)
                     .ThenInclude(a => a.User)
                 .Where(q => q.Id == id)
                 .FirstOrDefaultAsync();

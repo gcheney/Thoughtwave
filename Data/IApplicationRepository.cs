@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sophophile.Models;
+using Thoughtwave.Models;
 
-namespace Sophophile.Data
+namespace Thoughtwave.Data
 {
     public interface IApplicationRepository
     {
-        IEnumerable<Question> GetRecentQuestions();
-        Task<List<Question>> GetRecentQuestionsAsync();
+        IEnumerable<Article> GetRecentArticles();
+        Task<List<Article>> GetRecentArticlesAsync();
 
-        IEnumerable<Question> GetAllQuestions();
-        Task<List<Question>> GetAllQuestionsAsync();
+        IEnumerable<Article> GetAllArticles();
+        Task<List<Article>> GetAllArticlesAsync();
 
-        Question GetQuestionById(int id);
-        Task<Question> GetQuestionByIdAsync(int id);
+        Article GetArticleById(int id);
+        Task<Article> GetArticleByIdAsync(int id);
     }
 }

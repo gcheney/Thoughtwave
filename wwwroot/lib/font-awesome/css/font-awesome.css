@@ -440,7 +440,7 @@
 .fa-check-circle:before {
   content: "\f058";
 }
-.fa-question-circle:before {
+.fa-Article-circle:before {
   content: "\f059";
 }
 .fa-info-circle:before {
@@ -1007,7 +1007,7 @@
 .fa-chain-broken:before {
   content: "\f127";
 }
-.fa-question:before {
+.fa-Article:before {
   content: "\f128";
 }
 .fa-info:before {
@@ -2103,7 +2103,7 @@
 .fa-wheelchair-alt:before {
   content: "\f29b";
 }
-.fa-question-circle-o:before {
+.fa-Article-circle-o:before {
   content: "\f29c";
 }
 .fa-blind:before {

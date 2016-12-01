@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
-using Sophophile.Models;
+using Thoughtwave.Models;
 
-namespace Sophophile.Data
+namespace Thoughtwave.Data
 {
     public static class DatabaseInitializer
     {
@@ -30,118 +30,118 @@ namespace Sophophile.Data
             var user3 = await SeedUserDataAsync(userManager, "genericuser3", "genericuser3@email.com", "Pa$$word3");
 
             // Seed other data
-            if (!context.Questions.Any())
+            if (!context.Articles.Any())
             {
-                var questions = new List<Question>()
+                var Articles = new List<Article>()
                 {
-                    new Question()
+                    new Article()
                     {
                         Title = "How Can I Live Better",
                         Content = "Forage gochujang vape, mustache tumeric church-key master cleanse salvia godard hella hoodie everyday carry freegan. Sustainable forage aesthetic, neutra scenester lyft bespoke roof party taxidermy next level meggings coloring book. Jean shorts keffiyeh tacos migas normcore scenester. Fashion axe williamsburg lo-fi flexitarian unicorn ennui edison bulb.",
                         User = user1,
-                        Answers = new List<Answer>()
+                        Comments = new List<Comment>()
                         {
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = " Swag flannel kale chips microdosing church-key chia twee copper mug, unicorn hell of XOXO ethical letterpress fam. IPhone bitters gastropub austin, lo-fi semiotics kombucha forage coloring book ramps. Heirloom wolf trust fund flexitarian bicycle rights pop-up.",  
                                 User = user2,
                             },
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Snackwave 3 wolf moon tacos, fashion axe copper mug YOLO neutra disrupt hashtag vexillologist succulents. Four loko cardigan pop-up actually, salvia man braid banjo banh mi 3 wolf moon tumblr. Literally salvia neutra quinoa.", 
                                 User = user3,
                             }
                         }
                     },
-                    new Question()
+                    new Article()
                     {
-                        Title = "What is the answer..",
+                        Title = "What is the Comment..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
                         User = user2,
-                        Answers = new List<Answer>()
+                        Comments = new List<Comment>()
                         {
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
                                 User = user1,
                             },
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Street art godard viral photo booth succulents hexagon. Occupy tumeric twee biodiesel, ", 
                                 User = user3,
                             }
                         }
                     },
-                    new Question()
+                    new Article()
                     {
-                        Title = "What is the answer part 2..",
+                        Title = "What is the Comment part 2..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
                         User = user2,
-                        Answers = new List<Answer>()
+                        Comments = new List<Comment>()
                         {
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
                                 User = user1,
                             },
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Street art godard viral photo booth succulents hexagon. Occupy tumeric twee biodiesel, ", 
                                 User = user3,
                             }
                         }
                     },
-                    new Question()
+                    new Article()
                     {
-                        Title = "What is the answer part 3..",
+                        Title = "What is the Comment part 3..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
                         User = user2,
-                        Answers = new List<Answer>()
+                        Comments = new List<Comment>()
                         {
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
                                 User = user1,
                             },
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Street art godard viral photo booth succulents hexagon. Occupy tumeric twee biodiesel, ", 
                                 User = user3,
                             }
                         }
                     },
-                    new Question()
+                    new Article()
                     {
-                        Title = "What is the answer part 4..",
+                        Title = "What is the Comment part 4..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
                         User = user2,
-                        Answers = new List<Answer>()
+                        Comments = new List<Comment>()
                         {
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
                                 User = user1,
                             },
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Street art godard viral photo booth succulents hexagon. Occupy tumeric twee biodiesel, ", 
                                 User = user3,
                             }
                         }
                     },
-                    new Question()
+                    new Article()
                     {
-                        Title = "What is the answer part 5..",
+                        Title = "What is the Comment part 5..",
                         Content = "Stumptown iceland lumbersexual vexillologist put a bird on it. Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac.",
                         User = user2,
-                        Answers = new List<Answer>()
+                        Comments = new List<Comment>()
                         {
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
                                 User = user1,
                             },
-                            new Answer() 
+                            new Comment() 
                             {  
                                 Content = "Street art godard viral photo booth succulents hexagon. Occupy tumeric twee biodiesel, ", 
                                 User = user3,
@@ -150,10 +150,10 @@ namespace Sophophile.Data
                     }
                 };
 
-                foreach (Question question in questions)
+                foreach (Article Article in Articles)
                 {
-                    context.Questions.Add(question);
-                    context.Answers.AddRange(question.Answers);
+                    context.Articles.Add(Article);
+                    context.Comments.AddRange(Article.Comments);
                 }
 
                 await context.SaveChangesAsync();

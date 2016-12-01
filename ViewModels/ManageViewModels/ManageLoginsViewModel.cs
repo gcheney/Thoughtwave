@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace Sophophile.ViewModels.ManageViewModels
+namespace Thoughtwave.ViewModels.ManageViewModels
 {
     public class ManageLoginsViewModel
     {

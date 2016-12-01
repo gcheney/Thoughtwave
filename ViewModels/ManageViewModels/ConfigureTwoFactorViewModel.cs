@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Sophophile.ViewModels.ManageViewModels
+namespace Thoughtwave.ViewModels.ManageViewModels
 {
     public class ConfigureTwoFactorViewModel
     {

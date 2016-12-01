@@ -1,9 +1,9 @@
 using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Sophophile.Models;
+using Thoughtwave.Models;
 
-namespace Sophophile.Data
+namespace Thoughtwave.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -14,18 +14,18 @@ namespace Sophophile.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Filename=./Sophophile.db");
+            optionsBuilder.UseSqlite("Filename=./Thoughtwave.db");
         }
 
-        public DbSet<Question> Questions { get; set; }
-        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Question>().ToTable("Questions");
-            modelBuilder.Entity<Answer>().ToTable("Answers");
+            modelBuilder.Entity<Article>().ToTable("Articles");
+            modelBuilder.Entity<Comment>().ToTable("Comments");
 
             // ApplicationUser Configuration
             modelBuilder.Entity<ApplicationUser>()
@@ -48,42 +48,42 @@ namespace Sophophile.Data
                 .IsRequired()
                 .HasDefaultValue("User");
 
-            // Answer Configuration
-            modelBuilder.Entity<Answer>()
-                .HasOne(a => a.Question)
-                .WithMany(q => q.Answers);
+            // Comment Configuration
+            modelBuilder.Entity<Comment>()
+                .HasOne(a => a.Article)
+                .WithMany(q => q.Comments);
 
-            modelBuilder.Entity<Answer>()
+            modelBuilder.Entity<Comment>()
                 .HasOne(a => a.User)
-                .WithMany(u => u.Answers);
+                .WithMany(u => u.Comments);
 
-            modelBuilder.Entity<Answer>()
+            modelBuilder.Entity<Comment>()
                 .Property(a => a.Content)
                 .IsRequired()
                 .HasMaxLength(3000);
 
-            modelBuilder.Entity<Answer>()
+            modelBuilder.Entity<Comment>()
                 .Property(a => a.CreatedOn)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
 
 
-            // Question Configuration
-            modelBuilder.Entity<Question>()
+            // Article Configuration
+            modelBuilder.Entity<Article>()
                 .HasOne(q => q.User)
-                .WithMany(u => u.Questions);
+                .WithMany(u => u.Articles);
 
-            modelBuilder.Entity<Question>()
+            modelBuilder.Entity<Article>()
                 .Property(q => q.CreatedOn)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
 
-            modelBuilder.Entity<Question>()
+            modelBuilder.Entity<Article>()
                 .Property(q => q.Title)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            modelBuilder.Entity<Question>()
+            modelBuilder.Entity<Article>()
                 .Property(q => q.Content)
                 .IsRequired()
                 .HasMaxLength(1000);

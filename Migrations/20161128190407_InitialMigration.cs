@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Sophophile.Migrations
+namespace Thoughtwave.Migrations
 {
     public partial class InitialMigration : Migration
     {
@@ -152,7 +152,7 @@ namespace Sophophile.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Questions",
+                name: "Articles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -164,9 +164,9 @@ namespace Sophophile.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Questions", x => x.Id);
+                    table.PrimaryKey("PK_Articles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Questions_AspNetUsers_UserId",
+                        name: "FK_Articles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -174,27 +174,27 @@ namespace Sophophile.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Answers",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     Content = table.Column<string>(maxLength: 3000, nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local)),
-                    QuestionId = table.Column<int>(nullable: true),
+                    ArticleId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Answers_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
+                        name: "FK_Comments_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Answers_AspNetUsers_UserId",
+                        name: "FK_Comments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -232,13 +232,13 @@ namespace Sophophile.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answers_QuestionId",
-                table: "Answers",
-                column: "QuestionId");
+                name: "IX_Comments_ArticleId",
+                table: "Comments",
+                column: "ArticleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answers_UserId",
-                table: "Answers",
+                name: "IX_Comments_UserId",
+                table: "Comments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -253,8 +253,8 @@ namespace Sophophile.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_UserId",
-                table: "Questions",
+                name: "IX_Articles_UserId",
+                table: "Articles",
                 column: "UserId");
         }
 
@@ -276,13 +276,13 @@ namespace Sophophile.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Answers");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Questions");
+                name: "Articles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
