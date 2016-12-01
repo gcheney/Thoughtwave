@@ -5,9 +5,9 @@ using Thoughtwave.Models;
 
 namespace Thoughtwave.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ThoughtwaveDbContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ThoughtwaveDbContext(DbContextOptions<ThoughtwaveDbContext> options)
             : base(options)
         {
         }
@@ -27,64 +27,64 @@ namespace Thoughtwave.Data
             modelBuilder.Entity<Article>().ToTable("Articles");
             modelBuilder.Entity<Comment>().ToTable("Comments");
 
-            // ApplicationUser Configuration
-            modelBuilder.Entity<ApplicationUser>()
+            // User Configuration
+            modelBuilder.Entity<User>()
                 .Property(u => u.Avatar)
                 .IsRequired()
                 .HasDefaultValue("/dist/images/generic-user.jpg");
 
-            modelBuilder.Entity<ApplicationUser>()
+            modelBuilder.Entity<User>()
                 .Property(u => u.SignUpDate)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
                 
-            modelBuilder.Entity<ApplicationUser>()
+            modelBuilder.Entity<User>()
                 .Property(u => u.FirstName)
                 .IsRequired()
                 .HasDefaultValue("Anonymous");
 
-            modelBuilder.Entity<ApplicationUser>()
+            modelBuilder.Entity<User>()
                 .Property(u => u.LastName)
                 .IsRequired()
                 .HasDefaultValue("User");
 
             // Comment Configuration
             modelBuilder.Entity<Comment>()
-                .HasOne(a => a.Article)
-                .WithMany(q => q.Comments);
+                .HasOne(c => c.Article)
+                .WithMany(a => a.Comments);
 
             modelBuilder.Entity<Comment>()
-                .HasOne(a => a.User)
+                .HasOne(c => c.User)
                 .WithMany(u => u.Comments);
 
             modelBuilder.Entity<Comment>()
-                .Property(a => a.Content)
+                .Property(c => c.Content)
                 .IsRequired()
                 .HasMaxLength(3000);
 
             modelBuilder.Entity<Comment>()
-                .Property(a => a.CreatedOn)
+                .Property(c => c.CreatedOn)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
 
 
             // Article Configuration
             modelBuilder.Entity<Article>()
-                .HasOne(q => q.User)
-                .WithMany(u => u.Articles);
+                .HasOne(a => a.Author)
+                .WithMany(c => c.Articles);
 
             modelBuilder.Entity<Article>()
-                .Property(q => q.CreatedOn)
+                .Property(a => a.CreatedOn)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
 
             modelBuilder.Entity<Article>()
-                .Property(q => q.Title)
+                .Property(a => a.Title)
                 .IsRequired()
                 .HasMaxLength(100);
 
             modelBuilder.Entity<Article>()
-                .Property(q => q.Content)
+                .Property(a => a.Content)
                 .IsRequired()
                 .HasMaxLength(1000);
         }

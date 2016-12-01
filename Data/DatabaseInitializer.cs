@@ -15,14 +15,14 @@ namespace Thoughtwave.Data
         public static async Task Initialize(IApplicationBuilder app)
         {
             // Get database context
-            ApplicationDbContext context = app.ApplicationServices
-                .GetRequiredService<ApplicationDbContext>();
+            ThoughtwaveDbContext context = app.ApplicationServices
+                .GetRequiredService<ThoughtwaveDbContext>();
 
             context.Database.EnsureCreated();
 
             // Get user manager
-            UserManager<ApplicationUser> userManager = app.ApplicationServices
-                .GetRequiredService<UserManager<ApplicationUser>>();
+            UserManager<User> userManager = app.ApplicationServices
+                .GetRequiredService<UserManager<User>>();
 
             // seed user data
             var user1 = await SeedUserDataAsync(userManager, "genericuser1", "genericuser1@email.com", "Pa$$word1");
@@ -38,7 +38,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "How Can I Live Better",
                         Content = "Forage gochujang vape, mustache tumeric church-key master cleanse salvia godard hella hoodie everyday carry freegan. Sustainable forage aesthetic, neutra scenester lyft bespoke roof party taxidermy next level meggings coloring book. Jean shorts keffiyeh tacos migas normcore scenester. Fashion axe williamsburg lo-fi flexitarian unicorn ennui edison bulb.",
-                        User = user1,
+                        Author = user1,
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -57,7 +57,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "What is the Comment..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
-                        User = user2,
+                        Author = user2,
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -76,7 +76,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "What is the Comment part 2..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
-                        User = user2,
+                        Author = user2,
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -95,7 +95,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "What is the Comment part 3..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
-                        User = user2,
+                        Author = user2,
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -114,7 +114,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "What is the Comment part 4..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
-                        User = user2,
+                        Author = user2,
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -133,7 +133,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "What is the Comment part 5..",
                         Content = "Stumptown iceland lumbersexual vexillologist put a bird on it. Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac.",
-                        User = user2,
+                        Author = user2,
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -160,14 +160,14 @@ namespace Thoughtwave.Data
             }
         }
 
-        public async static Task<ApplicationUser> SeedUserDataAsync(UserManager<ApplicationUser> userManager, 
+        public async static Task<User> SeedUserDataAsync(UserManager<User> userManager, 
             string userName, string email, string password)
         {
             var user = await userManager.FindByNameAsync(userName);
 
             if (user == null)
             {
-                var newUser = new ApplicationUser
+                var newUser = new User
                 {
                     UserName = userName,
                     Email = email

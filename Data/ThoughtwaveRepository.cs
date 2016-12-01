@@ -9,13 +9,13 @@ using Thoughtwave.Models;
 
 namespace Thoughtwave.Data
 {
-    public class ApplicationRepository : IApplicationRepository
+    public class ThoughtwaveRepository : IThoughtwaveRepository
     {
-        private ApplicationDbContext _context;
-        private ILogger<ApplicationRepository> _logger;
+        private ThoughtwaveDbContext _context;
+        private ILogger<ThoughtwaveRepository> _logger;
 
-        public ApplicationRepository(ApplicationDbContext context, 
-            ILogger<ApplicationRepository> logger)
+        public ThoughtwaveRepository(ThoughtwaveDbContext context, 
+            ILogger<ThoughtwaveRepository> logger)
         {
             _context = context;
             _logger = logger;
@@ -25,8 +25,8 @@ namespace Thoughtwave.Data
         public IEnumerable<Article> GetRecentArticles()
         {
             return _context.Articles
-                .Include(q => q.User)
-                .OrderByDescending(q => q.CreatedOn)
+                .Include(a => a.Author)
+                .OrderByDescending(a => a.CreatedOn)
                 .Take(5)
                 .ToList();
         }
@@ -34,8 +34,8 @@ namespace Thoughtwave.Data
         public async Task<List<Article>> GetRecentArticlesAsync()
         {
             return await _context.Articles
-                .Include(q => q.User)
-                .OrderByDescending(q => q.CreatedOn)
+                .Include(a => a.Author)
+                .OrderByDescending(a => a.CreatedOn)
                 .Take(5)
                 .ToListAsync();
         }
@@ -45,7 +45,7 @@ namespace Thoughtwave.Data
         public IEnumerable<Article> GetAllArticles()
         {
             return _context.Articles
-                .Include(q => q.User)
+                .Include(a => a.Author)
                 .OrderByDescending(q => q.CreatedOn)
                 .ToList();
         }
@@ -53,8 +53,8 @@ namespace Thoughtwave.Data
         public async Task<List<Article>> GetAllArticlesAsync()
         {
             return await _context.Articles
-                .Include(q => q.User)
-                .OrderByDescending(q => q.CreatedOn)
+                .Include(a => a.Author)
+                .OrderByDescending(a => a.CreatedOn)
                 .ToListAsync();
         }
     #endregion
@@ -63,20 +63,20 @@ namespace Thoughtwave.Data
         public Article GetArticleById(int id)
         {
             return _context.Articles
-                .Include(q => q.User)
-                .Include(q => q.Comments)
-                    .ThenInclude(a => a.User)
-                .Where(q => q.Id == id)
+                .Include(a => a.Author)
+                .Include(a => a.Comments)
+                    .ThenInclude(c => c.User)
+                .Where(a => a.Id == id)
                 .FirstOrDefault();
         }
 
         public async Task<Article> GetArticleByIdAsync(int id)
         {
             return await _context.Articles
-                .Include(q => q.User)
-                .Include(q => q.Comments)
-                    .ThenInclude(a => a.User)
-                .Where(q => q.Id == id)
+                .Include(a => a.Author)
+                .Include(a => a.Comments)
+                    .ThenInclude(c => c.User)
+                .Where(a => a.Id == id)
                 .FirstOrDefaultAsync();
         }
     #endregion

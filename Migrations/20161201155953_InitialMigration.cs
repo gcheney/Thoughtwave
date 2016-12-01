@@ -56,7 +56,7 @@ namespace Thoughtwave.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
-                    SignUpDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 11, 28, 13, 4, 6, 906, DateTimeKind.Local)),
+                    SignUpDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 1, 9, 59, 53, 456, DateTimeKind.Local)),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -157,17 +157,17 @@ namespace Thoughtwave.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
+                    AuthorId = table.Column<string>(nullable: true),
                     Content = table.Column<string>(maxLength: 1000, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local)),
-                    Title = table.Column<string>(maxLength: 100, nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 1, 9, 59, 53, 465, DateTimeKind.Local)),
+                    Title = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Articles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Articles_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Articles_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -179,9 +179,9 @@ namespace Thoughtwave.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    Content = table.Column<string>(maxLength: 3000, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 11, 28, 13, 4, 6, 914, DateTimeKind.Local)),
                     ArticleId = table.Column<int>(nullable: true),
+                    Content = table.Column<string>(maxLength: 3000, nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 1, 9, 59, 53, 465, DateTimeKind.Local)),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -232,6 +232,11 @@ namespace Thoughtwave.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_AuthorId",
+                table: "Articles",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_ArticleId",
                 table: "Comments",
                 column: "ArticleId");
@@ -251,11 +256,6 @@ namespace Thoughtwave.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Articles_UserId",
-                table: "Articles",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

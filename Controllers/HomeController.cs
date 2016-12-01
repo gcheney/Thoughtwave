@@ -12,10 +12,10 @@ namespace Thoughtwave.Controllers
 {
     public class HomeController : Controller
     {
-        private IApplicationRepository _repository;
+        private IThoughtwaveRepository _repository;
         private ILogger<HomeController> _logger;
 
-        public HomeController(IApplicationRepository repository, 
+        public HomeController(IThoughtwaveRepository repository, 
             ILogger<HomeController> logger)
         {
             _repository = repository;

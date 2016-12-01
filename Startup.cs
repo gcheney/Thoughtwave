@@ -38,7 +38,7 @@ namespace Thoughtwave
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ThoughtwaveDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.Configure<IdentityOptions>(options =>
@@ -63,15 +63,15 @@ namespace Thoughtwave
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ThoughtwaveDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
 
             services.AddLogging();
 
-            services.AddScoped<IApplicationRepository, ApplicationRepository>();
+            services.AddScoped<IThoughtwaveRepository, ThoughtwaveRepository>();
 
             // use lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);

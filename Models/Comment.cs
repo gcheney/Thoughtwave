@@ -9,6 +9,6 @@ namespace Thoughtwave.Models
         public DateTime CreatedOn { get; set; }
 
         public virtual Article Article { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual User User { get; set; }
     }
 }

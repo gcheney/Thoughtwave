@@ -11,6 +11,6 @@ namespace Thoughtwave.Models
         public DateTime CreatedOn { get; set; }
         
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual User Author { get; set; }
     }
 }

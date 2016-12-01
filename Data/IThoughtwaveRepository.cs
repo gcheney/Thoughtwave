@@ -4,7 +4,7 @@ using Thoughtwave.Models;
 
 namespace Thoughtwave.Data
 {
-    public interface IApplicationRepository
+    public interface IThoughtwaveRepository
     {
         IEnumerable<Article> GetRecentArticles();
         Task<List<Article>> GetRecentArticlesAsync();
