@@ -31,6 +31,6 @@
 
 @foreach (var question in Model.Questions)
 {
-    @Html.Partial("_QuestionPreview", question)
+    @await Html.PartialAsync("_QuestionPreview", question)
 }
 
