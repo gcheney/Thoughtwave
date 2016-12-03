@@ -27,7 +27,7 @@ namespace Thoughtwave.Data
             return _context.Articles
                 .Include(a => a.Author)
                 .OrderByDescending(a => a.CreatedOn)
-                .Take(5)
+                .Take(3)
                 .ToList();
         }
 
@@ -36,7 +36,7 @@ namespace Thoughtwave.Data
             return await _context.Articles
                 .Include(a => a.Author)
                 .OrderByDescending(a => a.CreatedOn)
-                .Take(5)
+                .Take(3)
                 .ToListAsync();
         }
     #endregion

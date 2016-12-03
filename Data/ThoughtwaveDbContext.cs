@@ -48,6 +48,11 @@ namespace Thoughtwave.Data
                 .IsRequired()
                 .HasDefaultValue("User");
 
+            modelBuilder.Entity<User>()
+                .Property(u => u.Bio)
+                .IsRequired()
+                .HasDefaultValue("This user hasn't filled out their Bio yet.");
+
             // Comment Configuration
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Article)
@@ -71,7 +76,7 @@ namespace Thoughtwave.Data
             // Article Configuration
             modelBuilder.Entity<Article>()
                 .HasOne(a => a.Author)
-                .WithMany(c => c.Articles);
+                .WithMany(u => u.Articles);
 
             modelBuilder.Entity<Article>()
                 .Property(a => a.CreatedOn)
@@ -86,7 +91,7 @@ namespace Thoughtwave.Data
             modelBuilder.Entity<Article>()
                 .Property(a => a.Content)
                 .IsRequired()
-                .HasMaxLength(1000);
+                .HasMaxLength(2000);
         }
     }
 }
