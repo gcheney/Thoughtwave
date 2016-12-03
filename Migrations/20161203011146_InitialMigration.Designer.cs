@@ -8,7 +8,7 @@ using Thoughtwave.Data;
 namespace Thoughtwave.Migrations
 {
     [DbContext(typeof(ThoughtwaveDbContext))]
-    [Migration("20161201155953_InitialMigration")]
+    [Migration("20161203011146_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,13 +130,17 @@ namespace Thoughtwave.Migrations
 
                     b.Property<string>("AuthorId");
 
+                    b.Property<int>("Category")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(5);
+
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1000);
+                        .HasAnnotation("MaxLength", 2000);
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 1, 9, 59, 53, 465, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local));
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -162,7 +166,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 1, 9, 59, 53, 465, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local));
 
                     b.Property<string>("UserId");
 
@@ -185,6 +189,11 @@ namespace Thoughtwave.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue("/dist/images/generic-user.jpg");
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("This user hasn't filled out their Bio yet.");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -224,7 +233,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("SignUpDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 1, 9, 59, 53, 456, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 817, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 

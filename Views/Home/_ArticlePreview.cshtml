@@ -11,10 +11,10 @@
                         </a>
                         <img alt="User Image" src="@Model.Author.Avatar" class="pull-left user-img img-circle">
                         <p class="text-muted">
-                            Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy")
+                            Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a>@Model.Category</a>
                         </p>
                         <p class="lead">
-                            @Model.Content
+                            @Model.Lead
                         </p>
                         <hr />
                         <a asp-action="Read" asp-controller="Article" asp-route-id="@Model.Id" class="btn pull-right">

@@ -92,6 +92,11 @@ namespace Thoughtwave.Data
                 .Property(a => a.Content)
                 .IsRequired()
                 .HasMaxLength(2000);
+
+            modelBuilder.Entity<Article>()
+                .Property(a => a.Category)
+                .IsRequired()
+                .HasDefaultValue(Category.Other);
         }
     }
 }

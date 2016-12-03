@@ -129,13 +129,17 @@ namespace Thoughtwave.Migrations
 
                     b.Property<string>("AuthorId");
 
+                    b.Property<int>("Category")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(5);
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 2000);
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 2, 18, 58, 47, 327, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local));
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -161,7 +165,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 2, 18, 58, 47, 326, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local));
 
                     b.Property<string>("UserId");
 
@@ -228,7 +232,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("SignUpDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 2, 18, 58, 47, 318, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 817, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 
