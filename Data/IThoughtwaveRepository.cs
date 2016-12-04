@@ -6,9 +6,6 @@ namespace Thoughtwave.Data
 {
     public interface IThoughtwaveRepository
     {
-        IEnumerable<Article> GetRecentArticles();
-        Task<List<Article>> GetRecentArticlesAsync();
-
         IEnumerable<Article> GetAllArticles();
         Task<List<Article>> GetAllArticlesAsync();
 

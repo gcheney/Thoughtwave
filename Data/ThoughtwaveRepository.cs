@@ -21,27 +21,6 @@ namespace Thoughtwave.Data
             _logger = logger;
         }
 
-    #region GetRecentArticles  
-        public IEnumerable<Article> GetRecentArticles()
-        {
-            return _context.Articles
-                .Include(a => a.Author)
-                .OrderByDescending(a => a.CreatedOn)
-                .Take(3)
-                .ToList();
-        }
-
-        public async Task<List<Article>> GetRecentArticlesAsync()
-        {
-            return await _context.Articles
-                .Include(a => a.Author)
-                .OrderByDescending(a => a.CreatedOn)
-                .Take(3)
-                .ToListAsync();
-        }
-    #endregion
-
-    #region GetAllArticles
         public IEnumerable<Article> GetAllArticles()
         {
             return _context.Articles
@@ -57,9 +36,7 @@ namespace Thoughtwave.Data
                 .OrderByDescending(a => a.CreatedOn)
                 .ToListAsync();
         }
-    #endregion
 
-    #region GetArticleById
         public Article GetArticleById(int id)
         {
             return _context.Articles
@@ -79,7 +56,5 @@ namespace Thoughtwave.Data
                 .Where(a => a.Id == id)
                 .FirstOrDefaultAsync();
         }
-    #endregion
-
     }
 }
