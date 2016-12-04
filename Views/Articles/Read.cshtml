@@ -1,0 +1,95 @@
+@model Article
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<!-- Article Header -->
+<header class="intro-header" style="background-image: url('/images/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>Thoughtwave</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+ <!-- Article Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="well well-lg clearfix">
+                    <a target="_blank" href="/read">
+                        <h1 class="section-heading text-center">@Model.Title</h1>
+                    </a>
+                    <p class="text-muted">
+                        Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a>@Model.Category</a>
+                    </p>
+                    <p class="lead">
+                        @Model.Content
+                    </p>
+                    <hr />
+                </div>
+            </div>             
+        </div>
+    </div>
+</article>
+
+<!-- Author info and comments -->
+<div class="container">
+    <div class="row">  
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- Author details/bio -->
+            <div class="well well-lg clearfix">
+                <div class="text-center">
+                    <a href="#">
+                        <img alt="Author Image" src="@Model.Author.Avatar" class="img-circle bio-img">
+                    </a>
+                    <h2>About @Model.Author.FullName</h2>
+                    <p>
+                        @Model.Author.Bio
+                    </p>
+                </div>
+            </div>
+
+            <!-- Blog Comments -->
+            
+            <!-- Comments Form -->
+            <div class="well">
+                <h4>Leave a Comment:</h4>
+                <form role="form" method="POST">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <hr>
+
+            <!-- Posted Comments -->
+            <!-- Comment -->
+            @foreach (var comment in @Model.Comments)
+            {
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object img-responsive user-img" src="@comment.User.Avatar" alt="User Image">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="#">@comment.User.FullName</a> <small>@comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</small>
+                        </h4>
+                        <div class="comment-content">
+                            @comment.Content
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            } 
+        </div>
+    </div>
+</div>
