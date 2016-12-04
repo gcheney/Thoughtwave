@@ -1,0 +1,19 @@
+@model IEnumerable<Article>
+
+@{
+    ViewData["Title"] = "Article Index";
+}
+
+@await Html.PartialAsync("_PageHeader")
+
+<!-- Page Content -->
+<h1 class="text-center">Latest Articles</h1>
+<hr class="large"/>
+
+<h4>@ViewBag.Message</h4>
+
+@foreach (var article in Model)
+{
+    @await Html.PartialAsync("_ArticlePreview", article)
+}
+

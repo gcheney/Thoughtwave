@@ -34,7 +34,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
                     <li>
-                        <a href="#">Post an Article</a>
+                        <a asp-controller="Articles" asp-action="Search">Find an Article</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Articles" asp-action="Create">Post an Article</a>
                     </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")

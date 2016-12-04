@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
-using Thoughtwave.ViewModels.HomeViewModels;
 
 namespace Thoughtwave.Controllers
 {
@@ -25,12 +24,15 @@ namespace Thoughtwave.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var vm = new HomePageViewModel()
-            {
-                Articles = await _repository.GetAllArticlesAsync()
-            };
 
-            return View(vm);
+            var articles = await _repository.GetAllArticlesAsync();
+
+            if (articles == null) 
+            {
+                ViewBag.Message = "No artciles were found";
+            }
+
+            return View(articles);
         }
 
         [HttpGet]
@@ -44,16 +46,6 @@ namespace Thoughtwave.Controllers
             }
             
             return View(article);
-        }
-
-        public IActionResult Contact()
-        {
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View();
         }
     }
 }
