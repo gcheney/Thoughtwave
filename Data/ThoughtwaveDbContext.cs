@@ -96,7 +96,7 @@ namespace Thoughtwave.Data
             modelBuilder.Entity<Article>()
                 .Property(a => a.Category)
                 .IsRequired()
-                .HasDefaultValue(Category.Other);
+                .HasDefaultValue(Category.Personal);
         }
     }
 }

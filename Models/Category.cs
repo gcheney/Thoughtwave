@@ -7,6 +7,6 @@ namespace Thoughtwave.Models
         World,
         Film,
         Music,
-        Other
+        Personal
     }
 }
