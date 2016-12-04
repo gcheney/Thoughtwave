@@ -37,6 +37,24 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
+        public IEnumerable<Article> GetRecentArticles()
+        {
+            return _context.Articles
+                .Include(a => a.Author)
+                .OrderByDescending(q => q.CreatedOn)
+                .Take(3)
+                .ToList();
+        }
+
+        public async Task<List<Article>> GetRecentArticlesAsync()
+        {
+            return await _context.Articles
+                .Include(a => a.Author)
+                .OrderByDescending(a => a.CreatedOn)
+                .Take(3)
+                .ToListAsync();
+        }
+
         public Article GetArticleById(int id)
         {
             return _context.Articles
