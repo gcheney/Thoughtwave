@@ -34,10 +34,22 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
                     <li>
-                        <a asp-controller="Articles" asp-action="Search">Find an Article</a>
+                        <a asp-controller="Articles" asp-action="Create">Tech</a>
                     </li>
                     <li>
-                        <a asp-controller="Articles" asp-action="Create">Post an Article</a>
+                        <a asp-controller="Articles" asp-action="Create">Sports</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Articles" asp-action="Create">World</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Articles" asp-action="Create">Film</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Articles" asp-action="Create">Music</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Articles" asp-action="Create">Personal</a>
                     </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -49,12 +61,10 @@
     <div>
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                         <p class="copyright text-muted">Copyright &copy; Glendon Cheney 2016</p>
-                    </div>
                 </div>
             </div>
         </footer>
