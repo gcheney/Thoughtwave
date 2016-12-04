@@ -38,15 +38,14 @@
                     <a href="#">
                         <img alt="Author Image" src="@Model.Author.Avatar" class="img-circle bio-img">
                     </a>
-                    <h2>About @Model.Author.FullName</h2>
+                    <h2>About @Model.Author.FullName <span class="text-muted small">(@@@Model.Author.UserName)</span></h2>
                     <p>
                         @Model.Author.Bio
                     </p>
                 </div>
             </div>
 
-            <!-- Blog Comments -->
-            
+            <!-- Comment Form -->     
             @if (User.Identity.IsAuthenticated)
             {
                 <!-- Comments Form -->
