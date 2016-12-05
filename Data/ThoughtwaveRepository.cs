@@ -12,14 +12,12 @@ namespace Thoughtwave.Data
     public class ThoughtwaveRepository : IThoughtwaveRepository
     {
         private ThoughtwaveDbContext _context;
-        private ILogger<ThoughtwaveRepository> _logger;
 
-        public ThoughtwaveRepository(ThoughtwaveDbContext context, 
-            ILogger<ThoughtwaveRepository> logger)
+        public ThoughtwaveRepository(ThoughtwaveDbContext context)
         {
             _context = context;
-            _logger = logger;
         }
+
 
         public IEnumerable<Article> GetAllArticles()
         {
@@ -36,6 +34,7 @@ namespace Thoughtwave.Data
                 .OrderByDescending(a => a.CreatedOn)
                 .ToListAsync();
         }
+
 
         public IEnumerable<Article> GetRecentArticles()
         {
@@ -55,24 +54,42 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
+
         public Article GetArticleById(int id)
         {
             return _context.Articles
+                .Where(a => a.Id == id)
                 .Include(a => a.Author)
                 .Include(a => a.Comments)
                     .ThenInclude(c => c.User)
-                .Where(a => a.Id == id)
                 .FirstOrDefault();
         }
 
         public async Task<Article> GetArticleByIdAsync(int id)
         {
             return await _context.Articles
+                .Where(a => a.Id == id)
                 .Include(a => a.Author)
                 .Include(a => a.Comments)
                     .ThenInclude(c => c.User)
-                .Where(a => a.Id == id)
                 .FirstOrDefaultAsync();
+        }
+
+
+        public IEnumerable<Article> GetArticlesByCategory(Category category)
+        {
+            return _context.Articles
+                .Where(a => a.Category == category)
+                .Include(a => a.Author)
+                .ToList();
+        }
+
+        public async Task<List<Article>> GetArticlesByCategoryAsync(Category category)
+        {
+            return await _context.Articles
+                .Where(a => a.Category == category)
+                .Include(a => a.Author)
+                .ToListAsync();
         }
     }
 }

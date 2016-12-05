@@ -14,5 +14,8 @@ namespace Thoughtwave.Data
 
         Article GetArticleById(int id);
         Task<Article> GetArticleByIdAsync(int id);
+
+        IEnumerable<Article> GetArticlesByCategory(Category category);
+        Task<List<Article>> GetArticlesByCategoryAsync(Category category);
     }
 }
