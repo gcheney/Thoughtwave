@@ -37,7 +37,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
-        [Route("{categoryId}/{id}")]
+        [Route("{categoryId}/{id}/{slug}")]
         public async Task<IActionResult> Read(int id)
         {
             var article = await _repository.GetArticleByIdAsync(id);
@@ -49,13 +49,13 @@ namespace Thoughtwave.Controllers
             
             return View(article);
         }
-
+        
         [HttpGet]
-        [Route("/articles/{category}")]
-        public async Task<IActionResult> Category(string category)
+        [Route("/{categoryId}")]
+        public async Task<IActionResult> Category(string categoryId)
         {
             Category articleCategory;
-            if (Enum.TryParse(category.Capitalize(), true, out articleCategory) 
+            if (Enum.TryParse(categoryId.Capitalize(), true, out articleCategory) 
                 && Enum.IsDefined(typeof(Category), articleCategory)) 
             {
                 var articles = await _repository.GetArticlesByCategoryAsync(articleCategory);
