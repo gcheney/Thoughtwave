@@ -37,6 +37,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
+        [Route("{categoryId}/{id}")]
         public async Task<IActionResult> Read(int id)
         {
             var article = await _repository.GetArticleByIdAsync(id);
@@ -50,21 +51,21 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
-        [Route("/articles/category/{categoryId}")]
-        public async Task<IActionResult> Category(string categoryId)
+        [Route("/articles/{category}")]
+        public async Task<IActionResult> Category(string category)
         {
-            Category categroy;
-            if (Enum.TryParse(categoryId.Capitalize(), true, out categroy) 
-                && Enum.IsDefined(typeof(Category), categroy)) 
+            Category articleCategory;
+            if (Enum.TryParse(category.Capitalize(), true, out articleCategory) 
+                && Enum.IsDefined(typeof(Category), articleCategory)) 
             {
-                var articles = await _repository.GetArticlesByCategoryAsync(categroy);
+                var articles = await _repository.GetArticlesByCategoryAsync(articleCategory);
 
                 if (articles == null || articles.Count == 0)
                 {
                     ViewBag.Message = "No articles found for this category";
                 }
 
-                ViewBag.Category = categroy.ToString();
+                ViewBag.Category = articleCategory.ToString();
                 return View("Index", articles);
             }
             else
