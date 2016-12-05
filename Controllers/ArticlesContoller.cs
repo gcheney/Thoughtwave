@@ -28,7 +28,7 @@ namespace Thoughtwave.Controllers
             var articles = await _repository.GetAllArticlesAsync();
             ViewBag.Category = "All";
 
-            if (articles == null) 
+            if (articles == null || articles.Count == 0) 
             {
                 ViewBag.Message = "No articles currently available";
             }
@@ -59,7 +59,7 @@ namespace Thoughtwave.Controllers
             {
                 var articles = await _repository.GetArticlesByCategoryAsync(categroy);
 
-                if (articles == null)
+                if (articles == null || articles.Count == 0)
                 {
                     ViewBag.Message = "No articles found for this category";
                 }

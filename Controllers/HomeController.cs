@@ -25,6 +25,11 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> Index()
         {
             var articles = await _repository.GetRecentArticlesAsync();
+
+            if (articles == null || articles.Count == 0)
+            {
+                ViewBag.Message = "No recent articles are available";
+            }
             
             return View(articles);
         }

@@ -7,10 +7,12 @@
 @await Html.PartialAsync("_PageHeader")
 
 <!-- Page Content -->
-<h1 class="text-center">@ViewBag.Category Articles</h1>
-<hr class="large"/>
+<div class="text-center">
+    <h1>@ViewBag.Category Articles</h1>
+    <hr class="large"/>
 
-<h4 class="text-muted">@ViewBag.Message</h4>
+    <h3 class="text-muted">@ViewBag.Message</h3>
+</div>
 
 @foreach (var article in Model)
 {
