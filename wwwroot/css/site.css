@@ -510,6 +510,8 @@ form .row:first-child .floating-label-form-group {
 .form-horizontal .form-group {
     margin-left: 0;
     margin-right: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .form-group .form-control:last-child {
     border-top-left-radius: 4px;
