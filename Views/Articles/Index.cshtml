@@ -6,9 +6,11 @@
 
 @await Html.PartialAsync("_PageHeader")
 
+@await Html.PartialAsync("_SearchPartial")
+
 <!-- Page Content -->
 <div class="text-center">
-    <h1>@ViewBag.Category Articles</h1>
+    <h1>Thoughts on @ViewBag.Category</h1>
     <hr class="large"/>
 
     <h3 class="text-muted">@ViewBag.Message</h3>
