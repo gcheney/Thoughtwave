@@ -8,6 +8,7 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
         <ul class="nav navbar-nav navbar-right">
+            <li><a href="#search">Search</a></li>
             <li>
                 <a>Hi, @UserManager.GetUserName(User)!</a>
             </li>
@@ -23,6 +24,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
+            <li><a href="#search">Search</a></li>
             <li>
                 <a href="/account/register"><i class="fa fa-user" aria-hidden="true"></i> Register</a>
             </li>

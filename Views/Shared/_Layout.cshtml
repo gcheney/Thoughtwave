@@ -60,6 +60,15 @@
     </nav>
     <div>
         @RenderBody()
+        <!-- navbar-search -->
+        <div id="search">
+            <button type="button" class="close">×</button>
+            <form asp-controller="Articles" asp-action="Search" method="GET">
+                <input type="search" name="q" value="" placeholder="type keyword(s) here" />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+        <!-- /.navbar-search -->
         <hr />
         <footer class="footer">
             <div class="container">
