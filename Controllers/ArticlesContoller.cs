@@ -75,13 +75,30 @@ namespace Thoughtwave.Controllers
             }
         }
 
-        /*
         [HttpGet]
         [Route("/search")]
-        public async Task<IActionResult> Search(string q)
+        public async Task<IActionResult> Search(string q, string category = "All")
         {
-            // TODO: Implement search feature
+            Category articleCategory;
+            IEnumerable<Article> articles;
+
+            if (Enum.TryParse(category, true, out articleCategory) 
+                && Enum.IsDefined(typeof(Category), articleCategory)) 
+            {
+                articles = await _repository.GetArticlesByQueryAsync(q, articleCategory);
+            }
+            else 
+            {
+                articles = await _repository.GetArticlesByQueryAsync(q);
+            }
+
+            if (articles == null || !articles.Any())
+            {
+                ViewBag.Message = "No articles found for this Search";
+            }
+
+            ViewBag.Category = category;
+            return View("Index", articles);
         }
-        */
     }
 }
