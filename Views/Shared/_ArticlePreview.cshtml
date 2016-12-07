@@ -17,12 +17,12 @@
                             @Model.Lead
                         </p>
                         <hr />
-                        <a asp-action="Read" asp-controller="Articles" 
+                        <a asp-action="Read" 
+                            asp-controller="Articles" 
                             asp-route-id="@Model.Id" 
                             asp-route-categoryId="@Model.Category.ToString().ToLower()" 
-                            asp-route-slug="@Model.Slug"
-                            class="btn pull-right">
-                            Read Article <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            asp-route-slug="@Model.Slug" class="btn pull-right">
+                            Read Thought <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

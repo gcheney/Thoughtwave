@@ -27,9 +27,9 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> Index()
         {
             var articles = await _repository.GetAllArticlesAsync();
-            ViewBag.Category = "All";
+            ViewBag.Content = "All Thoughts";
 
-            if (articles == null || articles.Count == 0) 
+            if (articles == null || !articles.Any()) 
             {
                 ViewBag.Message = "No articles currently available";
             }
@@ -61,12 +61,12 @@ namespace Thoughtwave.Controllers
             {
                 var articles = await _repository.GetArticlesByCategoryAsync(articleCategory);
 
-                if (articles == null || articles.Count == 0)
+                if (articles == null || !articles.Any())
                 {
                     ViewBag.Message = "No articles found for this category";
                 }
 
-                ViewBag.Category = articleCategory.ToString();
+                ViewBag.Content = "Thoughts on " + articleCategory.ToString();
                 return View("Index", articles);
             }
             else
@@ -86,10 +86,12 @@ namespace Thoughtwave.Controllers
                 && Enum.IsDefined(typeof(Category), articleCategory)) 
             {
                 articles = await _repository.GetArticlesByQueryAsync(q, articleCategory);
+                ViewBag.Content = "Search Results in " + articleCategory.ToString();
             }
             else 
             {
                 articles = await _repository.GetArticlesByQueryAsync(q);
+                ViewBag.Content = "Search Results";
             }
 
             if (articles == null || !articles.Any())
@@ -97,7 +99,6 @@ namespace Thoughtwave.Controllers
                 ViewBag.Message = "No articles found for this Search";
             }
 
-            ViewBag.Category = category;
             return View("Index", articles);
         }
     }

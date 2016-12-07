@@ -1,7 +1,7 @@
 @model IEnumerable<Article>
 
 @{
-    ViewData["Title"] = ViewBag.Category + " Articles";
+    ViewData["Title"] = ViewBag.Category;
 }
 
 @await Html.PartialAsync("_PageHeader")
@@ -10,7 +10,7 @@
 
 <!-- Page Content -->
 <div class="text-center">
-    <h1>Thoughts on @ViewBag.Category</h1>
+    <h1>@ViewBag.Content</h1>
     <hr class="large"/>
 
     <h3 class="text-muted">@ViewBag.Message</h3>
