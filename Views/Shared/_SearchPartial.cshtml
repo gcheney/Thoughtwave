@@ -1,29 +1,41 @@
 <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-            <form asp-controller="Articles" asp-action="Search" method="GET" class="input-group" id="adv-search">
-                <input type="text" name="title" class="form-control" placeholder="Search for Thoughts.." />
-                <div class="input-group-btn">
-                    <div class="btn-group" role="group">
-                        <div class="dropdown dropdown-lg">
-                            <button type="button" class="btn-search dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-                            <div class="dropdown-menu dropdown-menu-right form-horizontal" role="menu">
-                                <div class="form-group">
-                                    <input class="form-control" type="text" name="author" placeholder="Author Name"/>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" name="username" placeholder="Author Username"/>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" name="contains" placeholder="Contains"/>
-                                </div>
-                            </div>
+    <div class="row">    
+        <div class="col-xs-8 col-xs-offset-2">
+            <form asp-controller="Articles" asp-action="Search" method="GET">
+                <div class="input-group">
+                    <div class="input-group-btn search-panel">
+                        <div class="btn-group"> 
+                            <button type="button" class="btn-search btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <span id="search_concept">Search by</span> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#contains">Contains</a></li>
+                                <li><a href="#its_equal">It's equal</a></li>
+                                <li><a href="#greather_than">Greather than ></a></li>
+                                <li><a href="#less_than">Less than < </a></li>
+                                <li class="divider"></li>
+                                <li><a href="#all">Anything</a></li>
+                            </ul>
                         </div>
-                        <button type="submit" class="btn-search btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                    <input type="hidden" name="search_param" value="all" id="search_param">         
+                    <input type="text" class="form-control" name="q" placeholder="Search Thoughts...">
+                    <div class="input-group-btn">
+                        <div class="btn-group">                  
+                            <button class="btn-search btn-primary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
                     </div>
                 </div>
             </form>
-          </div>
         </div>
 	</div>
+</div>
+
+
+<div id="search">
+    <button type="button" class="close">×</button>
+    <form>
+        <input type="search" value="" placeholder="type keyword(s) here" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
 </div>
