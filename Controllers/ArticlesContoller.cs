@@ -23,6 +23,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
+        [Route("/articles")]
         public async Task<IActionResult> Index()
         {
             var articles = await _repository.GetAllArticlesAsync();
@@ -73,5 +74,14 @@ namespace Thoughtwave.Controllers
                 return RedirectToAction("Index", "Articles");
             }
         }
+
+        /*
+        [HttpGet]
+        [Route("/search")]
+        public async Task<IActionResult> Search(string q)
+        {
+            // TODO: Implement search feature
+        }
+        */
     }
 }
