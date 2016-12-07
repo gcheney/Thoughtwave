@@ -3,7 +3,7 @@ namespace Thoughtwave.Models
     public enum Category
     {
         Technology, 
-        Sports,
+        Politics,
         World,
         Film,
         Music,

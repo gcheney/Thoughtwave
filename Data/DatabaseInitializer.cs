@@ -79,7 +79,7 @@ namespace Thoughtwave.Data
                         Title = "What is the Comment part 2..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice.\n Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
                         Author = user2,
-                        Category = Category.Sports,
+                        Category = Category.Politics,
                         Comments = new List<Comment>()
                         {
                             new Comment() 
