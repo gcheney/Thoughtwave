@@ -6,20 +6,36 @@
                     <div class="input-group-btn search-panel">
                         <div class="btn-group"> 
                             <button type="button" class="btn-search btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <span id="search_concept">Search by</span> <span class="caret"></span>
+                                <span id="search_category">Search by</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#contains">Contains</a></li>
-                                <li><a href="#its_equal">It's equal</a></li>
-                                <li><a href="#greather_than">Greather than ></a></li>
-                                <li><a href="#less_than">Less than < </a></li>
+                                <li>
+                                    <a href="#Technology">Technology</a>
+                                </li>
+                                <li>
+                                    <a href="#Politics">Politics</a>
+                                </li>
+                                <li>
+                                    <a href="#World">World</a>
+                                </li>
+                                <li>
+                                    <a href="#Film">Film</a>
+                                </li>
+                                <li>
+                                    <a href="#Music">Music</a>
+                                </li>
+                                <li>
+                                    <a href="#Personal">Personal</a>
+                                </li>
                                 <li class="divider"></li>
-                                <li><a href="#all">Anything</a></li>
+                                <li>
+                                    <a href="#all">All</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
-                    <input type="hidden" name="search_param" value="all" id="search_param">         
-                    <input type="text" class="form-control" name="q" placeholder="Search Thoughts...">
+                    <input type="hidden" name="category" value="all" id="category">         
+                    <input type="text" class="form-control" name="q" placeholder="Search by Title, Author, or Keyword">
                     <div class="input-group-btn">
                         <div class="btn-group">                  
                             <button class="btn-search btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
