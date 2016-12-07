@@ -18,6 +18,7 @@ namespace Thoughtwave.Data
             _context = context;
         }
 
+        /* GET ALL ARTICLES */
 
         public IEnumerable<Article> GetAllArticles()
         {
@@ -35,6 +36,7 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
+        /* GET RECENET ARTICLES */
 
         public IEnumerable<Article> GetRecentArticles()
         {
@@ -54,6 +56,8 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
+
+        /* GET ARTICLE BY ID */
 
         public Article GetArticleById(int id)
         {
@@ -76,6 +80,8 @@ namespace Thoughtwave.Data
         }
 
 
+        /* GET ARTICLE BY CATEGORY */
+
         public IEnumerable<Article> GetArticlesByCategory(Category category)
         {
             return _context.Articles
@@ -88,6 +94,55 @@ namespace Thoughtwave.Data
         {
             return await _context.Articles
                 .Where(a => a.Category == category)
+                .Include(a => a.Author)
+                .ToListAsync();
+        }
+
+
+        /* GET ARTICLES BY QUERY */
+
+        public IEnumerable<Article> GetArticlesByQuery(string query)
+        {
+            return _context.Articles
+                .Where(a => a.Title.Contains(query)
+                    || a.Author.FullName.Contains(query)
+                    || a.Author.UserName.Contains(query)
+                    || a.Content.Contains(query))
+                .Include(a => a.Author)
+                .ToList();
+        }
+
+        public async Task<List<Article>> GetArticlesByQueryAsync(string query)
+        {
+            return await _context.Articles
+                .Where(a => a.Title.Contains(query)
+                    || a.Author.FullName.Contains(query)
+                    || a.Author.UserName.Contains(query)
+                    || a.Content.Contains(query))
+                .Include(a => a.Author)
+                .ToListAsync();
+        }
+
+        public IEnumerable<Article> GetArticlesByQuery(string query, Category category)
+        {
+            return _context.Articles
+                .Where(a => a.Category == category)
+                .Where(a => a.Title.Contains(query)
+                    || a.Author.FullName.Contains(query)
+                    || a.Author.UserName.Contains(query)
+                    || a.Content.Contains(query))
+                .Include(a => a.Author)
+                .ToList();
+        }
+
+        public async Task<List<Article>> GetArticlesByQueryAsync(string query, Category category)
+        {
+            return await _context.Articles
+                .Where(a => a.Category == category)
+                .Where(a => a.Title.Contains(query)
+                    || a.Author.FullName.Contains(query)
+                    || a.Author.UserName.Contains(query)
+                    || a.Content.Contains(query))
                 .Include(a => a.Author)
                 .ToListAsync();
         }

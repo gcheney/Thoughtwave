@@ -17,5 +17,11 @@ namespace Thoughtwave.Data
 
         IEnumerable<Article> GetArticlesByCategory(Category category);
         Task<List<Article>> GetArticlesByCategoryAsync(Category category);
+
+        IEnumerable<Article> GetArticlesByQuery(string query);
+        Task<List<Article>> GetArticlesByQueryAsync(string query);
+
+        IEnumerable<Article> GetArticlesByQuery(string query, Category category);
+        Task<List<Article>> GetArticlesByQueryAsync(string query, Category category);
     }
 }
