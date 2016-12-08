@@ -15,15 +15,14 @@ namespace Thoughtwave.Controllers
         private IThoughtwaveRepository _repository;
         private ILogger<ArticlesController> _logger;
 
-        public ArticlesController(IThoughtwaveRepository repository, 
-            ILogger<ArticlesController> logger)
+        public ArticlesController(IThoughtwaveRepository repository, ILogger<ArticlesController> logger)
         {
             _repository = repository;
             _logger = logger;
         }
 
         [HttpGet]
-        [Route("/articles")]
+        [Route("/all")]
         public async Task<IActionResult> Index()
         {
             var articles = await _repository.GetAllArticlesAsync();
