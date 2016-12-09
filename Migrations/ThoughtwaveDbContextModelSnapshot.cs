@@ -122,42 +122,10 @@ namespace Thoughtwave.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Thoughtwave.Models.Thought", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AuthorId");
-
-                    b.Property<int>("Category")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(5);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 2000);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.ToTable("Thoughts");
-                });
-
             modelBuilder.Entity("Thoughtwave.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ThoughtId");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -165,7 +133,9 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 8, 22, 8, 7, 195, DateTimeKind.Local));
+
+                    b.Property<int?>("ThoughtId");
 
                     b.Property<string>("UserId");
 
@@ -176,6 +146,36 @@ namespace Thoughtwave.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Thoughtwave.Models.Thought", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<int>("Category")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(6);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 2000);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2016, 12, 8, 22, 8, 7, 195, DateTimeKind.Local));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Thoughts");
                 });
 
             modelBuilder.Entity("Thoughtwave.Models.User", b =>
@@ -232,7 +232,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("SignUpDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 2, 19, 11, 46, 817, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 8, 22, 8, 7, 185, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -288,13 +288,6 @@ namespace Thoughtwave.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Thoughtwave.Models.Thought", b =>
-                {
-                    b.HasOne("Thoughtwave.Models.User", "Author")
-                        .WithMany("Thoughts")
-                        .HasForeignKey("AuthorId");
-                });
-
             modelBuilder.Entity("Thoughtwave.Models.Comment", b =>
                 {
                     b.HasOne("Thoughtwave.Models.Thought", "Thought")
@@ -304,6 +297,13 @@ namespace Thoughtwave.Migrations
                     b.HasOne("Thoughtwave.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Thoughtwave.Models.Thought", b =>
+                {
+                    b.HasOne("Thoughtwave.Models.User", "Author")
+                        .WithMany("Thoughts")
+                        .HasForeignKey("AuthorId");
                 });
         }
     }

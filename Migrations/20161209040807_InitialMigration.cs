@@ -57,7 +57,7 @@ namespace Thoughtwave.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
-                    SignUpDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 2, 19, 11, 46, 817, DateTimeKind.Local)),
+                    SignUpDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 8, 22, 8, 7, 185, DateTimeKind.Local)),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -159,9 +159,9 @@ namespace Thoughtwave.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     AuthorId = table.Column<string>(nullable: true),
-                    Category = table.Column<int>(nullable: false, defaultValue: 5),
+                    Category = table.Column<int>(nullable: false, defaultValue: 6),
                     Content = table.Column<string>(maxLength: 2000, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 8, 22, 8, 7, 195, DateTimeKind.Local)),
                     Title = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -181,9 +181,9 @@ namespace Thoughtwave.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    ThoughtId = table.Column<int>(nullable: true),
                     Content = table.Column<string>(maxLength: 3000, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 8, 22, 8, 7, 195, DateTimeKind.Local)),
+                    ThoughtId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -234,11 +234,6 @@ namespace Thoughtwave.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Thoughts_AuthorId",
-                table: "Thoughts",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Comments_ThoughtId",
                 table: "Comments",
                 column: "ThoughtId");
@@ -247,6 +242,11 @@ namespace Thoughtwave.Migrations
                 name: "IX_Comments_UserId",
                 table: "Comments",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Thoughts_AuthorId",
+                table: "Thoughts",
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
