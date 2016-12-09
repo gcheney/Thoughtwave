@@ -28,9 +28,14 @@ namespace Thoughtwave.Controllers
             var articles = await _repository.GetAllArticlesAsync();
             ViewBag.Content = "All Thoughts";
 
-            if (articles == null || !articles.Any()) 
+            if (articles == null)
             {
-                ViewBag.Message = "No articles currently available";
+                _logger.LogError("Unable to retrieve all articles from repository");
+                return RedirectToAction("Index");
+            }
+            else if (!articles.Any())
+            {
+                ViewBag.Message = "No articles found";
             }
 
             return View(articles);
@@ -44,6 +49,7 @@ namespace Thoughtwave.Controllers
 
             if (article == null)
             {
+                _logger.LogError($"Unable to retrieve article with id {id} from repository");
                 return RedirectToAction("Index");
             }
             
@@ -59,9 +65,14 @@ namespace Thoughtwave.Controllers
             {
                 var articles = await _repository.GetArticlesByCategoryAsync(category);
 
-                if (articles == null || !articles.Any())
+                if (articles == null)
                 {
-                    ViewBag.Message = "No articles found for this category";
+                    _logger.LogError("Unable to retrieve articles for category {categoryId}");
+                    return RedirectToAction("Index");
+                }
+                else if (!articles.Any())
+                {
+                    ViewBag.Message = "No articles found for this Search";
                 }
 
                 ViewBag.Content = "Thoughts on " + category.ToString();
@@ -69,7 +80,7 @@ namespace Thoughtwave.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Articles");
+                return RedirectToAction("Index");
             }
         }
 
@@ -85,10 +96,19 @@ namespace Thoughtwave.Controllers
                 articles = await _repository.GetArticlesByQueryAsync(q, categroy);
                 ViewBag.Content = "Search Results in " + categroy.ToString();
             }
-
-            if (articles == null || !articles.Any())
+            else 
             {
+                articles = await _repository.GetArticlesByQueryAsync(q);
                 ViewBag.Content = "Search Results";
+            }
+
+            if (articles == null)
+            {
+                _logger.LogError("Unable to retrieve articles from repository");
+                return RedirectToAction("Index");
+            }
+            else if (!articles.Any())
+            {
                 ViewBag.Message = "No articles found for this Search";
             }
 
