@@ -56,7 +56,7 @@ namespace Thoughtwave.Data
             // Comment Configuration
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Thought)
-                .WithMany(a => a.Comments);
+                .WithMany(t => t.Comments);
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
@@ -75,26 +75,26 @@ namespace Thoughtwave.Data
 
             // Thought Configuration
             modelBuilder.Entity<Thought>()
-                .HasOne(a => a.Author)
+                .HasOne(t => t.Author)
                 .WithMany(u => u.Thoughts);
 
             modelBuilder.Entity<Thought>()
-                .Property(a => a.CreatedOn)
+                .Property(t => t.CreatedOn)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
 
             modelBuilder.Entity<Thought>()
-                .Property(a => a.Title)
+                .Property(t => t.Title)
                 .IsRequired()
                 .HasMaxLength(100);
 
             modelBuilder.Entity<Thought>()
-                .Property(a => a.Content)
+                .Property(t => t.Content)
                 .IsRequired()
                 .HasMaxLength(2000);
 
             modelBuilder.Entity<Thought>()
-                .Property(a => a.Category)
+                .Property(t => t.Category)
                 .IsRequired()
                 .HasDefaultValue(Category.Personal);
         }
