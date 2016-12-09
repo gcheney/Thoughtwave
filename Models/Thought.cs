@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using Thoughtwave.ExtensionMethods;
 
 namespace Thoughtwave.Models
 {
@@ -16,7 +17,7 @@ namespace Thoughtwave.Models
         { 
             get 
             {
-                return Content.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None)[0];
+                return Content.Length < 400 ? Content : Content.TruncateString(400) + "...";
             }
         }
 
