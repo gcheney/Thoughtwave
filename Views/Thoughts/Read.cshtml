@@ -12,12 +12,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="well well-lg clearfix">
-                    <a target="_blank" href="/read">
-                        <h1 class="section-heading text-center">@Model.Title</h1>
-                    </a>
-                    <p class="text-muted">
-                        Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@Model.Category">@Model.Category</a>
-                    </p>
+                    <div class="text-center">
+                        <h1 class="section-heading">@Model.Title</h1>
+                        <p class="text-muted">
+                            Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@Model.Category">@Model.Category</a>
+                        </p>
+                    </div>
                     <div class="lead">
                         @Model.Content
                     </div>
