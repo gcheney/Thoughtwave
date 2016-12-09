@@ -172,94 +172,94 @@ a {
 
 /* Header Styles */
 
-    .intro-header {
-        background-color: #808080;
-        background: no-repeat center center;
-        background-attachment: scroll;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
-        -o-background-size: cover;
-        margin-bottom: 50px;
-    }
+.intro-header {
+    background-color: #808080;
+    background: no-repeat center center;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    margin-bottom: 50px;
+}
 
+.intro-header .site-heading,
+.intro-header .thought-heading,
+.intro-header .page-heading {
+    padding: 100px 0 50px;
+    color: white;
+    text-shadow: 2px 2px black;
+}
+
+@media only screen and (min-width: 768px) {
     .intro-header .site-heading,
-    .intro-header .post-heading,
+    .intro-header .thought-heading,
     .intro-header .page-heading {
-        padding: 100px 0 50px;
-        color: white;
-        text-shadow: 2px 2px black;
+        padding: 150px 0;
     }
+}
 
-    @media only screen and (min-width: 768px) {
-      .intro-header .site-heading,
-      .intro-header .post-heading,
-      .intro-header .page-heading {
-          padding: 150px 0;
-      }
-    }
+.intro-header .site-heading,
+.intro-header .page-heading {
+    text-align: center;
+}
 
-    .intro-header .site-heading,
-    .intro-header .page-heading {
-        text-align: center;
-    }
+.intro-header .site-heading h1,
+.intro-header .page-heading h1 {
+    margin-top: 0;
+    font-size: 50px;
+}
 
+.intro-header .site-heading .subtitle,
+.intro-header .page-heading .subtitle {
+    font-size: 24px;
+    line-height: 1.1;
+    display: block;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    margin: 10px 0 0;
+}
+
+@media only screen and (min-width: 768px) {
     .intro-header .site-heading h1,
     .intro-header .page-heading h1 {
-        margin-top: 0;
-        font-size: 50px;
+        font-size: 80px;
     }
+}
 
-    .intro-header .site-heading .subtitle,
-    .intro-header .page-heading .subtitle {
-        font-size: 24px;
-        line-height: 1.1;
-        display: block;
-        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 300;
-        margin: 10px 0 0;
-    }
+.thought-heading h1 {
+    font-size: 35px;
+}
 
-    @media only screen and (min-width: 768px) {
-      .intro-header .site-heading h1,
-      .intro-header .page-heading h1 {
-          font-size: 80px;
-      }
-    }
+.thought-heading .subtitle,
+.thought-heading .meta {
+    line-height: 1.1;
+    display: block;
+}
 
-    .post-heading h1 {
-        font-size: 35px;
-    }
+.thought-heading .subtitle {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    margin: 10px 0 30px;
+    font-weight: 600;
+}
 
-    .post-heading .subtitle,
-    .post-heading .meta {
-        line-height: 1.1;
-        display: block;
-    }
+.intro-header .thought-heading .meta {
+    font-family: 'Lora', 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 20px;
+    color: white;
+}
 
-    .post-heading .subtitle {
-        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 24px;
-        margin: 10px 0 30px;
-        font-weight: 600;
+@media only screen and (min-width: 768px) {
+    .intro-header .thought-heading h1 {
+        font-size: 55px;
     }
-
-    .intro-header .post-heading .meta {
-        font-family: 'Lora', 'Times New Roman', serif;
-        font-style: italic;
-        font-weight: 300;
-        font-size: 20px;
-        color: white;
+    .intro-header .thought-heading .subtitle {
+        font-size: 30px;
     }
-
-    @media only screen and (min-width: 768px) {
-      .intro-header .post-heading h1 {
-          font-size: 55px;
-      }
-      .intro-header .post-heading .subtitle {
-          font-size: 30px;
-      }
-    }
+}
 
 /* Content Section */
 
@@ -279,51 +279,68 @@ a {
     border-top: 3px solid #e7e7e7;
 }
 
+/* Thought Preview Styles */
 
-/* Post Preview Styles */
-
-.post-preview > a {
+.thought-preview > a {
     color: #404040;
 }
 
-    .post-preview > a:hover,
-    .post-preview > a:focus {
+    .thought-preview > a:hover,
+    .thought-preview > a:focus {
         text-decoration: none;
         color: #0085a1;
     }
 
-    .post-preview > a > .post-title {
+    .thought-preview > a > .thought-title {
         font-size: 30px;
         margin-top: 30px;
         margin-bottom: 10px;
     }
 
-    .post-preview > a > .post-subtitle {
+    .thought-preview > a > .thought-subtitle {
         margin: 0;
         font-weight: 300;
         margin-bottom: 10px;
     }
 
-    .post-preview > .post-meta {
+    .thought-preview > .thought-meta {
         color: #808080;
         font-size: 18px;
         font-style: italic;
         margin-top: 0;
     }
 
-    .post-preview > .post-meta > a {
+    .thought-preview > .thought-meta > a {
         text-decoration: none;
         color: #404040;
     }
 
-    .post-preview > .post-meta > a:hover,
-    .post-preview > .post-meta > a:focus {
+    .thought-preview > .thought-meta > a:hover,
+    .thought-preview > .thought-meta > a:focus {
         color: #0085a1;
         text-decoration: underline;
     }
 
+.thought-lead {
+  max-height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.thought-lead .read-more { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0;
+    width: 100%; 
+    text-align: center; 
+    margin: 0; 
+    padding: 30px 0; 
+
+    background-image: linear-gradient(to bottom, transparent, #f5f5f5);
+}
+
 @media only screen and (min-width: 768px) {
-  .post-preview > a > .post-title {
+  .thought-preview > a > .thought-title {
       font-size: 36px;
   }
 }
