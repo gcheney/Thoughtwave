@@ -18,9 +18,9 @@
                     <p class="text-muted">
                         Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@Model.Category">@Model.Category</a>
                     </p>
-                    <p class="lead">
+                    <div class="lead">
                         @Model.Content
-                    </p>
+                    </div>
                     <hr />
                 </div>
             </div>             

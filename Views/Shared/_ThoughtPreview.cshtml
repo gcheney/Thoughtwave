@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-preview">
+                <div class="thought-preview">
                     <div class="well well-lg clearfix">
                         <a target="_blank" href="/read">
                             <h1 class="section-heading text-center">@Model.Title</h1>
@@ -13,9 +13,12 @@
                         <p class="text-muted">
                             Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@Model.Category">@Model.Category</a>
                         </p>
-                        <p class="lead">
-                            @Model.Lead
-                        </p>
+                        <div class="thought-lead">
+                            <p class="lead">
+                                @Model.Lead
+                            </p>
+                            <p class="read-more"></p>
+                        </div>
                         <hr />
                         <a asp-action="Read" 
                             asp-controller="Thoughts" 
