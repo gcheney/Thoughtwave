@@ -17,14 +17,14 @@ namespace Thoughtwave.Data
             optionsBuilder.UseSqlite("Filename=./Thoughtwave.db");
         }
 
-        public DbSet<Article> Articles { get; set; }
+        public DbSet<Thought> Thoughts { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Article>().ToTable("Articles");
+            modelBuilder.Entity<Thought>().ToTable("Thoughts");
             modelBuilder.Entity<Comment>().ToTable("Comments");
 
             // User Configuration
@@ -55,7 +55,7 @@ namespace Thoughtwave.Data
 
             // Comment Configuration
             modelBuilder.Entity<Comment>()
-                .HasOne(c => c.Article)
+                .HasOne(c => c.Thought)
                 .WithMany(a => a.Comments);
 
             modelBuilder.Entity<Comment>()
@@ -73,27 +73,27 @@ namespace Thoughtwave.Data
                 .HasDefaultValue(DateTime.Now);
 
 
-            // Article Configuration
-            modelBuilder.Entity<Article>()
+            // Thought Configuration
+            modelBuilder.Entity<Thought>()
                 .HasOne(a => a.Author)
-                .WithMany(u => u.Articles);
+                .WithMany(u => u.Thoughts);
 
-            modelBuilder.Entity<Article>()
+            modelBuilder.Entity<Thought>()
                 .Property(a => a.CreatedOn)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
 
-            modelBuilder.Entity<Article>()
+            modelBuilder.Entity<Thought>()
                 .Property(a => a.Title)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            modelBuilder.Entity<Article>()
+            modelBuilder.Entity<Thought>()
                 .Property(a => a.Content)
                 .IsRequired()
                 .HasMaxLength(2000);
 
-            modelBuilder.Entity<Article>()
+            modelBuilder.Entity<Thought>()
                 .Property(a => a.Category)
                 .IsRequired()
                 .HasDefaultValue(Category.Personal);

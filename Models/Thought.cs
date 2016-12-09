@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Thoughtwave.Models
 {
-    public class Article
+    public class Thought
     {
         public int Id { get; set; }
         public string Title { get; set; }

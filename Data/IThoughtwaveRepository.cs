@@ -6,22 +6,22 @@ namespace Thoughtwave.Data
 {
     public interface IThoughtwaveRepository
     {
-        IEnumerable<Article> GetAllArticles();
-        Task<List<Article>> GetAllArticlesAsync();
+        IEnumerable<Thought> GetAllThoughts();
+        Task<List<Thought>> GetAllThoughtsAsync();
 
-        IEnumerable<Article> GetRecentArticles();
-        Task<List<Article>> GetRecentArticlesAsync();
+        IEnumerable<Thought> GetRecentThoughts();
+        Task<List<Thought>> GetRecentThoughtsAsync();
 
-        Article GetArticleById(int id);
-        Task<Article> GetArticleByIdAsync(int id);
+        Thought GetThoughtById(int id);
+        Task<Thought> GetThoughtByIdAsync(int id);
 
-        IEnumerable<Article> GetArticlesByCategory(Category category);
-        Task<List<Article>> GetArticlesByCategoryAsync(Category category);
+        IEnumerable<Thought> GetThoughtsByCategory(Category category);
+        Task<List<Thought>> GetThoughtsByCategoryAsync(Category category);
 
-        IEnumerable<Article> GetArticlesByQuery(string query);
-        Task<List<Article>> GetArticlesByQueryAsync(string query);
+        IEnumerable<Thought> GetThoughtsByQuery(string query);
+        Task<List<Thought>> GetThoughtsByQueryAsync(string query);
 
-        IEnumerable<Article> GetArticlesByQuery(string query, Category category);
-        Task<List<Article>> GetArticlesByQueryAsync(string query, Category category);
+        IEnumerable<Thought> GetThoughtsByQuery(string query, Category category);
+        Task<List<Thought>> GetThoughtsByQueryAsync(string query, Category category);
     }
 }

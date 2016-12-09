@@ -153,7 +153,7 @@ namespace Thoughtwave.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Articles",
+                name: "Thoughts",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -166,9 +166,9 @@ namespace Thoughtwave.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Articles", x => x.Id);
+                    table.PrimaryKey("PK_Thoughts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Articles_AspNetUsers_AuthorId",
+                        name: "FK_Thoughts_AspNetUsers_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -181,7 +181,7 @@ namespace Thoughtwave.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    ArticleId = table.Column<int>(nullable: true),
+                    ThoughtId = table.Column<int>(nullable: true),
                     Content = table.Column<string>(maxLength: 3000, nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 2, 19, 11, 46, 825, DateTimeKind.Local)),
                     UserId = table.Column<string>(nullable: true)
@@ -190,9 +190,9 @@ namespace Thoughtwave.Migrations
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Articles_ArticleId",
-                        column: x => x.ArticleId,
-                        principalTable: "Articles",
+                        name: "FK_Comments_Thoughts_ThoughtId",
+                        column: x => x.ThoughtId,
+                        principalTable: "Thoughts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -234,14 +234,14 @@ namespace Thoughtwave.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Articles_AuthorId",
-                table: "Articles",
+                name: "IX_Thoughts_AuthorId",
+                table: "Thoughts",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ArticleId",
+                name: "IX_Comments_ThoughtId",
                 table: "Comments",
-                column: "ArticleId");
+                column: "ThoughtId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_UserId",
@@ -284,7 +284,7 @@ namespace Thoughtwave.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Articles");
+                name: "Thoughts");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -21,7 +21,7 @@ namespace Thoughtwave.Models
             }
         }
         
-        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Thought> Thoughts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

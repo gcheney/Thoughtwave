@@ -34,22 +34,22 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
                     <li>
-                        <a asp-action="CategoryIndex" asp-controller="Articles" asp-route-categoryId="Technology">Tech</a>
+                        <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="Technology">Tech</a>
                     </li>
                     <li>
-                        <a asp-action="CategoryIndex" asp-controller="Articles" asp-route-categoryId="Politics">Politics</a>
+                        <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="Politics">Politics</a>
                     </li>
                     <li>
-                        <a asp-action="CategoryIndex" asp-controller="Articles" asp-route-categoryId="World">World</a>
+                        <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="World">World</a>
                     </li>
                     <li>
-                        <a asp-action="CategoryIndex" asp-controller="Articles" asp-route-categoryId="Film">Film</a>
+                        <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="Film">Film</a>
                     </li>
                     <li>
-                        <a asp-action="CategoryIndex" asp-controller="Articles" asp-route-categoryId="Music">Music</a>
+                        <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="Music">Music</a>
                     </li>
                     <li>
-                        <a asp-action="CategoryIndex" asp-controller="Articles" asp-route-categoryId="Personal">Personal</a>
+                        <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="Personal">Personal</a>
                     </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -63,7 +63,7 @@
         <!-- navbar-search -->
         <div id="search">
             <button type="button" class="close">×</button>
-            <form asp-controller="Articles" asp-action="Search" method="GET">
+            <form asp-controller="Thoughts" asp-action="Search" method="GET">
                 <input type="search" name="q" value="" placeholder="Search by Title, Author, or Keyword" />
                 <button type="submit" class="btn btn-primary">Search <i class="fa fa-search" aria-hidden="true"></i></button>
             </form>

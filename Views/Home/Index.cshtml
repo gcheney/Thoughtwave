@@ -1,4 +1,4 @@
-@model IEnumerable<Article>
+@model IEnumerable<Thought>
 
 @{
     ViewData["Title"] = "Home";
@@ -33,14 +33,14 @@
 <hr class="large"/>
 
 <div class="text-center">
-    <h1>Latest Articles</h1>
+    <h1>Latest Thoughts</h1>
     <hr class="large"/>
 
     <h3 class="text-center">@ViewBag.Message</h3>
 </div>
 
-@foreach (var article in Model)
+@foreach (var thought in Model)
 {
-    @await Html.PartialAsync("_ArticlePreview", article)
+    @await Html.PartialAsync("_ThoughtPreview", thought)
 }
 

@@ -25,16 +25,19 @@ namespace Thoughtwave.Data
                 .GetRequiredService<UserManager<User>>();
 
             // seed user data
-            var user1 = await SeedUserDataAsync(userManager, "genericuser1", "genericuser1@email.com", "Pa$$word1");
-            var user2 = await SeedUserDataAsync(userManager, "genericuser2", "genericuser2@email.com", "Pa$$word2");
-            var user3 = await SeedUserDataAsync(userManager, "genericuser3", "genericuser3@email.com", "Pa$$word3");
+            var user1 = await SeedUserDataAsync(userManager, 
+                "genericuser1", "genericuser1@email.com", "Pa$$word1");
+            var user2 = await SeedUserDataAsync(userManager, 
+                "genericuser2", "genericuser2@email.com", "Pa$$word2");
+            var user3 = await SeedUserDataAsync(userManager, 
+                "genericuser3", "genericuser3@email.com", "Pa$$word3");
 
             // Seed other data
-            if (!context.Articles.Any())
+            if (!context.Thoughts.Any())
             {
-                var Articles = new List<Article>()
+                var Thoughts = new List<Thought>()
                 {
-                    new Article()
+                    new Thought()
                     {
                         Title = "How Can I Live Better",
                         Content = "Forage gochujang vape, mustache tumeric church-key master cleanse salvia godard hella hoodie everyday carry freegan. Sustainable forage aesthetic, neutra scenester lyft bespoke roof party taxidermy next level meggings coloring book. Jean shorts keffiyeh tacos migas normcore scenester.\n Fashion axe williamsburg lo-fi flexitarian unicorn ennui edison bulb.Forage gochujang vape, mustache tumeric church-key master cleanse salvia godard hella hoodie everyday carry freegan. Sustainable forage aesthetic, neutra scenester lyft bespoke roof party taxidermy next level meggings coloring book. Jean shorts keffiyeh tacos migas normcore scenester. Fashion axe williamsburg lo-fi flexitarian unicorn ennui edison bulb.",
@@ -54,7 +57,7 @@ namespace Thoughtwave.Data
                             }
                         }
                     },
-                    new Article()
+                    new Thought()
                     {
                         Title = "What is the Comment..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke.\n Brunch master cleanse ugh craft beer mlkshk knausgaard.",
@@ -74,7 +77,7 @@ namespace Thoughtwave.Data
                             }
                         }
                     },
-                    new Article()
+                    new Thought()
                     {
                         Title = "What is the Comment part 2..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice.\n Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
@@ -94,7 +97,7 @@ namespace Thoughtwave.Data
                             }
                         }
                     },
-                    new Article()
+                    new Thought()
                     {
                         Title = "What is the Comment part 3..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard. Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice.\n Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's. Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
@@ -114,7 +117,7 @@ namespace Thoughtwave.Data
                             }
                         }
                     },
-                    new Article()
+                    new Thought()
                     {
                         Title = "What is the Comment part 4..",
                         Content = "Vice cliche 8-bit, waistcoat tbh beard four dollar toast XOXO paleo vinyl disrupt. Stumptown YOLO celiac mlkshk, glossier hexagon schlitz four dollar toast fixie hot chicken yuccie green juice. Try-hard artisan jianbing intelligentsia trust fund gentrify prism. Typewriter hell of gochujang, brunch post-ironic DIY kogi locavore marfa prism 90's.\n Succulents lomo deep v, tousled whatever humblebrag bicycle rights before they sold out wayfarers skateboard selfies green juice. Photo booth cray schlitz copper mug, sartorial keffiyeh selfies letterpress offal distillery af woke. Brunch master cleanse ugh craft beer mlkshk knausgaard.",
@@ -134,7 +137,7 @@ namespace Thoughtwave.Data
                             }
                         }
                     },
-                    new Article()
+                    new Thought()
                     {
                         Title = "What is the Comment part 5..",
                         Content = "Stumptown iceland lumbersexual vexillologist put a bird on it. Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac.",
@@ -155,10 +158,10 @@ namespace Thoughtwave.Data
                     }
                 };
 
-                foreach (Article Article in Articles)
+                foreach (Thought Thought in Thoughts)
                 {
-                    context.Articles.Add(Article);
-                    context.Comments.AddRange(Article.Comments);
+                    context.Thoughts.Add(Thought);
+                    context.Comments.AddRange(Thought.Comments);
                 }
 
                 await context.SaveChangesAsync();

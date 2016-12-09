@@ -10,12 +10,12 @@ using Thoughtwave.ExtensionMethods;
 
 namespace Thoughtwave.Controllers
 {
-    public class ArticlesController : Controller
+    public class ThoughtsController : Controller
     {
         private IThoughtwaveRepository _repository;
-        private ILogger<ArticlesController> _logger;
+        private ILogger<ThoughtsController> _logger;
 
-        public ArticlesController(IThoughtwaveRepository repository, ILogger<ArticlesController> logger)
+        public ThoughtsController(IThoughtwaveRepository repository, ILogger<ThoughtsController> logger)
         {
             _repository = repository;
             _logger = logger;
@@ -25,35 +25,35 @@ namespace Thoughtwave.Controllers
         [Route("/all")]
         public async Task<IActionResult> Index()
         {
-            var articles = await _repository.GetAllArticlesAsync();
+            var thoughts = await _repository.GetAllThoughtsAsync();
             ViewBag.Content = "All Thoughts";
 
-            if (articles == null)
+            if (thoughts == null)
             {
-                _logger.LogError("Unable to retrieve all articles from repository");
+                _logger.LogError("Unable to retrieve all thoughts from repository");
                 return RedirectToAction("Index");
             }
-            else if (!articles.Any())
+            else if (!thoughts.Any())
             {
-                ViewBag.Message = "No articles found";
+                ViewBag.Message = "No thoughts found";
             }
 
-            return View(articles);
+            return View(thoughts);
         }
 
         [HttpGet]
         [Route("{categoryId}/{id}/{slug}")]
         public async Task<IActionResult> Read(int id)
         {
-            var article = await _repository.GetArticleByIdAsync(id);
+            var thought = await _repository.GetThoughtByIdAsync(id);
 
-            if (article == null)
+            if (thought == null)
             {
-                _logger.LogError($"Unable to retrieve article with id {id} from repository");
+                _logger.LogError($"Unable to retrieve thought with id {id} from repository");
                 return RedirectToAction("Index");
             }
             
-            return View(article);
+            return View(thought);
         }
         
         [HttpGet]
@@ -63,20 +63,20 @@ namespace Thoughtwave.Controllers
             Category category = GetCategoryFromString(categoryId);
             if (category != Category.None) 
             {
-                var articles = await _repository.GetArticlesByCategoryAsync(category);
+                var thoughts = await _repository.GetThoughtsByCategoryAsync(category);
 
-                if (articles == null)
+                if (thoughts == null)
                 {
-                    _logger.LogError("Unable to retrieve articles for category {categoryId}");
+                    _logger.LogError("Unable to retrieve thoughts for category {categoryId}");
                     return RedirectToAction("Index");
                 }
-                else if (!articles.Any())
+                else if (!thoughts.Any())
                 {
-                    ViewBag.Message = "No articles found for this Search";
+                    ViewBag.Message = "No thoughts found for this search";
                 }
 
                 ViewBag.Content = "Thoughts on " + category.ToString();
-                return View("Index", articles);
+                return View("Index", thoughts);
             }
             else
             {
@@ -89,30 +89,30 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> Search(string q, string c = "All")
         {
             Category categroy = GetCategoryFromString(c);
-            IEnumerable<Article> articles = null;
+            IEnumerable<Thought> thoughts = null;
 
             if (categroy != Category.None) 
             {
-                articles = await _repository.GetArticlesByQueryAsync(q, categroy);
+                thoughts = await _repository.GetThoughtsByQueryAsync(q, categroy);
                 ViewBag.Content = "Search Results in " + categroy.ToString();
             }
             else 
             {
-                articles = await _repository.GetArticlesByQueryAsync(q);
+                thoughts = await _repository.GetThoughtsByQueryAsync(q);
                 ViewBag.Content = "Search Results";
             }
 
-            if (articles == null)
+            if (thoughts == null)
             {
-                _logger.LogError("Unable to retrieve articles from repository");
+                _logger.LogError("Unable to retrieve thoughts from repository");
                 return RedirectToAction("Index");
             }
-            else if (!articles.Any())
+            else if (!thoughts.Any())
             {
-                ViewBag.Message = "No articles found for this Search";
+                ViewBag.Message = "No thoughts found for this search";
             }
 
-            return View("Index", articles);
+            return View("Index", thoughts);
         }
 
         

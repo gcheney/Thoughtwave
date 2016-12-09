@@ -1,4 +1,4 @@
-@model IEnumerable<Article>
+@model IEnumerable<Thought>
 
 @{
     ViewData["Title"] = ViewBag.Content;
@@ -16,8 +16,8 @@
     <h3 class="text-muted">@ViewBag.Message</h3>
 </div>
 
-@foreach (var article in Model)
+@foreach (var thought in Model)
 {
-    @await Html.PartialAsync("_ArticlePreview", article)
+    @await Html.PartialAsync("_ThoughtPreview", thought)
 }
 

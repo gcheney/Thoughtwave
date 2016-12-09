@@ -20,17 +20,17 @@ namespace Thoughtwave.Data
 
         /* GET ALL ARTICLES */
 
-        public IEnumerable<Article> GetAllArticles()
+        public IEnumerable<Thought> GetAllThoughts()
         {
-            return _context.Articles
+            return _context.Thoughts
                 .Include(a => a.Author)
                 .OrderByDescending(q => q.CreatedOn)
                 .ToList();
         }
 
-        public async Task<List<Article>> GetAllArticlesAsync()
+        public async Task<List<Thought>> GetAllThoughtsAsync()
         {
-            return await _context.Articles
+            return await _context.Thoughts
                 .Include(a => a.Author)
                 .OrderByDescending(a => a.CreatedOn)
                 .ToListAsync();
@@ -38,18 +38,18 @@ namespace Thoughtwave.Data
 
         /* GET RECENET ARTICLES */
 
-        public IEnumerable<Article> GetRecentArticles()
+        public IEnumerable<Thought> GetRecentThoughts()
         {
-            return _context.Articles
+            return _context.Thoughts
                 .Include(a => a.Author)
                 .OrderByDescending(q => q.CreatedOn)
                 .Take(3)
                 .ToList();
         }
 
-        public async Task<List<Article>> GetRecentArticlesAsync()
+        public async Task<List<Thought>> GetRecentThoughtsAsync()
         {
-            return await _context.Articles
+            return await _context.Thoughts
                 .Include(a => a.Author)
                 .OrderByDescending(a => a.CreatedOn)
                 .Take(3)
@@ -59,9 +59,9 @@ namespace Thoughtwave.Data
 
         /* GET ARTICLE BY ID */
 
-        public Article GetArticleById(int id)
+        public Thought GetThoughtById(int id)
         {
-            return _context.Articles
+            return _context.Thoughts
                 .Where(a => a.Id == id)
                 .Include(a => a.Author)
                 .Include(a => a.Comments)
@@ -69,9 +69,9 @@ namespace Thoughtwave.Data
                 .FirstOrDefault();
         }
 
-        public async Task<Article> GetArticleByIdAsync(int id)
+        public async Task<Thought> GetThoughtByIdAsync(int id)
         {
-            return await _context.Articles
+            return await _context.Thoughts
                 .Where(a => a.Id == id)
                 .Include(a => a.Author)
                 .Include(a => a.Comments)
@@ -82,17 +82,17 @@ namespace Thoughtwave.Data
 
         /* GET ARTICLE BY CATEGORY */
 
-        public IEnumerable<Article> GetArticlesByCategory(Category category)
+        public IEnumerable<Thought> GetThoughtsByCategory(Category category)
         {
-            return _context.Articles
+            return _context.Thoughts
                 .Where(a => a.Category == category)
                 .Include(a => a.Author)
                 .ToList();
         }
 
-        public async Task<List<Article>> GetArticlesByCategoryAsync(Category category)
+        public async Task<List<Thought>> GetThoughtsByCategoryAsync(Category category)
         {
-            return await _context.Articles
+            return await _context.Thoughts
                 .Where(a => a.Category == category)
                 .Include(a => a.Author)
                 .ToListAsync();
@@ -101,9 +101,9 @@ namespace Thoughtwave.Data
 
         /* GET ARTICLES BY QUERY */
 
-        public IEnumerable<Article> GetArticlesByQuery(string query)
+        public IEnumerable<Thought> GetThoughtsByQuery(string query)
         {
-            return _context.Articles
+            return _context.Thoughts
                 .Where(a => a.Title.Contains(query)
                     || a.Author.FullName.Contains(query)
                     || a.Author.UserName.Contains(query)
@@ -112,9 +112,9 @@ namespace Thoughtwave.Data
                 .ToList();
         }
 
-        public async Task<List<Article>> GetArticlesByQueryAsync(string query)
+        public async Task<List<Thought>> GetThoughtsByQueryAsync(string query)
         {
-            return await _context.Articles
+            return await _context.Thoughts
                 .Where(a => a.Title.Contains(query)
                     || a.Author.FullName.Contains(query)
                     || a.Author.UserName.Contains(query)
@@ -123,25 +123,23 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
-        public IEnumerable<Article> GetArticlesByQuery(string query, Category category)
+        public IEnumerable<Thought> GetThoughtsByQuery(string query, Category category)
         {
-            return _context.Articles
+            return _context.Thoughts
                 .Where(a => a.Category == category)
                 .Where(a => a.Title.Contains(query)
                     || a.Author.FullName.Contains(query)
-                    || a.Author.UserName.Contains(query)
                     || a.Content.Contains(query))
                 .Include(a => a.Author)
                 .ToList();
         }
 
-        public async Task<List<Article>> GetArticlesByQueryAsync(string query, Category category)
+        public async Task<List<Thought>> GetThoughtsByQueryAsync(string query, Category category)
         {
-            return await _context.Articles
+            return await _context.Thoughts
                 .Where(a => a.Category == category)
                 .Where(a => a.Title.Contains(query)
                     || a.Author.FullName.Contains(query)
-                    || a.Author.UserName.Contains(query)
                     || a.Content.Contains(query))
                 .Include(a => a.Author)
                 .ToListAsync();

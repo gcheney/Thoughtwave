@@ -122,7 +122,7 @@ namespace Thoughtwave.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Thoughtwave.Models.Article", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Thought", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -149,7 +149,7 @@ namespace Thoughtwave.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Thoughts");
                 });
 
             modelBuilder.Entity("Thoughtwave.Models.Comment", b =>
@@ -157,7 +157,7 @@ namespace Thoughtwave.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ArticleId");
+                    b.Property<int?>("ThoughtId");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -171,7 +171,7 @@ namespace Thoughtwave.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
+                    b.HasIndex("ThoughtId");
 
                     b.HasIndex("UserId");
 
@@ -288,18 +288,18 @@ namespace Thoughtwave.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Thoughtwave.Models.Article", b =>
+            modelBuilder.Entity("Thoughtwave.Models.Thought", b =>
                 {
                     b.HasOne("Thoughtwave.Models.User", "Author")
-                        .WithMany("Articles")
+                        .WithMany("Thoughts")
                         .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("Thoughtwave.Models.Comment", b =>
                 {
-                    b.HasOne("Thoughtwave.Models.Article", "Article")
+                    b.HasOne("Thoughtwave.Models.Thought", "Thought")
                         .WithMany("Comments")
-                        .HasForeignKey("ArticleId");
+                        .HasForeignKey("ThoughtId");
 
                     b.HasOne("Thoughtwave.Models.User", "User")
                         .WithMany("Comments")

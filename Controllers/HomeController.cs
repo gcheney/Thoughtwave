@@ -24,14 +24,14 @@ namespace Thoughtwave.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var articles = await _repository.GetRecentArticlesAsync();
+            var thoughts = await _repository.GetRecentThoughtsAsync();
 
-            if (articles == null || articles.Count == 0)
+            if (thoughts == null || thoughts.Count == 0)
             {
-                ViewBag.Message = "No recent articles are available";
+                ViewBag.Message = "No recent thoughts are available";
             }
             
-            return View(articles);
+            return View(thoughts);
         }
 
         public IActionResult Error()

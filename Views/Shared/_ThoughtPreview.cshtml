@@ -1,4 +1,4 @@
-@model Article
+@model Thought
 
 <div class="content-section">
     <div class="container">
@@ -11,14 +11,14 @@
                         </a>
                         <img alt="User Image" src="@Model.Author.Avatar" class="pull-left user-img img-circle">
                         <p class="text-muted">
-                            Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Articles" asp-route-categoryId="@Model.Category">@Model.Category</a>
+                            Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@Model.Category">@Model.Category</a>
                         </p>
                         <p class="lead">
                             @Model.Lead
                         </p>
                         <hr />
                         <a asp-action="Read" 
-                            asp-controller="Articles" 
+                            asp-controller="Thoughts" 
                             asp-route-id="@Model.Id" 
                             asp-route-categoryId="@Model.Category.ToString().ToLower()" 
                             asp-route-slug="@Model.Slug" class="btn pull-right">
