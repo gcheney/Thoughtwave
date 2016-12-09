@@ -52,20 +52,19 @@ namespace Thoughtwave.Controllers
         
         [HttpGet]
         [Route("/{categoryId}")]
-        public async Task<IActionResult> Category(string categoryId)
+        public async Task<IActionResult> CategoryIndex(string categoryId)
         {
-            Category articleCategory;
-            if (Enum.TryParse(categoryId.Capitalize(), true, out articleCategory) 
-                && Enum.IsDefined(typeof(Category), articleCategory)) 
+            Category category = GetCategoryFromString(categoryId);
+            if (category != Category.None) 
             {
-                var articles = await _repository.GetArticlesByCategoryAsync(articleCategory);
+                var articles = await _repository.GetArticlesByCategoryAsync(category);
 
                 if (articles == null || !articles.Any())
                 {
                     ViewBag.Message = "No articles found for this category";
                 }
 
-                ViewBag.Content = "Thoughts on " + articleCategory.ToString();
+                ViewBag.Content = "Thoughts on " + category.ToString();
                 return View("Index", articles);
             }
             else
@@ -76,29 +75,40 @@ namespace Thoughtwave.Controllers
 
         [HttpGet]
         [Route("/search")]
-        public async Task<IActionResult> Search(string q, string category = "All")
+        public async Task<IActionResult> Search(string q, string c = "All")
         {
-            Category articleCategory;
-            IEnumerable<Article> articles;
+            Category categroy = GetCategoryFromString(c);
+            IEnumerable<Article> articles = null;
 
-            if (Enum.TryParse(category, true, out articleCategory) 
-                && Enum.IsDefined(typeof(Category), articleCategory)) 
+            if (categroy != Category.None) 
             {
-                articles = await _repository.GetArticlesByQueryAsync(q, articleCategory);
-                ViewBag.Content = "Search Results in " + articleCategory.ToString();
-            }
-            else 
-            {
-                articles = await _repository.GetArticlesByQueryAsync(q);
-                ViewBag.Content = "Search Results";
+                articles = await _repository.GetArticlesByQueryAsync(q, categroy);
+                ViewBag.Content = "Search Results in " + categroy.ToString();
             }
 
             if (articles == null || !articles.Any())
             {
+                ViewBag.Content = "Search Results";
                 ViewBag.Message = "No articles found for this Search";
             }
 
             return View("Index", articles);
+        }
+
+        
+        private Category GetCategoryFromString(string categoryStr)
+        {
+            Category category;
+
+            if (Enum.TryParse(categoryStr.Capitalize(), true, out category) 
+                && Enum.IsDefined(typeof(Category), category)) 
+            {
+                return category;
+            }
+            else 
+            {
+                return Category.None;
+            }
         }
     }
 }
