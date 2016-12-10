@@ -15,7 +15,8 @@ namespace Thoughtwave.Controllers
         private IThoughtwaveRepository _repository;
         private ILogger<ThoughtsController> _logger;
 
-        public ThoughtsController(IThoughtwaveRepository repository, ILogger<ThoughtsController> logger)
+        public ThoughtsController(IThoughtwaveRepository repository, 
+            ILogger<ThoughtsController> logger)
         {
             _repository = repository;
             _logger = logger;
@@ -33,7 +34,8 @@ namespace Thoughtwave.Controllers
                 _logger.LogError("Unable to retrieve all thoughts from repository");
                 return RedirectToAction("Index");
             }
-            else if (!thoughts.Any())
+            
+            if (!thoughts.Any())
             {
                 ViewBag.Message = "No thoughts found";
             }
@@ -70,7 +72,8 @@ namespace Thoughtwave.Controllers
                     _logger.LogError("Unable to retrieve thoughts for category {categoryId}");
                     return RedirectToAction("Index");
                 }
-                else if (!thoughts.Any())
+                
+                if (!thoughts.Any())
                 {
                     ViewBag.Message = "No thoughts found for this search";
                 }
@@ -107,7 +110,8 @@ namespace Thoughtwave.Controllers
                 _logger.LogError("Unable to retrieve thoughts from repository");
                 return RedirectToAction("Index");
             }
-            else if (!thoughts.Any())
+
+            if (!thoughts.Any())
             {
                 ViewBag.Message = "No thoughts found for this search";
             }

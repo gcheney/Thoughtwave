@@ -26,9 +26,15 @@ namespace Thoughtwave.Controllers
         {
             var thoughts = await _repository.GetRecentThoughtsAsync();
 
-            if (thoughts == null || thoughts.Count == 0)
+            if (thoughts == null)
             {
-                ViewBag.Message = "No recent thoughts are available";
+                _logger.LogError("Unable to retrieve recent thoughts from repository");
+                thoughts = new List<Thought>();
+            }
+            
+            if (!thoughts.Any())
+            {
+                ViewBag.Message = "No recent thoughts found";
             }
             
             return View(thoughts);
