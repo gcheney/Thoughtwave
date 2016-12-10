@@ -1,0 +1,19 @@
+@model User
+
+<!-- Author details/bio -->
+<div class="well well-lg clearfix">
+    <div class="text-center">
+        <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.UserName">
+            <img alt="User Image" src="@Model.Avatar" class="img-circle bio-img">
+        </a>
+        <h2>
+            @Model.FullName <span class="text-muted small">(@@@Model.UserName)</span>
+        </h2>
+        <h4>
+            Memeber since @Model.SignUpDate.ToString("MM/dd/yyyy")
+        </h4>
+        <p>
+            @Model.Bio
+        </p>
+    </div>
+</div>
