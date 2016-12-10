@@ -20,23 +20,7 @@
     <div class="container">
         <div class="row">  
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <!-- Author details/bio -->
-                <div class="well well-lg clearfix">
-                    <div class="text-center">
-                        <a href="#">
-                            <img alt="User Image" src="@user.Avatar" class="img-circle bio-img">
-                        </a>
-                        <h2>
-                            About @user.FullName <span class="text-muted small">(@@@user.UserName)</span>
-                        </h2>
-                        <h4>
-                            Memeber since @user.SignUpDate.ToString("MM/dd/yyyy")
-                        </h4>
-                        <p>
-                            @user.Bio
-                        </p>
-                    </div>
-                </div>
+                @await Html.PartialAsync("_UserPartial", user)
             </div>
         </div>
     </div>
