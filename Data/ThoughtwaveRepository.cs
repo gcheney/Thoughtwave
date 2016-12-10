@@ -18,7 +18,7 @@ namespace Thoughtwave.Data
             _context = context;
         }
 
-        /* GET ALL ARTICLES */
+        /* GET ALL THOUGHTS */
 
         public IEnumerable<Thought> GetAllThoughts()
         {
@@ -36,7 +36,7 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
-        /* GET RECENET ARTICLES */
+        /* GET RECENET THOUGHTS */
 
         public IEnumerable<Thought> GetRecentThoughts()
         {
@@ -57,7 +57,7 @@ namespace Thoughtwave.Data
         }
 
 
-        /* GET ARTICLE BY ID */
+        /* GET THOUGHTS BY ID */
 
         public Thought GetThoughtById(int id)
         {
@@ -80,7 +80,7 @@ namespace Thoughtwave.Data
         }
 
 
-        /* GET ARTICLE BY CATEGORY */
+        /* GET THOUGHTs BY CATEGORY */
 
         public IEnumerable<Thought> GetThoughtsByCategory(Category category)
         {
@@ -99,7 +99,7 @@ namespace Thoughtwave.Data
         }
 
 
-        /* GET ARTICLES BY QUERY */
+        /* GET THOUGHTS BY QUERY */
 
         public IEnumerable<Thought> GetThoughtsByQuery(string query)
         {
@@ -123,6 +123,8 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
+         /* GET THOGUHTS BY QUERY AND CATEGORY */
+
         public IEnumerable<Thought> GetThoughtsByQuery(string query, Category category)
         {
             return _context.Thoughts
@@ -144,6 +146,23 @@ namespace Thoughtwave.Data
                     || t.Author.UserName.Contains(query)
                     || t.Content.Contains(query))
                 .Include(t => t.Author)
+                .ToListAsync();
+        }
+
+
+        /* GET ALL USERS */
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _context.Users
+                .OrderByDescending(u => u.SignUpDate)
+                .ToList();
+        }
+
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _context.Users
+                .OrderByDescending(u => u.SignUpDate)
                 .ToListAsync();
         }
     }

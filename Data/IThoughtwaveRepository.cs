@@ -23,5 +23,8 @@ namespace Thoughtwave.Data
 
         IEnumerable<Thought> GetThoughtsByQuery(string query, Category category);
         Task<List<Thought>> GetThoughtsByQueryAsync(string query, Category category);
+
+        IEnumerable<User> GetAllUsers();
+        Task<List<User>> GetAllUsersAsync();
     }
 }
