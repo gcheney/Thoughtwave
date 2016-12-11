@@ -1,10 +1,8 @@
 $(document).ready(function() {
 
     // Navigation script to Show Header on Scroll-Up
-    var MQL = 1170;
-
     //primary navigation slide-in effect
-    if ($(window).width() > MQL) {
+    if ($(window).width() > 1170) {
         var headerHeight = $('.navbar-custom').height();
         $(window).on('scroll', {
                 previousTop: 0
@@ -31,14 +29,14 @@ $(document).ready(function() {
     }
 
     // navbar search form 
-    $('a[href="#search"]').on('click', function(event) {
-        event.preventDefault();
+    $('a[href="#search"]').on('click', function(e) {
+        e.preventDefault();
         $('#search').addClass('open');
         $('#search > form > input[type="search"]').focus();
     });
     
-    $('#search, #search button.close').on('click keyup', function(event) {
-        if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+    $('#search, #search button.close').on('click keyup', function(e) {
+        if (e.target == this || e.target.className == 'close' || e.keyCode == 27) {
             $(this).removeClass('open');
         }
     });
