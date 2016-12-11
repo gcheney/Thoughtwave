@@ -64,7 +64,12 @@
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <a href="#">@comment.User.FullName</a> <small>@comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</small>
+                            <a asp-action="Details" asp-controller="Users" asp-route-username="@comment.User.UserName">
+                                @comment.User.FullName
+                            </a> 
+                            <small>
+                                @comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
+                            </small>
                         </h4>
                         <div class="comment-content">
                             @comment.Content
