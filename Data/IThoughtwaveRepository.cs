@@ -26,5 +26,8 @@ namespace Thoughtwave.Data
 
         IEnumerable<User> GetAllUsers();
         Task<List<User>> GetAllUsersAsync();
+
+        User GetUserByUserName(string username);
+        Task<User> GetUserByUserNameAsync(string username);
     }
 }

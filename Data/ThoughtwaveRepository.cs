@@ -165,5 +165,27 @@ namespace Thoughtwave.Data
                 .OrderByDescending(u => u.SignUpDate)
                 .ToListAsync();
         }
+
+        /* GET USER BY USERNAME */
+
+        public User GetUserByUserName(string username)
+        {
+            return _context.Users   
+                .Where(u => u.UserName == username)
+                .Include(u => u.Thoughts)
+                .Include(u => u.Comments)
+                    .ThenInclude(c => c.Thought)
+                .FirstOrDefault();
+        }
+
+        public async Task<User> GetUserByUserNameAsync(string username)
+        {
+            return await _context.Users   
+                .Where(u => u.UserName == username)
+                .Include(u => u.Thoughts)
+                .Include(u => u.Comments)
+                    .ThenInclude(c => c.Thought)
+                .FirstOrDefaultAsync();
+        }
     }
 }
