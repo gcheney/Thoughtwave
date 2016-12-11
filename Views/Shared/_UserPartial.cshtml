@@ -7,7 +7,10 @@
             <img alt="User Image" src="@Model.Avatar" class="img-circle bio-img">
         </a>
         <h2>
-            @Model.FullName <span class="text-muted small">(@@@Model.UserName)</span>
+            <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.UserName">
+                @Model.FullName
+            </a> 
+            <span class="text-muted small">(@@@Model.UserName)</span>
         </h2>
         <h4>
             Memeber since @Model.SignUpDate.ToString("MM/dd/yyyy")

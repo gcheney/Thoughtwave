@@ -15,9 +15,18 @@
                                     @Model.Title
                             </a>
                         </h1>
-                        <img alt="User Image" src="@Model.Author.Avatar" class="pull-left user-img img-circle">
+                        <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.Author.UserName">
+                            <img alt="User Image" src="@Model.Author.Avatar" class="pull-left user-img img-circle">
+                        </a>
                         <p class="text-muted">
-                            Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@Model.Category">@Model.Category</a>
+                            Posted by 
+                            <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.Author.UserName">
+                                @Model.Author.FullName
+                            </a> 
+                            on @Model.CreatedOn.ToString("MM/dd/yyyy") in 
+                            <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@Model.Category">
+                                @Model.Category
+                            </a>
                         </p>
                         <div class="thought-lead">
                             <p class="lead">
