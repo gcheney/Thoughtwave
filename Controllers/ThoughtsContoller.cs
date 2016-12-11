@@ -62,6 +62,12 @@ namespace Thoughtwave.Controllers
         [Route("/{categoryId}")]
         public async Task<IActionResult> CategoryIndex(string categoryId)
         {
+            if (categoryId == null)
+            {
+                _logger.LogError("Invalid category provided");
+                return RedirectToAction("Index");
+            }
+            
             Category category = GetCategoryFromString(categoryId);
             if (category != Category.None) 
             {
