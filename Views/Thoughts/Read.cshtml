@@ -15,7 +15,18 @@
                     <div class="text-center">
                         <h1 class="section-heading">@Model.Title</h1>
                         <p class="text-muted">
-                            Posted by <a href="#">@Model.Author.FullName</a> on @Model.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@Model.Category">@Model.Category</a>
+                            Posted by 
+                            <a asp-action="Details" 
+                                asp-controller="Users" 
+                                asp-route-username="@Model.Author.UserName">
+                                    @Model.Author.FullName
+                            </a> 
+                            on @Model.CreatedOn.ToString("MM/dd/yyyy") in 
+                            <a asp-action="CategoryIndex" 
+                                asp-controller="Thoughts" 
+                                asp-route-categoryId="@Model.Category">
+                                    @Model.Category
+                            </a>
                         </p>
                     </div>
                     <div class="lead">
@@ -59,13 +70,15 @@
             @foreach (var comment in @Model.Comments)
             {
                 <div class="media">
-                    <a class="pull-left" href="#">
+                    <a asp-action="Details" asp-controller="Users" asp-route-username="@comment.User.UserName" class="pull-left">
                         <img class="media-object img-responsive user-img" src="@comment.User.Avatar" alt="User Image">
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <a asp-action="Details" asp-controller="Users" asp-route-username="@comment.User.UserName">
-                                @comment.User.FullName
+                            <a asp-action="Details" 
+                                asp-controller="Users" 
+                                asp-route-username="@comment.User.UserName">
+                                    @comment.User.FullName
                             </a> 
                             <small>
                                 @comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
