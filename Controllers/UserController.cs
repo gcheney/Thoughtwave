@@ -42,5 +42,26 @@ namespace Thoughtwave.Controllers
             
             return View(users);
         }
+
+        [HttpGet]
+        [Route("/users/{username}")]
+        public async Task<IActionResult> Details(string username)
+        {
+            if (username == null)
+            {
+                _logger.LogError("Invalid username provided");
+                return RedirectToAction("Index");
+            }
+
+            var user = await _repository.GetUserByUserNameAsync(username);
+
+            if (user == null)
+            {
+                _logger.LogError($"No user found for username {username}");
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
+        }
     }
 }
