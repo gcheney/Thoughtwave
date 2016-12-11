@@ -103,22 +103,26 @@ namespace Thoughtwave.Data
 
         public IEnumerable<Thought> GetThoughtsByQuery(string query)
         {
+            query = query.ToLower();
+
             return _context.Thoughts
-                .Where(t => t.Title.Contains(query)
-                    || t.Author.FullName.Contains(query)
-                    || t.Author.UserName.Contains(query)
-                    || t.Content.Contains(query))
+                .Where(t => t.Title.ToLower().Contains(query)
+                    || t.Author.FullName.ToLower().Contains(query)
+                    || t.Author.UserName.ToLower().Contains(query)
+                    || t.Content.ToLower().Contains(query))
                 .Include(t => t.Author)
                 .ToList();
         }
 
         public async Task<List<Thought>> GetThoughtsByQueryAsync(string query)
         {
+            query = query.ToLower();
+
             return await _context.Thoughts
-                .Where(t => t.Title.Contains(query)
-                    || t.Author.FullName.Contains(query)
-                    || t.Author.UserName.Contains(query)
-                    || t.Content.Contains(query))
+                .Where(t => t.Title.ToLower().Contains(query)
+                    || t.Author.FullName.ToLower().Contains(query)
+                    || t.Author.UserName.ToLower().Contains(query)
+                    || t.Content.ToLower().Contains(query))
                 .Include(t => t.Author)
                 .ToListAsync();
         }
@@ -127,24 +131,28 @@ namespace Thoughtwave.Data
 
         public IEnumerable<Thought> GetThoughtsByQuery(string query, Category category)
         {
+            query = query.ToLower();
+
             return _context.Thoughts
                 .Where(t => t.Category == category)
-                .Where(t => t.Title.Contains(query)
-                    || t.Author.FullName.Contains(query)
-                    || t.Author.UserName.Contains(query)
-                    || t.Content.Contains(query))
+                .Where(t => t.Title.ToLower().Contains(query)
+                    || t.Author.FullName.ToLower().Contains(query)
+                    || t.Author.UserName.ToLower().Contains(query)
+                    || t.Content.ToLower().Contains(query))
                 .Include(t => t.Author)
                 .ToList();
         }
 
         public async Task<List<Thought>> GetThoughtsByQueryAsync(string query, Category category)
         {
+            query = query.ToLower();
+
             return await _context.Thoughts
                 .Where(t => t.Category == category)
-                .Where(t => t.Title.Contains(query)
-                    || t.Author.FullName.Contains(query)
-                    || t.Author.UserName.Contains(query)
-                    || t.Content.Contains(query))
+                .Where(t => t.Title.ToLower().Contains(query)
+                    || t.Author.FullName.ToLower().Contains(query)
+                    || t.Author.UserName.ToLower().Contains(query)
+                    || t.Content.ToLower().Contains(query))
                 .Include(t => t.Author)
                 .ToListAsync();
         }
