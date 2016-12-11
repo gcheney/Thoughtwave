@@ -1,0 +1,63 @@
+@model User
+
+@{
+    ViewData["Title"] = Model.UserName;
+}
+
+@await Html.PartialAsync("_PageHeader")
+
+<!-- Page Content -->
+@await Html.PartialAsync("_UserPartial", Model)
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h1 class="text-center">Their Thoughts</h1>
+            @foreach (var thought in Model.Thoughts)
+            {
+                <div class="thought-preview">
+                    <div class="well well-lg clearfix">
+                        <h1 class="section-heading text-center">
+                            <a asp-action="Read" asp-controller="Thoughts" asp-route-id="@thought.Id" asp-route-categoryId="@thought.Category.ToString().ToLower()" asp-route-slug="@thought.Slug">
+                                    @thought.Title
+                            </a>
+                        </h1>
+                        <p class="text-muted txt-center">
+                            Posted on @thought.CreatedOn.ToString("MM/dd/yyyy") in <a asp-action="CategoryIndex" asp-controller="Thoughts" asp-route-categoryId="@thought.Category">@thought.Category</a>
+                        </p>
+                        <div class="thought-lead">
+                            <p class="lead">
+                                @thought.Lead
+                            </p>
+                            <p class="read-more"></p>
+                        </div>
+                        <hr />
+                        <a asp-action="Read" asp-controller="Thoughts" asp-route-id="@thought.Id" asp-route-categoryId="@thought.Category.ToString().ToLower()" asp-route-slug="@thought.Slug" class="btn pull-right">
+                            Read Thought <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-lg-6 col-md-4 col-sm-12">
+            <h1 class="text-center">Recent Activity</h1>
+            @foreach (var comment in Model.Comments)
+            {
+                <small
+                    >@comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
+                </small>
+                <p>@comment.Content -
+                    <b><a asp-action="Read" 
+                        asp-controller="Thoughts" 
+                        asp-route-id="@comment.Thought.Id" 
+                        asp-route-categoryId="@comment.Thought.Category.ToString().ToLower()" 
+                        asp-route-slug="@comment.Thought.Slug">@comment.Thought.Title
+                    </a></b>
+                </p>
+            }
+        </div>
+    </div>
+</div>
+
+
