@@ -20,14 +20,6 @@ namespace Thoughtwave.Data
 
         /* GET ALL THOUGHTS */
 
-        public IEnumerable<Thought> GetAllThoughts()
-        {
-            return _context.Thoughts
-                .Include(t => t.Author)
-                .OrderByDescending(t => t.CreatedOn)
-                .ToList();
-        }
-
         public async Task<List<Thought>> GetAllThoughtsAsync()
         {
             return await _context.Thoughts
@@ -37,15 +29,6 @@ namespace Thoughtwave.Data
         }
 
         /* GET RECENET THOUGHTS */
-
-        public IEnumerable<Thought> GetRecentThoughts()
-        {
-            return _context.Thoughts
-                .Include(t => t.Author)
-                .OrderByDescending(t => t.CreatedOn)
-                .Take(3)
-                .ToList();
-        }
 
         public async Task<List<Thought>> GetRecentThoughtsAsync()
         {
@@ -59,16 +42,6 @@ namespace Thoughtwave.Data
 
         /* GET THOUGHTS BY ID */
 
-        public Thought GetThoughtById(int id)
-        {
-            return _context.Thoughts
-                .Where(t => t.Id == id)
-                .Include(t => t.Author)
-                .Include(t => t.Comments)
-                    .ThenInclude(c => c.User)
-                .FirstOrDefault();
-        }
-
         public async Task<Thought> GetThoughtByIdAsync(int id)
         {
             return await _context.Thoughts
@@ -80,15 +53,7 @@ namespace Thoughtwave.Data
         }
 
 
-        /* GET THOUGHTs BY CATEGORY */
-
-        public IEnumerable<Thought> GetThoughtsByCategory(Category category)
-        {
-            return _context.Thoughts
-                .Where(t => t.Category == category)
-                .Include(t => t.Author)
-                .ToList();
-        }
+        /* GET THOUGHTS BY CATEGORY */
 
         public async Task<List<Thought>> GetThoughtsByCategoryAsync(Category category)
         {
@@ -100,19 +65,6 @@ namespace Thoughtwave.Data
 
 
         /* GET THOUGHTS BY QUERY */
-
-        public IEnumerable<Thought> GetThoughtsByQuery(string query)
-        {
-            query = query.ToLower();
-
-            return _context.Thoughts
-                .Where(t => t.Title.ToLower().Contains(query)
-                    || t.Author.FullName.ToLower().Contains(query)
-                    || t.Author.UserName.ToLower().Contains(query)
-                    || t.Content.ToLower().Contains(query))
-                .Include(t => t.Author)
-                .ToList();
-        }
 
         public async Task<List<Thought>> GetThoughtsByQueryAsync(string query)
         {
@@ -128,20 +80,6 @@ namespace Thoughtwave.Data
         }
 
          /* GET THOGUHTS BY QUERY AND CATEGORY */
-
-        public IEnumerable<Thought> GetThoughtsByQuery(string query, Category category)
-        {
-            query = query.ToLower();
-
-            return _context.Thoughts
-                .Where(t => t.Category == category)
-                .Where(t => t.Title.ToLower().Contains(query)
-                    || t.Author.FullName.ToLower().Contains(query)
-                    || t.Author.UserName.ToLower().Contains(query)
-                    || t.Content.ToLower().Contains(query))
-                .Include(t => t.Author)
-                .ToList();
-        }
 
         public async Task<List<Thought>> GetThoughtsByQueryAsync(string query, Category category)
         {
@@ -160,13 +98,6 @@ namespace Thoughtwave.Data
 
         /* GET ALL USERS */
 
-        public IEnumerable<User> GetAllUsers()
-        {
-            return _context.Users
-                .OrderByDescending(u => u.SignUpDate)
-                .ToList();
-        }
-
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await _context.Users
@@ -174,19 +105,9 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
-        /* GET USER BY USERNAME */
+        /* GET USER ACTIVITY BY USERNAME */
 
-        public User GetUserByUserName(string username)
-        {
-            return _context.Users   
-                .Where(u => u.UserName == username)
-                .Include(u => u.Thoughts)
-                .Include(u => u.Comments)
-                    .ThenInclude(c => c.Thought)
-                .FirstOrDefault();
-        }
-
-        public async Task<User> GetUserByUserNameAsync(string username)
+        public async Task<User> GetUserActivityByUserNameAsync(string username)
         {
             return await _context.Users   
                 .Where(u => u.UserName == username)
