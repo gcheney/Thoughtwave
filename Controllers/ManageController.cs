@@ -38,6 +38,7 @@ namespace Thoughtwave.Controllers
         //
         // GET: /Manage/Index
         [HttpGet]
+        [Route("/manage")]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
             ViewData["StatusMessage"] =

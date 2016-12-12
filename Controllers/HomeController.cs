@@ -11,8 +11,8 @@ namespace Thoughtwave.Controllers
 {
     public class HomeController : Controller
     {
-        private IThoughtwaveRepository _repository;
-        private ILogger<HomeController> _logger;
+        private readonly IThoughtwaveRepository _repository;
+        private readonly ILogger<HomeController> _logger;
 
         public HomeController(IThoughtwaveRepository repository, 
             ILogger<HomeController> logger)

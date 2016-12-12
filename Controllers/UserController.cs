@@ -11,8 +11,8 @@ namespace Thoughtwave.Controllers
 {
     public class UsersController : Controller
     {
-        private IThoughtwaveRepository _repository;
-        private ILogger<UsersController> _logger;
+        private readonly IThoughtwaveRepository _repository;
+        private readonly ILogger<UsersController> _logger;
 
         public UsersController(IThoughtwaveRepository repository, 
             ILogger<UsersController> logger)
@@ -53,7 +53,7 @@ namespace Thoughtwave.Controllers
                 return RedirectToAction("Index");
             }
 
-            var user = await _repository.GetUserByUserNameAsync(username);
+            var user = await _repository.GetUserActivityByUserNameAsync(username);
 
             if (user == null)
             {
