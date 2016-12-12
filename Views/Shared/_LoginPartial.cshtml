@@ -9,10 +9,7 @@
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="#search">Search</a> <i class="fa fa-search" aria-hidden="true"></i>
-            </li>
-            <li>
-                <a>Hi, @UserManager.GetUserName(User)!</a>
+                <a href="#search">Search <i class="fa fa-search" aria-hidden="true"></i></a>
             </li>
             <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">My Account</a>
