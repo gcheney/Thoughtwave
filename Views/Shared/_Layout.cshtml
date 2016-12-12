@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="Glendon Cheney" />
+    <meta name="description" content="A place to share your thoughts with the world" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
     <title>@ViewData["Title"] - Thoughtwave</title>
+
      <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     
+    <!-- stylesheets -->
     <environment names="Development">
         <link rel="stylesheet" href="~/dist/css/bundle.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -16,6 +23,16 @@
         <link rel="stylesheet" href="~/dist/css/bundle.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <!-- /stylesheets -->
+
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
     <!-- Navigation -->
@@ -58,8 +75,9 @@
         </div>
         <!-- /.container -->
     </nav>
-    <div>
+    <div class="content">
         @RenderBody()
+        
         <!-- navbar-search -->
         <div id="search">
             <button type="button" class="close">×</button>
@@ -69,7 +87,9 @@
             </form>
         </div>
         <!-- /.navbar-search -->
+
         <hr />
+
         <footer class="footer">
             <div class="container">
                 <div class="row">
@@ -78,7 +98,9 @@
             </div>
         </footer>
     </div>
+    <!-- /.content -->
 
+    <!-- scripts -->
     <environment names="Development">
         <script src="~/dist/js/bundle.min.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -89,5 +111,7 @@
     </environment>
 
     @RenderSection("scripts", required: false)
+    <!-- /scripts -->
+
 </body>
 </html>
