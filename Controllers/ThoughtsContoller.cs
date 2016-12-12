@@ -7,19 +7,24 @@ using Microsoft.Extensions.Logging;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 using Thoughtwave.ExtensionMethods;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Thoughtwave.Controllers
 {
     public class ThoughtsController : Controller
     {
-        private IThoughtwaveRepository _repository;
-        private ILogger<ThoughtsController> _logger;
+        private readonly IThoughtwaveRepository _repository;
+        private readonly ILogger<ThoughtsController> _logger;
+        private readonly UserManager<User> _userManager;
 
         public ThoughtsController(IThoughtwaveRepository repository, 
+            UserManager<User> userManager,
             ILogger<ThoughtsController> logger)
         {
             _repository = repository;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -32,7 +37,7 @@ namespace Thoughtwave.Controllers
             if (thoughts == null)
             {
                 _logger.LogError("Unable to retrieve all thoughts from repository");
-                return RedirectToAction("Index");
+                return View("Error");
             }
             
             if (!thoughts.Any())
@@ -52,7 +57,7 @@ namespace Thoughtwave.Controllers
             if (thought == null)
             {
                 _logger.LogError($"Unable to retrieve thought with id {id} from repository");
-                return RedirectToAction("Index");
+                return View("Error");
             }
             
             return View(thought);
@@ -76,7 +81,7 @@ namespace Thoughtwave.Controllers
                 if (thoughts == null)
                 {
                     _logger.LogError("Unable to retrieve thoughts for category {categoryId}");
-                    return RedirectToAction("Index");
+                    return View("Error");
                 }
                 
                 if (!thoughts.Any())
@@ -114,7 +119,7 @@ namespace Thoughtwave.Controllers
             if (thoughts == null)
             {
                 _logger.LogError("Unable to retrieve thoughts from repository");
-                return RedirectToAction("Index");
+                return View("Error");
             }
 
             if (!thoughts.Any())
@@ -125,6 +130,38 @@ namespace Thoughtwave.Controllers
             return View("Index", thoughts);
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Manage()
+        {
+            var user = await GetCurrentUserAsync();
+
+            if (user == null)
+            {
+                return View("Error");
+            }
+            
+            var thoughts = await _repository.GetThoughtsByUserNameAsync(user.UserName);
+
+            if (thoughts == null)
+            {
+                _logger.LogError($"Unable to retrieve thoughts from repository for {user.UserName}");
+                return View("Error");
+            }
+
+            if (!thoughts.Any())
+            {
+                ViewBag.Message = "You haven't created any thoughts yet!";
+            }
+
+            ViewBag.Content = "Your Thoughts";
+            return View(thoughts);
+        }
+
+        private Task<User> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
+        }
         
         private Category GetCategoryFromString(string categoryStr)
         {
