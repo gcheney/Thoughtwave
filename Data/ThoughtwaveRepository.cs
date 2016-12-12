@@ -116,5 +116,15 @@ namespace Thoughtwave.Data
                     .ThenInclude(c => c.Thought)
                 .FirstOrDefaultAsync();
         }
+
+        /* GET THOUGHTS BY USERNAME */
+
+        public async Task<List<Thought>> GetThoughtsByUserNameAsync(string username)
+        {
+            return await _context.Thoughts  
+                .Where(t => t.Author.UserName == username)
+                .OrderByDescending(t => t.CreatedOn)
+                .ToListAsync();
+        }
     }
 }
