@@ -1,0 +1,31 @@
+@model IEnumerable<Thought>
+
+@{
+    ViewData["Title"] = ViewBag.Content;
+}
+
+@await Html.PartialAsync("_PageHeader")
+
+<!-- Page Content -->
+<div class="text-center">
+    <h1>@ViewBag.Content</h1>
+    <hr class="large"/>
+
+    <h3 class="text-muted">@ViewBag.Message</h3>
+
+    @foreach (var thought in Model)
+    {
+        <h1>
+            <a asp-action="Read" 
+                asp-controller="Thoughts" 
+                asp-route-id="@thought.Id" 
+                asp-route-categoryId="@thought.Category.ToString().ToLower()" 
+                asp-route-slug="@thought.Slug">
+                    @thought.Title
+            </a>
+        </h1>
+        <button class="btn btn-success">Edit</button>
+        <button class="btn btn-danger">Delete</button>
+    }
+</div>
+
