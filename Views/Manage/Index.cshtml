@@ -19,19 +19,22 @@
 
                 @if (Model.HasPassword)
                 {
-                    <a asp-controller="Manage" asp-action="ChangePassword" class="btn btn-default">Change Password</a>
+                    <p><a asp-controller="Manage" asp-action="ChangePassword" class="btn btn-default">Change Your Password</a></p>
                 }
                 else
                 {
-                    <a asp-controller="Manage" asp-action="SetPassword" class="btn btn-default">Create</a>
+                    <p><a asp-controller="Manage" asp-action="SetPassword" class="btn btn-default">Create A Password</a></p>
                 }
 
                 @if (Model.Logins.Count > 0)
                 {
-                    <a asp-controller="Manage" asp-action="ManageLogins" class="btn btn-default">Manage External Logins</a>
+                    <p><a asp-controller="Manage" asp-action="ManageLogins" class="btn btn-default">Manage External Logins</a></p>
                 }
 
-                <a asp-controller="Thoughts" asp-action="Manage" class="btn btn-default">Manage Thoughts</a>
+                <p><a asp-controller="Thoughts" asp-action="Create" class="btn btn-default">Create a New Thought</a></p>
+
+                <p><a asp-controller="Thoughts" asp-action="Manage" class="btn btn-default">Manage Thoughts</a></p>
+
             </div>
         </div>
     </div>

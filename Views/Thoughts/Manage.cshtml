@@ -15,17 +15,19 @@
 
     @foreach (var thought in Model)
     {
-        <h1>
-            <a asp-action="Read" 
-                asp-controller="Thoughts" 
-                asp-route-id="@thought.Id" 
-                asp-route-categoryId="@thought.Category.ToString().ToLower()" 
-                asp-route-slug="@thought.Slug">
-                    @thought.Title
-            </a>
-        </h1>
-        <button class="btn btn-success">Edit</button>
-        <button class="btn btn-danger">Delete</button>
+        <div class="well clearfix">
+            <h1>
+                <a asp-action="Read" 
+                    asp-controller="Thoughts" 
+                    asp-route-id="@thought.Id" 
+                    asp-route-categoryId="@thought.Category.ToString().ToLower()" 
+                    asp-route-slug="@thought.Slug">
+                        @thought.Title
+                </a>
+            </h1>
+            <a asp-controller="Thoughts" asp-action="Edit" asp-route-id="@thought.Id" class="btn btn-success">Edit</a>
+            <a asp-controller="Thoughts" asp-action="Delete" asp-route-id="@thought.Id" class="btn btn-danger">Delete</a>
+        </div>  
     }
 </div>
 
