@@ -15,6 +15,10 @@
     <div class="row">
         <div class="col-lg-6 col-md-8 col-sm-12">
             <h1 class="text-center">Thoughts by @Model.FirstName</h1>
+            @if (!Model.Thoughts.Any())
+            {
+                <p class="text-muted text-center">This user hasn't created any thoughts</p>
+            }
             @foreach (var thought in Model.Thoughts)
             {
                 <div class="thought-preview">
@@ -58,6 +62,11 @@
 
         <div class="col-lg-6 col-md-4 col-sm-12">
             <h1 class="text-center">Recent Activity</h1>
+
+            @if (!Model.Comments.Any())
+            {
+                <p class="text-muted text-center">No recent activity to display</p>
+            }
             @foreach (var comment in Model.Comments)
             {
                 <p>
