@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Thoughtwave.Models;
@@ -79,6 +80,11 @@ namespace Thoughtwave.Data
                 .WithMany(u => u.Thoughts);
 
             modelBuilder.Entity<Thought>()
+                .HasOne(t => t.Author)
+                .WithMany(u => u.Thoughts)
+                .IsRequired();
+
+            modelBuilder.Entity<Thought>()
                 .Property(t => t.CreatedOn)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
@@ -97,6 +103,11 @@ namespace Thoughtwave.Data
                 .Property(t => t.Category)
                 .IsRequired()
                 .HasDefaultValue(Category.Personal);
+
+            modelBuilder.Entity<Thought>()
+                .Property(t => t.DisableComments)
+                .IsRequired()
+                .HasDefaultValue(false);
         }
     }
 }
