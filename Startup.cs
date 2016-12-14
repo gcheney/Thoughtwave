@@ -11,7 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
+using Thoughtwave.ViewModels.ThoughtViewModels;
 using Thoughtwave.Services;
+using AutoMapper;
 
 namespace Thoughtwave
 {
@@ -85,6 +87,11 @@ namespace Thoughtwave
             IHostingEnvironment env, 
             ILoggerFactory loggerFactory)
         {
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<ThoughtViewModel, Thought>().ReverseMap();
+            });
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
