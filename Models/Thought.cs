@@ -12,6 +12,7 @@ namespace Thoughtwave.Models
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
         public Category Category { get; set; }
+        public bool DisableComments { get; set; }
 
         public string Lead 
         { 
