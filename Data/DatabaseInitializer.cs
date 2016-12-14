@@ -46,7 +46,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "How Can I Live Better",
                         Content = "Forage gochujang vape, mustache tumeric church-key master cleanse salvia godard hella hoodie everyday carry freegan. Sustainable forage aesthetic, neutra scenester lyft bespoke roof party taxidermy next level meggings coloring book. Jean shorts keffiyeh tacos migas normcore scenester.\n Fashion axe williamsburg lo-fi flexitarian unicorn ennui edison bulb.Forage gochujang vape, mustache tumeric church-key master cleanse salvia godard hella hoodie everyday carry freegan. Sustainable forage aesthetic, neutra scenester lyft bespoke roof party taxidermy next level meggings coloring book.\n Jean shorts keffiyeh tacos migas normcore scenester. Fashion axe williamsburg lo-fi flexitarian unicorn ennui edison bulb.",
-                        Author = user1,
+                        Author = user3,
                         Category = Category.Film,
                         Comments = new List<Comment>()
                         {
@@ -86,7 +86,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "Should It Have Been Bernie?",
                         Content = "Asymmetrical viral bushwick schlitz flannel, raclette glossier yr sartorial plaid butcher direct trade kickstarter. Hell of plaid craft beer kinfolk, intelligentsia gochujang cardigan direct trade viral forage truffaut shoreditch slow-carb pinterest. Deep v jean shorts taxidermy hoodie migas.\n\n \tSquid selvage fanny pack synth single-origin coffee. Art party wolf live-edge helvetica gochujang, kickstarter slow-carb gluten-free shabby chic franzen selvage ethical. Af chicharrones asymmetrical, banh mi you probably haven't heard of them ramps synth dreamcatcher offal man braid irony four dollar toast. Twee hammock chambray organic.",
-                        Author = user2,
+                        Author = user1,
                         Category = Category.Politics,
                         Comments = new List<Comment>()
                         {
@@ -106,7 +106,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "The World Is NOT All Bad",
                         Content = "Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo. Cronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache. Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo. Cronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache. Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo.\n\n \tCronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache.",
-                        Author = user2,
+                        Author = user1,
                         Category = Category.World,
                         Comments = new List<Comment>()
                         {
@@ -147,20 +147,16 @@ namespace Thoughtwave.Data
                         Title = "This is a Very Personal Confession",
                         Content = "Stumptown iceland lumbersexual vexillologist put a bird on it.\n\n Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac.",
                         Author = user2,
+                        DisableComments = true,
                         Comments = new List<Comment>()
-                        {
-                            new Comment() 
-                            {  
-                                Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer.\n\n Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
-                                User = user1,
-                            },
-                            new Comment() 
-                            {  
-                                Content = "Street art godard viral photo booth succulents hexagon.\n \tOccupy tumeric twee biodiesel, ", 
-                                User = user3,
-                            }
-                        }
-                    }
+                    },
+                    new Thought()
+                    {
+                        Title = "This is a ANOTHER Very Personal Confession",
+                        Content = "Stumptown iceland lumbersexual vexillologist put a bird on it.\n\n Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac.",
+                        Author = user3,
+                        Comments = new List<Comment>()
+                    }                        
                 };
 
                 foreach (var thought in Thoughts)
