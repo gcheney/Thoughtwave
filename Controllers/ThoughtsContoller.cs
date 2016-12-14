@@ -158,6 +158,14 @@ namespace Thoughtwave.Controllers
             return View(thoughts);
         }
 
+        [HttpGet]
+        [Authorize]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
         private Task<User> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(HttpContext.User);
