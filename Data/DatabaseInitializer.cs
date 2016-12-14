@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Thoughtwave.Models;
@@ -37,7 +36,11 @@ namespace Thoughtwave.Data
                 "genericuser3", "genericuser3@email.com", "Pa$$word3",
                 "Elizabeth", "Lee", "https://randomuser.me/api/portraits/women/27.jpg");
 
-            // Seed other data
+            var user4 = await SeedUserDataAsync(userManager, 
+                "genericuser4", "genericuser4@email.com", "Pa$$word4",
+                "Johnny", "Walker", "https://randomuser.me/api/portraits/men/27.jpg");
+
+            // Seed thought data
             if (!context.Thoughts.Any())
             {
                 var Thoughts = new List<Thought>()
@@ -186,7 +189,8 @@ namespace Thoughtwave.Data
                     Avatar = avatar
                 };
 
-                IdentityResult result = await userManager.CreateAsync(newUser, password);
+                var result = await userManager.CreateAsync(newUser, password);
+
                 if (result.Succeeded) 
                 {
                     Console.WriteLine($"User {newUser} successfully created");
