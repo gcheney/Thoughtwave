@@ -44,56 +44,68 @@
 
             @await Html.PartialAsync("_UserPartial", @Model.Author)
 
-            <!-- Comment Form -->     
-            @if (User.Identity.IsAuthenticated)
+            @if (Model.DisableComments)
             {
-                <!-- Comments Form -->
-                <div class="well">
-                    <h4>Leave a Comment:</h4>
-                    <form role="form" method="POST">
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+                <h3 class="text-center text-muted">Comments are currently disabled for this thought</h3>
             }
-            else 
+            else
             {
-                <div class="well">
-                    <h4 class="text-center">
-                        You must <a asp-action="Login" asp-controller="Account">Log In</a> 
-                        or <a asp-action="Register" asp-controller="Account">Register</a> to leave a comment
-                    </h4>
-                </div>
-            }
-
-            <hr>
-
-            <!-- Posted Comments -->
-            <!-- Comment -->
-            @foreach (var comment in @Model.Comments)
-            {
-                <div class="media">
-                    <a asp-action="Details" asp-controller="Users" asp-route-username="@comment.User.UserName" class="pull-left">
-                        <img class="media-object img-responsive user-img" src="@comment.User.Avatar" alt="User Image">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            <a asp-action="Details" asp-controller="Users" asp-route-username="@comment.User.UserName">
-                                @comment.User.FullName
-                            </a> 
-                            <small>
-                                @comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
-                            </small>
+                <!-- Comment Form -->     
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <!-- Comments Form -->
+                    <div class="well">
+                        <h4>Leave a Comment:</h4>
+                        <form role="form" method="POST">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                }
+                else 
+                {
+                    <div class="well">
+                        <h4 class="text-center">
+                            You must <a asp-action="Login" asp-controller="Account">Log In</a> 
+                            or <a asp-action="Register" asp-controller="Account">Register</a> to leave a comment
                         </h4>
-                        <div class="comment-content">
-                            @comment.Content
+                    </div>
+                }
+
+                <hr>
+
+                <!-- Posted Comments -->
+                <!-- Comment -->
+                if (!Model.Comments.Any())
+                {
+                    <h3 class="text-center text-muted">No comments to display</h3>
+                }
+
+                @foreach (var comment in @Model.Comments)
+                {
+                    <div class="media">
+                        <a asp-action="Details" asp-controller="Users" asp-route-username="@comment.User.UserName" class="pull-left">
+                            <img class="media-object img-responsive user-img" src="@comment.User.Avatar" alt="User Image">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a asp-action="Details" asp-controller="Users" asp-route-username="@comment.User.UserName">
+                                    @comment.User.FullName
+                                </a> 
+                                <small>
+                                    @comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
+                                </small>
+                            </h4>
+                            <div class="comment-content">
+                                @comment.Content
+                            </div>
                         </div>
                     </div>
-                </div>
-                <hr />
-            } 
+                    <hr />
+                } 
+            }
         </div>
     </div>
 </div>
