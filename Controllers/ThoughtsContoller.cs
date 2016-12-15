@@ -186,7 +186,7 @@ namespace Thoughtwave.Controllers
 
                 if (await _repository.SaveChangesAsync())
                 {
-                    var url = $"/{thought.Category.ToString().ToLower()}/{thought.Id}/{thought.Slug.ToLower()}";
+                    var url = GetThoughtUrl(thought);
                     return Redirect(url);
                 }
             }
@@ -195,6 +195,14 @@ namespace Thoughtwave.Controllers
             return View(model);
         }
 
+
+        private string GetThoughtUrl(Thought thought)
+        {
+            var category = thought.Category.ToString().ToLower();
+            var id = thought.Id;
+            var slug = thought.Slug.ToLower();
+            return $"/{category}/{id}/{slug}";
+        }
 
         private Task<User> GetCurrentUserAsync()
         {
