@@ -42,7 +42,7 @@
                         </p>
                         <div class="thought-lead">
                             <p class="lead">
-                                @thought.Lead
+                                @Html.Raw(WebUtility.HtmlDecode(@thought.Lead))
                             </p>
                             <p class="read-more"></p>
                         </div>
