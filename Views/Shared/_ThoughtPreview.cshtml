@@ -1,9 +1,10 @@
 @model Thought
+@using System.Net
 
 <div class="content-section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="col-lg-10 col-lg-offset-1 col-md-12">
                 <div class="thought-preview">
                     <div class="well well-lg clearfix">
                         <h1 class="section-heading text-center">
@@ -30,7 +31,7 @@
                         </p>
                         <div class="thought-lead">
                             <p class="lead">
-                                @Model.Lead
+                                @Html.Raw(WebUtility.HtmlDecode(Model.Lead))
                             </p>
                             <p class="read-more"></p>
                         </div>
