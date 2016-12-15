@@ -126,5 +126,19 @@ namespace Thoughtwave.Data
                 .OrderByDescending(t => t.CreatedOn)
                 .ToListAsync();
         }
+
+        /* ADD NEW THOUGHT */
+
+        public void AddThought(Thought thought)
+        {
+             _context.Add(thought);
+        }
+
+        /* SAVE CHANGES */
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync()) > 0;
+        }
     }
 }

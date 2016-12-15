@@ -23,5 +23,9 @@ namespace Thoughtwave.Data
         Task<User> GetUserActivityByUserNameAsync(string username);
 
         Task<List<Thought>> GetThoughtsByUserNameAsync(string username);
+
+        void AddThought(Thought thought);
+
+        Task<bool> SaveChangesAsync();
     }
 }
