@@ -90,10 +90,10 @@ namespace Thoughtwave.Controllers
                 
                 if (!thoughts.Any())
                 {
-                    ViewBag.Message = "No thoughts found for this search";
+                    ViewBag.Message = $"No thoughts found for {category.ToString()}";
                 }
 
-                ViewBag.Content = "Thoughts on " + category.ToString();
+                ViewBag.Content = $"Thoughts on {category.ToString()}";
                 return View("Index", thoughts);
             }
             else
@@ -112,7 +112,7 @@ namespace Thoughtwave.Controllers
             if (categroy != Category.None) 
             {
                 thoughts = await _repository.GetThoughtsByQueryAsync(q, categroy);
-                ViewBag.Content = "Search Results in " + categroy.ToString();
+                ViewBag.Content = $"Search Results in {categroy.ToString()}";
             }
             else 
             {
