@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -89,7 +87,9 @@ namespace Thoughtwave
         {
             Mapper.Initialize(config =>
             {
-                config.CreateMap<ThoughtViewModel, Thought>().ReverseMap();
+                config.CreateMap<ThoughtViewModel, Thought>()
+                    .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content))
+                    .ReverseMap();
             });
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
