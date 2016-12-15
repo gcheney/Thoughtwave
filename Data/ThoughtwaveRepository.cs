@@ -59,6 +59,7 @@ namespace Thoughtwave.Data
         {
             return await _context.Thoughts
                 .Where(t => t.Category == category)
+                .OrderByDescending(t => t.CreatedOn)
                 .Include(t => t.Author)
                 .ToListAsync();
         }
@@ -75,6 +76,7 @@ namespace Thoughtwave.Data
                     || t.Author.FullName.ToLower().Contains(query)
                     || t.Author.UserName.ToLower().Contains(query)
                     || t.Content.ToLower().Contains(query))
+                .OrderByDescending(t => t.CreatedOn)
                 .Include(t => t.Author)
                 .ToListAsync();
         }
@@ -91,6 +93,7 @@ namespace Thoughtwave.Data
                     || t.Author.FullName.ToLower().Contains(query)
                     || t.Author.UserName.ToLower().Contains(query)
                     || t.Content.ToLower().Contains(query))
+                .OrderByDescending(t => t.CreatedOn)
                 .Include(t => t.Author)
                 .ToListAsync();
         }
