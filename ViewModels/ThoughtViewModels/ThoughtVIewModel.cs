@@ -16,6 +16,7 @@ namespace Thoughtwave.ViewModels.ThoughtViewModels
         public string Content { get; set; }
 
         [Required(ErrorMessage = "Please choose a category for your thought")]
+        [Display(Name = "Category (defaults to personal)")]
         public Category Category { get; set; }
 
         [Display(Name = "Disable Comments?")]
