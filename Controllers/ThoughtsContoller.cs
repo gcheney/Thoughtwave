@@ -4,11 +4,14 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Thoughtwave.Data;
-using Thoughtwave.Models;
-using Thoughtwave.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Thoughtwave.Data;
+using Thoughtwave.Models;
+using Thoughtwave.ViewModels.ThoughtViewModels;
+using Thoughtwave.ExtensionMethods;
+using AutoMapper;
+
 
 namespace Thoughtwave.Controllers
 {
@@ -52,6 +55,7 @@ namespace Thoughtwave.Controllers
         [Route("{categoryId}/{id}/{slug}")]
         public async Task<IActionResult> Read(int id)
         {
+            Console.WriteLine($"IN READ ACTION! id: {id}");
             var thought = await _repository.GetThoughtByIdAsync(id);
 
             if (thought == null)
@@ -163,6 +167,32 @@ namespace Thoughtwave.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ThoughtViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var thought = Mapper.Map<Thought>(model);
+
+                // Save associated Thought author
+                thought.Author = await GetCurrentUserAsync();
+
+                // Save to the database
+                _repository.AddThought(thought);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    var url = $"/{thought.Category.ToString().ToLower()}/{thought.Id}/{thought.Slug.ToLower()}";
+                    return Redirect(url);
+                }
+            }
+
+            // issue with model state
+            return View(model);
         }
 
 
