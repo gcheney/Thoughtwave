@@ -133,7 +133,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 8, 22, 8, 7, 195, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 15, 15, 3, 17, 531, DateTimeKind.Local));
 
                     b.Property<int?>("ThoughtId");
 
@@ -153,7 +153,8 @@ namespace Thoughtwave.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId");
+                    b.Property<string>("AuthorId")
+                        .IsRequired();
 
                     b.Property<int>("Category")
                         .ValueGeneratedOnAdd()
@@ -165,7 +166,11 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 8, 22, 8, 7, 195, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 15, 15, 3, 17, 531, DateTimeKind.Local));
+
+                    b.Property<bool>("DisableComments")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -232,7 +237,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("SignUpDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 8, 22, 8, 7, 185, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 15, 15, 3, 17, 521, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -303,7 +308,8 @@ namespace Thoughtwave.Migrations
                 {
                     b.HasOne("Thoughtwave.Models.User", "Author")
                         .WithMany("Thoughts")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }
