@@ -15,6 +15,7 @@ using AutoMapper;
 
 namespace Thoughtwave.Controllers
 {
+    [Authorize]
     public class ThoughtsController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
@@ -31,6 +32,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("/all")]
         public async Task<IActionResult> Index()
         {
@@ -52,6 +54,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("{categoryId}/{id}/{slug}")]
         public async Task<IActionResult> Read(int id)
         {
@@ -68,6 +71,7 @@ namespace Thoughtwave.Controllers
         }
         
         [HttpGet]
+        [AllowAnonymous]
         [Route("/{categoryId}")]
         public async Task<IActionResult> CategoryIndex(string categoryId)
         {
@@ -103,6 +107,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("/search")]
         public async Task<IActionResult> Search(string q, string c = "All")
         {
@@ -135,7 +140,6 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Manage()
         {
             var user = await GetCurrentUserAsync();
@@ -163,14 +167,12 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ThoughtViewModel model)
         {
