@@ -197,6 +197,23 @@ namespace Thoughtwave.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Route("/thoughts/delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Console.WriteLine($"IDDDDDDDD {id}");
+            var thought = await _repository.GetThoughtByIdAsync(id);
+
+            if (thought == null)
+            {
+                _logger.LogError($"Unable to retrieve thought with id {id}");
+                return RedirectToAction("Manage");
+            }
+
+            ViewBag.Title = $"Delete {thought.Title}?";
+            return View(thought);
+        }
+
 
         private string GetThoughtUrl(Thought thought)
         {
