@@ -28,6 +28,8 @@ namespace Thoughtwave.Data
 
         void AddThought(Thought thought);
 
+        void UpdateThought(Thought thought);
+
         void DeleteThought(Thought thought);
 
         Task<bool> CommitChangesAsync();

@@ -145,7 +145,15 @@ namespace Thoughtwave.Data
              _context.Thoughts.Add(thought);
         }
 
+        /* UPDATE A THOUGHT */
+
+        public void UpdateThought(Thought thought)
+        {
+            _context.Thoughts.Update(thought);
+        }
+
         /* Delete A Thought */
+
         public void DeleteThought(Thought thought)
         {
             _context.Thoughts.Remove(thought);
