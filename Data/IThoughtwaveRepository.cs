@@ -12,6 +12,8 @@ namespace Thoughtwave.Data
 
         Task<Thought> GetThoughtByIdAsync(int id);
 
+        Task<Thought> GetThoughtAndIncludesByIdAsync(int id);
+
         Task<List<Thought>> GetThoughtsByCategoryAsync(Category category);
 
         Task<List<Thought>> GetThoughtsByQueryAsync(string query);
@@ -25,6 +27,8 @@ namespace Thoughtwave.Data
         Task<List<Thought>> GetThoughtsByUserNameAsync(string username);
 
         void AddThought(Thought thought);
+
+        void DeleteThought(Thought thought);
 
         Task<bool> SaveChangesAsync();
     }

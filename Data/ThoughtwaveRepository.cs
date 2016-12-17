@@ -45,6 +45,12 @@ namespace Thoughtwave.Data
         public async Task<Thought> GetThoughtByIdAsync(int id)
         {
             return await _context.Thoughts
+                .SingleOrDefaultAsync(t => t.Id == id);
+        }
+
+        public async Task<Thought> GetThoughtAndIncludesByIdAsync(int id)
+        {
+            return await _context.Thoughts
                 .Where(t => t.Id == id)
                 .Include(t => t.Author)
                 .Include(t => t.Comments)
@@ -130,11 +136,17 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
-        /* ADD NEW THOUGHT */
+        /* ADD A NEW THOUGHT */
 
         public void AddThought(Thought thought)
         {
-             _context.Add(thought);
+             _context.Thoughts.Add(thought);
+        }
+
+        /* Delete A Thought */
+        public void DeleteThought(Thought thought)
+        {
+            _context.Thoughts.Remove(thought);
         }
 
         /* SAVE CHANGES */
