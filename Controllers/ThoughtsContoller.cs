@@ -63,7 +63,7 @@ namespace Thoughtwave.Controllers
                 return NotFound();
             }
             
-            var thought = await _repository.GetThoughtAndIncludesByIdAsync(id);
+            var thought = await _repository.GetThoughtAndCommentsByIdAsync(id);
 
             if (thought == null)
             {
@@ -218,6 +218,8 @@ namespace Thoughtwave.Controllers
                 return NotFound();
             }
 
+            
+
             ViewBag.Title = $"Delete {thought.Title}?";
             return View(thought);
         }
@@ -234,6 +236,10 @@ namespace Thoughtwave.Controllers
         }
 
 
+        private Task<User> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
+        }
 
         private string GetThoughtUrl(Thought thought)
         {
@@ -241,11 +247,6 @@ namespace Thoughtwave.Controllers
             var id = thought.Id;
             var slug = thought.Slug.ToLower();
             return $"/{category}/{id}/{slug}";
-        }
-
-        private Task<User> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
         }
         
         private Category GetCategoryFromString(string categoryStr)
