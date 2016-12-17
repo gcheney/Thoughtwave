@@ -56,8 +56,13 @@ namespace Thoughtwave.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("{categoryId}/{id}/{slug}")]
-        public async Task<IActionResult> Read(int id)
+        public async Task<IActionResult> Read(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            
             var thought = await _repository.GetThoughtAndIncludesByIdAsync(id);
 
             if (thought == null)
@@ -77,7 +82,7 @@ namespace Thoughtwave.Controllers
             if (categoryId == null)
             {
                 _logger.LogError("Invalid category provided");
-                return RedirectToAction("Index");
+                return NotFound();
             }
             
             Category category = GetCategoryFromString(categoryId);
@@ -101,7 +106,7 @@ namespace Thoughtwave.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return Redirect("/all");
             }
         }
 
@@ -198,14 +203,19 @@ namespace Thoughtwave.Controllers
 
         [HttpGet]
         [Route("/thoughts/delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var thought = await _repository.GetThoughtByIdAsync(id);
 
             if (thought == null)
             {
                 _logger.LogError($"Unable to retrieve thought with id {id}");
-                return RedirectToAction("Manage");
+                return NotFound();
             }
 
             ViewBag.Title = $"Delete {thought.Title}?";
