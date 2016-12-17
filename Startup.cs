@@ -85,11 +85,13 @@ namespace Thoughtwave
             IHostingEnvironment env, 
             ILoggerFactory loggerFactory)
         {
+            // Automapper configuration 
             Mapper.Initialize(config =>
             {
                 config.CreateMap<ThoughtViewModel, Thought>()
                     .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content))
-                    .ReverseMap();
+                    .ReverseMap()
+                    .AfterMap((src, dest) => dest.Content = WebUtility.HtmlDecode(dest.Content));
             });
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
