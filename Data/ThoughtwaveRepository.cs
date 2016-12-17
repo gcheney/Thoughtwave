@@ -46,10 +46,11 @@ namespace Thoughtwave.Data
         {
             return await _context.Thoughts
                 .Where(t => t.Id == id)
+                .Include(t => t.Author)
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<Thought> GetThoughtAndIncludesByIdAsync(int? id)
+        public async Task<Thought> GetThoughtAndCommentsByIdAsync(int? id)
         {
             return await _context.Thoughts
                 .Where(t => t.Id == id)

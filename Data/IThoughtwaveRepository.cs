@@ -12,7 +12,7 @@ namespace Thoughtwave.Data
 
         Task<Thought> GetThoughtByIdAsync(int? id);
 
-        Task<Thought> GetThoughtAndIncludesByIdAsync(int? id);
+        Task<Thought> GetThoughtAndCommentsByIdAsync(int? id);
 
         Task<List<Thought>> GetThoughtsByCategoryAsync(Category category);
 
