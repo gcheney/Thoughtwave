@@ -52,27 +52,6 @@ namespace Thoughtwave.Controllers
 
             return View(thoughts);
         }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("{categoryId}/{id}/{slug}")]
-        public async Task<IActionResult> Read(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            
-            var thought = await _repository.GetThoughtAndCommentsByIdAsync(id);
-
-            if (thought == null)
-            {
-                _logger.LogError($"Unable to retrieve thought with id {id} from repository");
-                return View("Error");
-            }
-            
-            return View(thought);
-        }
         
         [HttpGet]
         [AllowAnonymous]
@@ -178,11 +157,11 @@ namespace Thoughtwave.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ThoughtViewModel model)
+        public async Task<IActionResult> Create(ThoughtViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                var thought = Mapper.Map<Thought>(model);
+                var thought = Mapper.Map<Thought>(viewModel);
 
                 // Save associated Thought author
                 thought.Author = await GetCurrentUserAsync();
@@ -198,7 +177,50 @@ namespace Thoughtwave.Controllers
             }
 
             // issue with model state
-            return View(model);
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("{categoryId}/{id}/{slug}")]
+        public async Task<IActionResult> Read(int? id)
+        {
+            if (id == null)
+            {
+                _logger.LogError("Invalid ID supplied for Read action");
+                return NotFound();
+            }
+            
+            var thought = await _repository.GetThoughtAndCommentsByIdAsync(id);
+
+            if (thought == null)
+            {
+                _logger.LogInformation($"Unable to retrieve thought with id {id} from repository");
+                return View("Error");
+            }
+            
+            return View(thought);
+        }
+
+        [HttpGet]
+        [Route("/thoughts/edit/{id}")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                _logger.LogError("Invalid ID supplied for Edit GET action");
+                return NotFound();
+            }
+
+            var thought = await _repository.GetThoughtByIdAsync(id);
+
+            if (thought == null)
+            {
+                _logger.LogInformation($"Unable to retrieve thought with id {id} for editing");
+                return NotFound();
+            }
+
+            return View(thought);
         }
 
         [HttpGet]
@@ -207,6 +229,7 @@ namespace Thoughtwave.Controllers
         {
             if (id == null)
             {
+                _logger.LogError("Invalid ID supplied for Delete GET action");
                 return NotFound();
             }
 
@@ -214,7 +237,7 @@ namespace Thoughtwave.Controllers
 
             if (thought == null)
             {
-                _logger.LogError($"Unable to retrieve thought with id {id}");
+                _logger.LogInformation($"Unable to retrieve thought with id {id}");
                 return NotFound();
             }
 
