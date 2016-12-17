@@ -45,7 +45,8 @@ namespace Thoughtwave.Data
         public async Task<Thought> GetThoughtByIdAsync(int id)
         {
             return await _context.Thoughts
-                .SingleOrDefaultAsync(t => t.Id == id);
+                .Where(t => t.Id == id)
+                .SingleOrDefaultAsync();
         }
 
         public async Task<Thought> GetThoughtAndIncludesByIdAsync(int id)
@@ -55,7 +56,7 @@ namespace Thoughtwave.Data
                 .Include(t => t.Author)
                 .Include(t => t.Comments)
                     .ThenInclude(c => c.User)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
 
 
@@ -123,7 +124,7 @@ namespace Thoughtwave.Data
                 .Include(u => u.Thoughts)
                 .Include(u => u.Comments)
                     .ThenInclude(c => c.Thought)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
 
         /* GET THOUGHTS BY USERNAME */
@@ -151,7 +152,7 @@ namespace Thoughtwave.Data
 
         /* SAVE CHANGES */
 
-        public async Task<bool> SaveChangesAsync()
+        public async Task<bool> CommitChangesAsync()
         {
             return (await _context.SaveChangesAsync()) > 0;
         }

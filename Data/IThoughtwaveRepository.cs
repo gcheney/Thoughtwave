@@ -30,6 +30,6 @@ namespace Thoughtwave.Data
 
         void DeleteThought(Thought thought);
 
-        Task<bool> SaveChangesAsync();
+        Task<bool> CommitChangesAsync();
     }
 }
