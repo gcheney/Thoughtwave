@@ -220,7 +220,19 @@ namespace Thoughtwave.Controllers
                 return NotFound();
             }
 
-            return View(thought);
+            // block non-authors from viewing page
+            if (!(await UserIsThoughtAuthorAsync(thought)))
+            {
+                // current user is not author - redirect to Manage
+                return RedirectToAction("Manage");
+            }
+
+            // map to view model
+            var viewModel = Mapper.Map<ThoughtViewModel>(thought);
+
+            // current user is author
+            ViewBag.Title = $"Editing {thought.Title}";
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -241,13 +253,14 @@ namespace Thoughtwave.Controllers
                 return NotFound();
             }
 
-            // block other users from deleteing thought
-            var user = await GetCurrentUserAsync();
-            if (user.Id != thought.Author.Id)
+            // block non-authors from viewing page
+            if (!(await UserIsThoughtAuthorAsync(thought)))
             {
+                // current user is not author - redirect to Manage
                 return RedirectToAction("Manage");
             }
 
+            // current user is author
             ViewBag.Title = $"Delete {thought.Title}?";
             return View(thought);
         }
@@ -264,9 +277,15 @@ namespace Thoughtwave.Controllers
         }
 
 
-        private Task<User> GetCurrentUserAsync()
+        private async Task<bool> UserIsThoughtAuthorAsync(Thought thought)
         {
-            return _userManager.GetUserAsync(HttpContext.User);
+            var currentUser = await GetCurrentUserAsync();
+            return currentUser.Id == thought.Author.Id;
+        }
+
+        private async Task<User> GetCurrentUserAsync()
+        {
+            return await _userManager.GetUserAsync(HttpContext.User);
         }
 
         private string GetThoughtUrl(Thought thought)
