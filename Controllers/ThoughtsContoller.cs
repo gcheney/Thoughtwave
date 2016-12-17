@@ -218,7 +218,12 @@ namespace Thoughtwave.Controllers
                 return NotFound();
             }
 
-            
+            // block other users from deleteing thought
+            var user = await GetCurrentUserAsync();
+            if (user.Id != thought.Author.Id)
+            {
+                return RedirectToAction("Manage");
+            }
 
             ViewBag.Title = $"Delete {thought.Title}?";
             return View(thought);
