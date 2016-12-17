@@ -42,14 +42,14 @@ namespace Thoughtwave.Data
 
         /* GET THOUGHTS BY ID */
 
-        public async Task<Thought> GetThoughtByIdAsync(int id)
+        public async Task<Thought> GetThoughtByIdAsync(int? id)
         {
             return await _context.Thoughts
                 .Where(t => t.Id == id)
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<Thought> GetThoughtAndIncludesByIdAsync(int id)
+        public async Task<Thought> GetThoughtAndIncludesByIdAsync(int? id)
         {
             return await _context.Thoughts
                 .Where(t => t.Id == id)
