@@ -58,8 +58,7 @@ namespace Thoughtwave.Controllers
         [Route("{categoryId}/{id}/{slug}")]
         public async Task<IActionResult> Read(int id)
         {
-            Console.WriteLine($"IN READ ACTION! id: {id}");
-            var thought = await _repository.GetThoughtByIdAsync(id);
+            var thought = await _repository.GetThoughtAndIncludesByIdAsync(id);
 
             if (thought == null)
             {
@@ -186,7 +185,7 @@ namespace Thoughtwave.Controllers
                 // Save to the database
                 _repository.AddThought(thought);
 
-                if (await _repository.SaveChangesAsync())
+                if (await _repository.CommitChangesAsync())
                 {
                     var url = GetThoughtUrl(thought);
                     return Redirect(url);
@@ -201,7 +200,6 @@ namespace Thoughtwave.Controllers
         [Route("/thoughts/delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            Console.WriteLine($"IDDDDDDDD {id}");
             var thought = await _repository.GetThoughtByIdAsync(id);
 
             if (thought == null)
@@ -213,6 +211,18 @@ namespace Thoughtwave.Controllers
             ViewBag.Title = $"Delete {thought.Title}?";
             return View(thought);
         }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var thought = await _repository.GetThoughtByIdAsync(id);
+            _repository.DeleteThought(thought);
+            await _repository.CommitChangesAsync();
+            return RedirectToAction("Manage");
+        }
+
 
 
         private string GetThoughtUrl(Thought thought)
