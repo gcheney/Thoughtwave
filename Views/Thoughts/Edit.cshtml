@@ -1,7 +1,7 @@
 @model ThoughtViewModel
 
 @{
-    ViewBag.Title = "Create a New Thought";
+    ViewBag.Title = ViewBag.Title;
 }
 
 @await Html.PartialAsync("_PageHeader")
@@ -11,22 +11,25 @@
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">    
             <h1 class="text-center">What are you thinking today?</h1>
             <hr class="large"/>
-            <form asp-controller="Thoughts" asp-action="Create" method="post" asp-antiforgery="true">
+            <form method="post" asp-antiforgery="true">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Title"></label>
-                    <input asp-for="Title" type="text" class="form-control" placeholder="Title">
+                    <input asp-for="Title" type="text" class="form-control" value="@Model.Title">
                     <span asp-validation-for="Title"></span>
                 </div>
                 <div class="form-group">                
                     <label asp-for="Category"></label>
                     <select asp-for="Category" asp-items="@Html.GetEnumSelectList(typeof(Category))" class="form-control">
+                        <option selected="selected">
+                            @Model.Category
+                        </option>
                     </select>
                     <span asp-validation-for="Category"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Content"></label><br />
-                    <textarea asp-for="Content" class="form-control" id="editor" rows="10"></textarea>
+                    <textarea asp-for="Content" class="form-control" id="editor" rows="10">@Model.Content</textarea>
                     <span asp-validation-for="Content"></span>
                 </div>
                 <div class="form-group">
@@ -37,7 +40,7 @@
                         </label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success pull-right">Create Thought</button>
+                <button type="submit" class="btn btn-success pull-right">Save Thought Changes</button>
             </form>
         </div>
     </div>
