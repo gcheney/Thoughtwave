@@ -227,10 +227,8 @@ namespace Thoughtwave.Controllers
                 return RedirectToAction("Manage");
             }
 
-            // map to view model
-            var viewModel = Mapper.Map<ThoughtViewModel>(thought);
-
             // current user is author
+            var viewModel = Mapper.Map<ThoughtViewModel>(thought);
             ViewBag.Title = $"Editing {thought.Title}";
             return View(viewModel);
         }
@@ -261,8 +259,9 @@ namespace Thoughtwave.Controllers
             }
 
             // current user is author
+            var viewModel = Mapper.Map<ThoughtViewModel>(thought);
             ViewBag.Title = $"Delete {thought.Title}?";
-            return View(thought);
+            return View(viewModel);
         }
 
         [HttpPost]
