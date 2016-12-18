@@ -248,6 +248,13 @@ namespace Thoughtwave.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied(string ReturnUrl = null)
+        {
+            return View();
+        }
+
         //
         // GET: /Account/ForgotPassword
         [HttpGet]
