@@ -1,4 +1,4 @@
-@model ThoughtViewModel
+@model EditThoughtViewModel
 
 @{
     ViewBag.Title = ViewBag.Title;
@@ -13,6 +13,7 @@
             <hr class="large"/>
             <form method="post" asp-antiforgery="true">
                 <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="CreatedOn" value="@Model.CreatedOn" />
                 <div class="form-group">
                     <label asp-for="Title"></label>
                     <input asp-for="Title" type="text" class="form-control" value="@Model.Title">
@@ -35,7 +36,7 @@
                 <div class="form-group">
                     <div class="checkbox pull-left">
                         <label asp-for="DisableComments">
-                            <input asp-for="DisableComments" />
+                            <input asp-for="DisableComments" value="@Model.DisableComments"/>
                             @Html.DisplayNameFor(m => m.DisableComments)
                         </label>
                     </div>
