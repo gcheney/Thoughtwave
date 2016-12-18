@@ -35,10 +35,8 @@
                 </div>
                 <div class="form-group">
                     <div class="checkbox pull-left">
-                        <label asp-for="DisableComments">
-                            <input asp-for="DisableComments" value="@Model.DisableComments"/>
-                            @Html.DisplayNameFor(m => m.DisableComments)
-                        </label>
+                        @Html.CheckBox("DisableComments", new { @checked = @Model.DisableComments })
+                        @Html.LabelFor(m => m.DisableComments)
                     </div>
                 </div>
                 <button type="submit" class="btn btn-success pull-right">Save Thought Changes</button>
