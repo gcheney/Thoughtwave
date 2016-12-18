@@ -157,7 +157,7 @@ namespace Thoughtwave.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ThoughtViewModel viewModel)
+        public async Task<IActionResult> Create(CreateThoughtViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -171,8 +171,8 @@ namespace Thoughtwave.Controllers
 
                 if (await _repository.CommitChangesAsync())
                 {
-                    var url = GetThoughtUrl(thought);
-                    return Redirect(url);
+                    var thoughtUrl = GetThoughtUrl(thought);
+                    return Redirect(thoughtUrl);
                 }
             }
 
@@ -228,8 +228,34 @@ namespace Thoughtwave.Controllers
             }
 
             // current user is author
-            var viewModel = Mapper.Map<ThoughtViewModel>(thought);
+            var viewModel = Mapper.Map<EditThoughtViewModel>(thought);
             ViewBag.Title = $"Editing {thought.Title}";
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryTokenAttribute]
+        public async Task<IActionResult> Edit(int id, EditThoughtViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var thought = Mapper.Map<Thought>(viewModel);
+                thought.Id = id;
+                _repository.UpdateThought(thought);
+
+                if (await _repository.CommitChangesAsync())
+                {
+                    var thoughtUrl = GetThoughtUrl(thought);
+                    return Redirect(thoughtUrl);
+                }
+                else 
+                {
+                    _logger.LogError($"Issue saving changes for thought with id: {id}");
+                    return RedirectToAction("Manage");
+                }
+            }
+
+            // issue with model state 
             return View(viewModel);
         }
 
@@ -259,9 +285,8 @@ namespace Thoughtwave.Controllers
             }
 
             // current user is author
-            var viewModel = Mapper.Map<ThoughtViewModel>(thought);
             ViewBag.Title = $"Delete {thought.Title}?";
-            return View(viewModel);
+            return View(thought);
         }
 
         [HttpPost]
@@ -271,8 +296,16 @@ namespace Thoughtwave.Controllers
         {
             var thought = await _repository.GetThoughtByIdAsync(id);
             _repository.DeleteThought(thought);
-            await _repository.CommitChangesAsync();
-            return RedirectToAction("Manage");
+
+            if (await _repository.CommitChangesAsync())
+            {
+                // thoguht successfully deleted 
+                return RedirectToAction("Manage");
+            }
+
+            // an error occured saving changes
+            _logger.LogError($"Unable to commit changes for deleting thought with id: {id}");
+            return View();
         }
 
 
