@@ -223,8 +223,8 @@ namespace Thoughtwave.Controllers
             // block non-authors from viewing page
             if (!(await UserIsThoughtAuthorAsync(thought)))
             {
-                // current user is not author - redirect to Manage
-                return RedirectToAction("Manage");
+                // current user is not author
+                return Forbid();
             }
 
             // current user is author
@@ -241,18 +241,25 @@ namespace Thoughtwave.Controllers
             {
                 var thought = Mapper.Map<Thought>(viewModel);
                 thought.Id = id;
-                _repository.UpdateThought(thought);
+                _repository.UpdateThought(thought); 
 
-                if (await _repository.CommitChangesAsync())
+                var updatedThought = await _repository.GetThoughtByIdAsync(id);
+                if (await UserIsThoughtAuthorAsync(updatedThought))
                 {
-                    var thoughtUrl = GetThoughtUrl(thought);
-                    return Redirect(thoughtUrl);
+                    if (await _repository.CommitChangesAsync())
+                    {
+                        var thoughtUrl = GetThoughtUrl(thought);
+                        return Redirect(thoughtUrl);
+                    }
+                    else 
+                    {
+                        _logger.LogError($"Issue saving changes for thought with id: {thought.Id}");
+                        return RedirectToAction("Manage");
+                    }
                 }
-                else 
-                {
-                    _logger.LogError($"Issue saving changes for thought with id: {id}");
-                    return RedirectToAction("Manage");
-                }
+
+                // user is not thought author
+                return Forbid();
             }
 
             // issue with model state 
@@ -280,8 +287,8 @@ namespace Thoughtwave.Controllers
             // block non-authors from viewing page
             if (!(await UserIsThoughtAuthorAsync(thought)))
             {
-                // current user is not author - redirect to Manage
-                return RedirectToAction("Manage");
+                // current user is not author
+                return Forbid();
             }
 
             // current user is author
@@ -295,11 +302,16 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var thought = await _repository.GetThoughtByIdAsync(id);
-            _repository.DeleteThought(thought);
 
+            if (!(await UserIsThoughtAuthorAsync(thought)))
+            {
+                return Forbid();
+            }
+            
+            _repository.DeleteThought(thought);
+                
             if (await _repository.CommitChangesAsync())
             {
-                // thoguht successfully deleted 
                 return RedirectToAction("Manage");
             }
 
