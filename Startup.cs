@@ -88,7 +88,10 @@ namespace Thoughtwave
             // Automapper configuration 
             Mapper.Initialize(config =>
             {
-                config.CreateMap<ThoughtViewModel, Thought>()
+                config.CreateMap<CreateThoughtViewModel, Thought>()
+                    .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content));
+
+                config.CreateMap<EditThoughtViewModel, Thought>()
                     .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content))
                     .ReverseMap()
                     .AfterMap((src, dest) => dest.Content = WebUtility.HtmlDecode(dest.Content));
@@ -111,8 +114,6 @@ namespace Thoughtwave
             app.UseStaticFiles();
 
             app.UseIdentity();
-
-            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {
