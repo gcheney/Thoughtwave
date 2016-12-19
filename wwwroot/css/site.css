@@ -444,6 +444,10 @@ form .row:first-child .floating-label-form-group {
     border-top: 1px solid #eeeeee;
 }
 
+.field-validation-error {
+    color: #e1005e;
+}
+
 /* Button Styles */
 
 .btn {
