@@ -1,0 +1,22 @@
+<!--Flash Display -->
+<div class="container" id="flash-message">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="text-center">
+                @if (TempData["success"] != null)
+                {
+                    <h3 class="alert alert-success">
+                        @TempData["success"] <a class="close"><i class="fa fa-times" aria-hidden="true"></i></a>
+                    </h3>
+                }
+
+                @if (TempData["error"] != null)
+                {
+                    <h3 class="alert alert-danger">
+                        @TempData["error"] <a class="close"><i class="fa fa-times" aria-hidden="true"></i></a>
+                    </h3>
+                }
+            </div>
+        </div>
+    </div>
+</div>
