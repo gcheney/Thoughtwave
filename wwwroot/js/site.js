@@ -56,5 +56,20 @@ $(document).ready(function() {
         e.preventDefault();
         $('#logoutForm').submit();
     });
+
+    // gracefully fadeout flash message on close
+    function flashFadeout() {
+        $('#flash-message').fadeTo('fast', 0.00, function() { 
+                $(this).slideUp('slow', function() { 
+                    $(this).remove(); 
+                });
+        });
+    }
+
+    // close flash message
+    $('.close').on('click', function(e) {
+        e.preventDefault();
+        flashFadeout();
+    });
     
 });
