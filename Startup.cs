@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Session;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 using Thoughtwave.ViewModels.ThoughtViewModels;
@@ -37,6 +38,10 @@ namespace Thoughtwave
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // setup cache and sessions
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             // Add framework services.
             services.AddDbContext<ThoughtwaveDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -81,8 +86,7 @@ namespace Thoughtwave
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        public void Configure(IApplicationBuilder app, 
-            IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory)
         {
             // Automapper configuration 
@@ -111,9 +115,12 @@ namespace Thoughtwave
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSession();
+
             app.UseStaticFiles();
 
             app.UseIdentity();
+            
 
             app.UseMvc(routes =>
             {
