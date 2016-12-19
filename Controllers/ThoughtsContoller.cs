@@ -312,12 +312,14 @@ namespace Thoughtwave.Controllers
                 
             if (await _repository.CommitChangesAsync())
             {
+                TempData["success"] = "Thought successfully deleted";
                 return RedirectToAction("Manage");
             }
 
             // an error occured saving changes
             _logger.LogError($"Unable to commit changes for deleting thought with id: {id}");
-            return View();
+            TempData["error"] = "Something went wrong. Thought not deleted";
+            return RedirectToAction("Manage");
         }
 
 
