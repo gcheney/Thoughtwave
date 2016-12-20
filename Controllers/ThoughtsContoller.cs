@@ -172,7 +172,14 @@ namespace Thoughtwave.Controllers
                 if (await _repository.CommitChangesAsync())
                 {
                     var thoughtUrl = GetThoughtUrl(thought);
+                    TempData["success"] = "Your new Thought has been created";
                     return Redirect(thoughtUrl);
+                }
+                else 
+                {
+                    _logger.LogError($"Issue saving thought: {thought.Title} by {thought.Author.UserName}");
+                    TempData["error"] = "There was an issue creating your new Thought";
+                    return RedirectToAction("Manage");
                 }
             }
 
@@ -249,11 +256,13 @@ namespace Thoughtwave.Controllers
                     if (await _repository.CommitChangesAsync())
                     {
                         var thoughtUrl = GetThoughtUrl(thought);
+                        TempData["success"] = "Thought successfully saved";
                         return Redirect(thoughtUrl);
                     }
                     else 
                     {
                         _logger.LogError($"Issue saving changes for thought with id: {thought.Id}");
+                        TempData["error"] = "There was an issue saving your changes";
                         return RedirectToAction("Manage");
                     }
                 }
