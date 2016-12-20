@@ -7,8 +7,7 @@
     ViewData["Title"] = "Manage your account";
 }
 
-<h2>@ViewData["Title"].</h2>
-<p class="text-success">@ViewData["StatusMessage"]</p>
+<h1>@ViewData["Title"].</h1>
 
 <div class="container">
     <div class="row">
@@ -16,6 +15,8 @@
             <div class="text-center">
                 <h1>Hello @await UserManager.GetUserAsync(User)!</h1>
                 <h3>Manage Your Account</h3>
+
+                <p class="text-success" id="flash-message">@ViewData["StatusMessage"]</p>
 
                 @if (Model.HasPassword)
                 {

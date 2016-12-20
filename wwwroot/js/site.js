@@ -66,6 +66,10 @@ $(document).ready(function() {
         });
     }
 
+    setTimeout(function() {
+        flashFadeout();
+    }, 10000);
+
     // close flash message
     $('.close').on('click', function(e) {
         e.preventDefault();
