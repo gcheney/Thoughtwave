@@ -57,7 +57,7 @@ namespace Thoughtwave.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
-                    SignUpDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 17, 20, 9, 22, 771, DateTimeKind.Local)),
+                    SignUpDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 19, 11, 43, 35, 69, DateTimeKind.Local)),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -158,10 +158,10 @@ namespace Thoughtwave.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    AuthorId = table.Column<string>(nullable: false),
+                    AuthorId = table.Column<string>(nullable: true),
                     Category = table.Column<int>(nullable: false, defaultValue: 6),
                     Content = table.Column<string>(maxLength: 2000, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 17, 20, 9, 22, 779, DateTimeKind.Local)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 19, 11, 43, 35, 77, DateTimeKind.Local)),
                     DisableComments = table.Column<bool>(nullable: false, defaultValue: false),
                     Title = table.Column<string>(maxLength: 100, nullable: false)
                 },
@@ -183,7 +183,7 @@ namespace Thoughtwave.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     Content = table.Column<string>(maxLength: 3000, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 17, 20, 9, 22, 778, DateTimeKind.Local)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 19, 11, 43, 35, 77, DateTimeKind.Local)),
                     ThoughtId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -195,13 +195,13 @@ namespace Thoughtwave.Migrations
                         column: x => x.ThoughtId,
                         principalTable: "Thoughts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

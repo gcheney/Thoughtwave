@@ -133,7 +133,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 17, 20, 9, 22, 778, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 19, 11, 43, 35, 77, DateTimeKind.Local));
 
                     b.Property<int?>("ThoughtId");
 
@@ -153,8 +153,7 @@ namespace Thoughtwave.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired();
+                    b.Property<string>("AuthorId");
 
                     b.Property<int>("Category")
                         .ValueGeneratedOnAdd()
@@ -166,7 +165,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 17, 20, 9, 22, 779, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 19, 11, 43, 35, 77, DateTimeKind.Local));
 
                     b.Property<bool>("DisableComments")
                         .ValueGeneratedOnAdd()
@@ -237,7 +236,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("SignUpDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 17, 20, 9, 22, 771, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 19, 11, 43, 35, 69, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -297,11 +296,13 @@ namespace Thoughtwave.Migrations
                 {
                     b.HasOne("Thoughtwave.Models.Thought", "Thought")
                         .WithMany("Comments")
-                        .HasForeignKey("ThoughtId");
+                        .HasForeignKey("ThoughtId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Thoughtwave.Models.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Thoughtwave.Models.Thought", b =>
