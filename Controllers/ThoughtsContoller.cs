@@ -65,6 +65,7 @@ namespace Thoughtwave.Controllers
             }
             
             Category category = GetCategoryFromString(categoryId);
+            
             if (category != Category.None) 
             {
                 var thoughts = await _repository.GetThoughtsByCategoryAsync(category);
@@ -331,6 +332,7 @@ namespace Thoughtwave.Controllers
             return RedirectToAction("Manage");
         }
 
+        /* ------- HELPER METHODS ---------- */
 
         private async Task<bool> UserIsThoughtAuthorAsync(Thought thought)
         {
