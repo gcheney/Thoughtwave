@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Thoughtwave.Models;
 
@@ -57,11 +58,13 @@ namespace Thoughtwave.Data
             // Comment Configuration
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Thought)
-                .WithMany(t => t.Comments);
+                .WithMany(t => t.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
-                .WithMany(u => u.Comments);
+                .WithMany(u => u.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>()
                 .Property(c => c.Content)
@@ -77,12 +80,8 @@ namespace Thoughtwave.Data
             // Thought Configuration
             modelBuilder.Entity<Thought>()
                 .HasOne(t => t.Author)
-                .WithMany(u => u.Thoughts);
-
-            modelBuilder.Entity<Thought>()
-                .HasOne(t => t.Author)
                 .WithMany(u => u.Thoughts)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Thought>()
                 .Property(t => t.CreatedOn)
