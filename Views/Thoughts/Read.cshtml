@@ -62,9 +62,14 @@
                     <!-- Comments Form -->
                     <div class="well">
                         <h4>Leave a Comment:</h4>
-                        <form role="form" method="POST">
+                        <form role="form" method="POST" 
+                            asp-controller="Comments" 
+                            asp-action="Create" 
+                            asp-route-thoughtId="@Model.Id"
+                            id="comment-form">
+                            <input type="hidden" name="returnUrl" value="@Context.Request.Path"
                             <div class="form-group">
-                                <textarea class="form-control" rows="3"></textarea>
+                                <textarea class="form-control" rows="4" name="content" id="comment-content"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
