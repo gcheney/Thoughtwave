@@ -9,6 +9,8 @@ namespace Thoughtwave.Data
         Task<List<Thought>> GetAllThoughtsAsync();
 
         Task<List<Thought>> GetRecentThoughtsAsync();
+        
+        Thought GetThoughtById(int id);
 
         Task<Thought> GetThoughtByIdAsync(int? id);
 
@@ -31,6 +33,8 @@ namespace Thoughtwave.Data
         void UpdateThought(Thought thought);
 
         void DeleteThought(Thought thought);
+
+        void AddComment(int thoughtId, Comment comment);
 
         Task<bool> CommitChangesAsync();
     }
