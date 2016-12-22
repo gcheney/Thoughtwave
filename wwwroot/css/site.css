@@ -448,6 +448,10 @@ form .row:first-child .floating-label-form-group {
     color: #e1005e;
 }
 
+.comment-validation-error { 
+    border:  1px solid #a94442; 
+}
+
 /* Button Styles */
 
 .btn {
