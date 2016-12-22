@@ -42,30 +42,12 @@ namespace Thoughtwave.Data
 
         /* GET THOUGHTS BY ID */
 
-        public Thought GetThoughtById(int id)
-        {
-            return _context.Thoughts
-                .Where(t => t.Id == id)
-                .Include(t => t.Author)
-                .SingleOrDefault();
-        }
-
         public async Task<Thought> GetThoughtByIdAsync(int? id)
         {
             return await _context.Thoughts
                 .Where(t => t.Id == id)
                 .Include(t => t.Author)
                 .SingleOrDefaultAsync();
-        }
-
-        public Thought GetThoughtAndCommentsById(int id)
-        {
-            return _context.Thoughts
-                .Where(t => t.Id == id)
-                .Include(t => t.Author)
-                .Include(t => t.Comments)
-                    .ThenInclude(c => c.User)
-                .SingleOrDefault();
         }
 
         public async Task<Thought> GetThoughtAndCommentsByIdAsync(int? id)
@@ -181,19 +163,14 @@ namespace Thoughtwave.Data
 
         public void AddComment(int thoughtId, Comment comment)
         {
-            var thought = GetThoughtAndCommentsById(thoughtId);
+            var thought = _context.Thoughts
+                .Where(t => t.Id == thoughtId)
+                .Include(t => t.Comments)
+                .SingleOrDefault();
 
             if (thought != null)
             {
-                try
-                {
-                    thought.Comments.Add(comment);
-                }
-                catch (NullReferenceException ex)
-                {
-                    Console.WriteLine($"Error:  {ex.Message}");
-                    Console.WriteLine($"Stack trace: {ex.StackTrace}");
-                }
+                thought.Comments.Add(comment);
             }
         } 
 

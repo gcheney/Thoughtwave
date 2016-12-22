@@ -10,8 +10,6 @@ namespace Thoughtwave.Data
 
         Task<List<Thought>> GetRecentThoughtsAsync();
         
-        Thought GetThoughtById(int id);
-
         Task<Thought> GetThoughtByIdAsync(int? id);
 
         Task<Thought> GetThoughtAndCommentsByIdAsync(int? id);
