@@ -33,6 +33,11 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> Create(int thoughtId, string content,
             string returnUrl)
         {
+            if (thoughtId == null)
+            {
+                _logger.LogError($"Invalid thoughtId provided for comment on {returnUrl}");
+                return View("Error");
+            }
             // no content for comment
             if (content == null)
             {
@@ -63,6 +68,7 @@ namespace Thoughtwave.Controllers
                 return Redirect(returnUrl);
             }
         }
+
 
         /* ------- HELPER METHODS ---------- */
 
