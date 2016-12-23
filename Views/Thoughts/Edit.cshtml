@@ -11,7 +11,7 @@
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">    
             <h1 class="text-center">What are you thinking today?</h1>
             <hr class="large"/>
-            <form method="post" asp-antiforgery="true">
+            <form method="POST" asp-antiforgery="true">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <input type="hidden" asp-for="CreatedOn" value="@Model.CreatedOn" />
                 <div class="form-group">
