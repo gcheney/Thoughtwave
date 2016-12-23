@@ -191,20 +191,14 @@ namespace Thoughtwave.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("{categoryId}/{id}/{slug}")]
-        public async Task<IActionResult> Read(int? id)
+        public async Task<IActionResult> Read(int id)
         {
-            if (id == null)
-            {
-                _logger.LogError("Invalid ID supplied for Read action");
-                return NotFound();
-            }
-            
             var thought = await _repository.GetThoughtAndCommentsByIdAsync(id);
 
             if (thought == null)
             {
                 _logger.LogInformation($"Unable to retrieve thought with id {id} from repository");
-                return View("Error");
+                return NotFound();
             }
             
             return View(thought);
@@ -212,14 +206,8 @@ namespace Thoughtwave.Controllers
 
         [HttpGet]
         [Route("/thoughts/edit/{id}")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                _logger.LogError("Invalid ID supplied for Edit GET action");
-                return NotFound();
-            }
-
             var thought = await _repository.GetThoughtByIdAsync(id);
 
             if (thought == null)
@@ -229,16 +217,16 @@ namespace Thoughtwave.Controllers
             }
 
             // block non-authors from viewing page
-            if (!(await UserIsThoughtAuthorAsync(thought)))
+            if (await UserIsThoughtAuthorAsync(thought))
             {
-                // current user is not author
-                return Forbid();
+                // current user is author
+                var viewModel = Mapper.Map<EditThoughtViewModel>(thought);
+                ViewBag.Title = $"Editing {thought.Title}";
+                return View(viewModel);
             }
 
-            // current user is author
-            var viewModel = Mapper.Map<EditThoughtViewModel>(thought);
-            ViewBag.Title = $"Editing {thought.Title}";
-            return View(viewModel);
+            // current user is not author
+            return Forbid();
         }
 
         [HttpPost]
@@ -278,14 +266,8 @@ namespace Thoughtwave.Controllers
 
         [HttpGet]
         [Route("/thoughts/delete/{id}")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                _logger.LogError("Invalid ID supplied for Delete GET action");
-                return NotFound();
-            }
-
             var thought = await _repository.GetThoughtByIdAsync(id);
 
             if (thought == null)
@@ -295,15 +277,15 @@ namespace Thoughtwave.Controllers
             }
 
             // block non-authors from viewing page
-            if (!(await UserIsThoughtAuthorAsync(thought)))
+            if (await UserIsThoughtAuthorAsync(thought))
             {
-                // current user is not author
-                return Forbid();
+                // current user is author
+                ViewBag.Title = $"Delete {thought.Title}?";
+                return View(thought);
             }
 
-            // current user is author
-            ViewBag.Title = $"Delete {thought.Title}?";
-            return View(thought);
+            // current user is not author
+            return Forbid();
         }
 
         [HttpPost]
@@ -313,23 +295,24 @@ namespace Thoughtwave.Controllers
         {
             var thought = await _repository.GetThoughtByIdAsync(id);
 
-            if (!(await UserIsThoughtAuthorAsync(thought)))
+            if (await UserIsThoughtAuthorAsync(thought))
             {
-                return Forbid();
-            }
-            
-            _repository.DeleteThought(thought);
+                _repository.DeleteThought(thought);
                 
-            if (await _repository.CommitChangesAsync())
-            {
-                TempData["success"] = "Thought successfully deleted";
+                if (await _repository.CommitChangesAsync())
+                {
+                    TempData["success"] = "Thought successfully deleted";
+                    return RedirectToAction("Manage");
+                }
+
+                // an error occured saving changes
+                _logger.LogError($"Unable to commit changes for deleting thought with id: {id}");
+                TempData["error"] = "Something went wrong. Thought not deleted";
                 return RedirectToAction("Manage");
             }
 
-            // an error occured saving changes
-            _logger.LogError($"Unable to commit changes for deleting thought with id: {id}");
-            TempData["error"] = "Something went wrong. Thought not deleted";
-            return RedirectToAction("Manage");
+            // current user is not author
+            return Forbid();
         }
 
         /* ------- HELPER METHODS ---------- */
