@@ -42,7 +42,7 @@ namespace Thoughtwave.Data
 
         /* GET THOUGHTS BY ID */
 
-        public async Task<Thought> GetThoughtByIdAsync(int? id)
+        public async Task<Thought> GetThoughtByIdAsync(int id)
         {
             return await _context.Thoughts
                 .Where(t => t.Id == id)
@@ -50,7 +50,7 @@ namespace Thoughtwave.Data
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<Thought> GetThoughtAndCommentsByIdAsync(int? id)
+        public async Task<Thought> GetThoughtAndCommentsByIdAsync(int id)
         {
             return await _context.Thoughts
                 .Where(t => t.Id == id)
