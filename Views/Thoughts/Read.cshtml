@@ -120,21 +120,41 @@
                             @if (SignInManager.IsSignedIn(User) 
                                 && (await UserManager.GetUserAsync(User)).Id == comment.User.Id)
                             {
-                                <div class="comment-content user-comment" contenteditable="true">
+                                <div class="comment-content user-comment" contenteditable="true" id="@string.Concat("content", comment.Id)">
                                     @comment.Content
                                 </div>
-                                <form role="form" method="POST" 
-                                    asp-controller="Comments" 
-                                    asp-action="Delete" 
-                                    asp-route-thoughtId="@Model.Id"
-                                    asp-route-commentId="@comment.Id"
-                                    asp-anti-forgery="true">
-                                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                    <input type="hidden" name="userName" value="@comment.User.UserName" />
-                                    <button type="submit" class="btn btn-link btn-remove">
-                                        <span class="text-danger">Remove</span>
-                                    </button>
-                                </form>
+                                <div class="row">   
+                                    <div class="form-group col-md-6"> 
+                                        <form role="form" method="POST" 
+                                            asp-controller="Comments" 
+                                            asp-action="Update" 
+                                            asp-route-thoughtId="@Model.Id"
+                                            asp-route-commentId="@comment.Id"
+                                            asp-anti-forgery="true"
+                                            id="@comment.Id">
+                                            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                                            <input type="hidden" name="userName" value="@comment.User.UserName" />
+                                            <input type="hidden" name="updatedContent" id="@string.Concat("hidden", comment.Id)" />
+                                            <button type="submit" class="btn btn-link btn-edit">
+                                                <span class="text-success">Update</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <form role="form" method="POST" 
+                                            asp-controller="Comments" 
+                                            asp-action="Delete" 
+                                            asp-route-thoughtId="@Model.Id"
+                                            asp-route-commentId="@comment.Id"
+                                            asp-anti-forgery="true">
+                                            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                                            <input type="hidden" name="userName" value="@comment.User.UserName" />
+                                            <button type="submit" class="btn btn-link btn-remove">
+                                                <span class="text-danger">Remove</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             }
                             else
                             {
@@ -155,49 +175,64 @@
 @section Scripts {
     <script type="text/javascript">
 
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        // validate comment submission form
-        var $commentForm = $('#comment-form');
-        var $content = $('#comment-content');
-        $commentForm.on('submit', function(e) {
-            //check for validation success
-            var validtionSuccess = true;
-            if (!$content.val()) {
-                $content.addClass('comment-validation-error');
-                var errMsg = '<ul class="text-danger" id="name-val-msg"><li>You forgot to write your comment!</li></ul>';
-                $commentForm.prepend(errMsg);
-                return false;
-            }              
+            // validate comment submission form
+            var $commentForm = $('#comment-form');
+            var $content = $('#comment-content');
+            $commentForm.on('submit', function(e) {
+                //check for validation success
+                var validtionSuccess = true;
+                if (!$content.val()) {
+                    $content.addClass('comment-validation-error');
+                    var errMsg = '<ul class="text-danger" id="name-val-msg"><li>You forgot to write your comment!</li></ul>';
+                    $commentForm.prepend(errMsg);
+                    return false;
+                }              
 
-            return true;
-        });
-        
-        // remove validation errors
-        $content.keypress(function(e) {
-            $content.removeClass('comment-validation-error');
-            $('#name-val-msg').remove();
-        });
+                return true;
+            });
+            
+            // remove validation errors
+            $content.keypress(function(e) {
+                $content.removeClass('comment-validation-error');
+                $('#name-val-msg').remove();
+            });
 
-        // show confirm box for comment removal
-        $('.btn-remove').on('click', function(e) {
-            if (confirm('Are you sure you want to delete this review?')) {
-                // allow form submission
-            } else {
+            // show confirm box for comment removal
+            $('.btn-remove').on('click', function(e) {
+                if (!confirm('Are you sure you want to delete this comment?')) {
+                    // stop form submission
+                    e.preventDefault();
+                }
+            });
+
+            // show comment editor for logged in users comments
+            $('.user-comment').on('click', function(e) {
+                $(this).addClass('comment-editor');
+                $(this).focus();
+            });
+
+            $('.comment-editor').on('blur', function(e) {
+                $(this).removeClass('comment-editor');
+            });
+
+            // handle edit form submission
+            $('.btn-edit').on('click', function(e) {
+                // stop form submission
                 e.preventDefault();
-            }
-        });
 
-        // show ediotr for logged in users comments
-        $('.user-comment').on('click', function() {
-            $(this).addClass('comment-editor');
-            $(this).focus();
-        });
+                // get correct edit form
+                var $updateForm = $(this).closest('form');
+                var id = $updateForm.attr('id');
 
-        $('.comment-editor').on('blur', function() {
-            $(this).removeClass('comment-editor');
+                // update hidden value
+                var updatedContent = $('#content' + id).html();
+                console.log(updatedContent);
+                $('#hidden' + id).val(updatedContent);
+                $updateForm.submit();
+            });
         });
-    });
 
     </script>
 }
