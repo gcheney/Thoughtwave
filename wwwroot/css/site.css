@@ -452,6 +452,13 @@ form .row:first-child .floating-label-form-group {
     border:  1px solid #a94442; 
 }
 
+.comment-editor {
+  border: none;
+  background: #ddd;
+  color: #000;
+  cursor: text;
+}
+
 /* Button Styles */
 
 .btn {
