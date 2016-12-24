@@ -65,6 +65,46 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpPost]
+        [RouteAttribute("/thoughts/{thoughtId}/comments/{commentId}/update")]
+        [ValidateAntiForgeryTokenAttribute]
+        public async Task<IActionResult> Update(int thoughtId, int commentId,
+            string updatedContent, string returnUrl, string userName)
+        {
+            var currentUser = await GetCurrentUserAsync();
+
+            // current user is comment user
+            if (currentUser.UserName == userName)
+            {
+                var comment = await _repository.GetCommentByIdAsync(commentId);
+
+                if (comment == null)
+                {
+                    _logger.LogInformation($"No comment found with id {commentId}");
+                    NotFound();
+                }
+
+                // commnet found, update it
+                comment.Content = updatedContent;
+                comment.CreatedOn = DateTime.Now;
+                
+                if (await _repository.CommitChangesAsync())
+                {
+                    TempData["success"] = "Your comment has been successfully updated";
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    _logger.LogError($"Unable to update comment {commentId} for thought {thoughtId}");
+                    TempData["error"] = "An error occurred updatng your comment, please try again";
+                    return Redirect(returnUrl);
+                }
+            }
+
+            // user is not comment User
+            return Forbid();
+        }
+
+        [HttpPost]
         [RouteAttribute("/thoughts/{thoughtId}/comments/{commentId}/delete")]
         [ValidateAntiForgeryTokenAttribute]
         public async Task<IActionResult> Delete(int thoughtId, int commentId,
