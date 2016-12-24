@@ -1,5 +1,9 @@
 @model Thought
 
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
 @{
     ViewData["Title"] = @Model.Title;
 }
@@ -57,7 +61,7 @@
             {
                 <div class="well">
                     <!-- Comment Form -->     
-                    @if (User.Identity.IsAuthenticated)
+                    @if (SignInManager.IsSignedIn(User))
                     {
                         <!-- Comments Form -->
                         <h4>Leave a Comment:</h4>
@@ -65,7 +69,8 @@
                             asp-controller="Comments" 
                             asp-action="Create" 
                             asp-route-thoughtId="@Model.Id"
-                            id="comment-form">
+                            id="comment-form"
+                            asp-anti-forgery="true">
                             <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
                             <div class="form-group">
                                 <textarea class="form-control" rows="4" name="content" id="comment-content"></textarea>
@@ -111,6 +116,24 @@
                                 @comment.Content
                             </div>
                         </div>
+                        @{
+                            var user = await UserManager.GetUserAsync(User);
+                            if (user.Id == comment.User.Id)
+                            {
+                                <form role="form" method="POST" 
+                                    asp-controller="Comments" 
+                                    asp-action="Delete" 
+                                    asp-route-thoughtId="@Model.Id"
+                                    asp-route-commentId="@comment.Id"
+                                    asp-anti-forgery="true">
+                                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                                    <input type="hidden" name="userName" value="@comment.User.UserName" />
+                                    <button type="submit" class="btn btn-link">
+                                        <span class="text-danger">Remove</span>
+                                    </button>
+                                </form>
+                            }
+                        }
                     </div>
                     <hr />
                 } 
