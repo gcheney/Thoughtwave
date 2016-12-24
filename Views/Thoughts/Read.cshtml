@@ -116,7 +116,8 @@
                                 @comment.Content
                             </div>
                         </div>
-                        @{
+                        @if (SignInManager.IsSignedIn(User))
+                        {
                             var user = await UserManager.GetUserAsync(User);
                             if (user.Id == comment.User.Id)
                             {
@@ -128,7 +129,7 @@
                                     asp-anti-forgery="true">
                                     <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
                                     <input type="hidden" name="userName" value="@comment.User.UserName" />
-                                    <button type="submit" class="btn btn-link">
+                                    <button type="submit" class="btn btn-link btn-remove">
                                         <span class="text-danger">Remove</span>
                                     </button>
                                 </form>
@@ -146,7 +147,8 @@
 @section Scripts {
     <script type="text/javascript">
 
-    $(document).ready(function(){
+    $(document).ready(function() {
+
         // validate comment submission form
         var $commentForm = $('#comment-form');
         var $content = $('#comment-content');
@@ -163,10 +165,13 @@
             return true;
         });
         
+        // remove validation errors
         $content.keypress(function(e) {
             $content.removeClass('comment-validation-error');
             $('#name-val-msg').remove();
         });
+
+       
     });
 
     </script>
