@@ -33,11 +33,6 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> Create(int thoughtId, string content,
             string returnUrl)
         {
-            if (thoughtId == null)
-            {
-                _logger.LogError($"Invalid thoughtId provided for comment on {returnUrl}");
-                return View("Error");
-            }
             // no content for comment
             if (content == null)
             {
@@ -67,6 +62,45 @@ namespace Thoughtwave.Controllers
                 TempData["error"] = "An error occurred, please try again";
                 return Redirect(returnUrl);
             }
+        }
+
+        [HttpPost]
+        [RouteAttribute("/thoughts/{thoughtId}/comments/{commentId}/delete")]
+        [ValidateAntiForgeryTokenAttribute]
+        public async Task<IActionResult> Delete(int thoughtId, int commentId,
+            string returnUrl, string userName)
+        {
+            var currentUser = await GetCurrentUserAsync();
+
+            // current user is comment user
+            if (currentUser.UserName == userName)
+            {
+                var comment = await _repository.GetCommentByIdAsync(commentId);
+
+                if (comment == null)
+                {
+                    _logger.LogInformation($"No comment found with id {commentId}");
+                    NotFound();
+                }
+
+                // commnet found, remove it
+                _repository.RemoveComment(thoughtId, comment);
+
+                if (await _repository.CommitChangesAsync())
+                {
+                    TempData["success"] = "Your comment has been removed";
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    _logger.LogError($"Unable to remove comment {commentId} for thought {thoughtId}");
+                    TempData["error"] = "An error occurred, please try again";
+                    return Redirect(returnUrl);
+                }
+            }
+
+            // user is not comment User
+            return Forbid();
         }
 
 
