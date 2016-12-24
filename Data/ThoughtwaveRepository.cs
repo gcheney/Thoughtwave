@@ -159,6 +159,14 @@ namespace Thoughtwave.Data
             _context.Thoughts.Remove(thought);
         }
 
+        /* GET A COMMENT BY ID */
+        public async Task<Comment> GetCommentByIdAsync(int id)
+        {
+            return await _context.Comments  
+                .Where(c => c.Id == id)
+                .SingleOrDefaultAsync();
+        }
+
         /* ADD A COMMENT */
 
         public void AddComment(int thoughtId, Comment comment)
@@ -171,6 +179,21 @@ namespace Thoughtwave.Data
             if (thought != null)
             {
                 thought.Comments.Add(comment);
+            }
+        } 
+
+         /* REMOVE A COMMENT */
+
+        public void RemoveComment(int thoughtId, Comment comment)
+        {
+            var thought = _context.Thoughts
+                .Where(t => t.Id == thoughtId)
+                .Include(t => t.Comments)
+                .SingleOrDefault();
+
+            if (thought != null)
+            {
+                thought.Comments.Remove(comment);
             }
         } 
 
