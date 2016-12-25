@@ -230,7 +230,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryTokenAttribute]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditThoughtViewModel viewModel)
         {
             if (ModelState.IsValid)

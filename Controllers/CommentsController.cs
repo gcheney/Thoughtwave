@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -28,8 +26,8 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpPost]
-        [RouteAttribute("/thoughts/{thoughtId}/comments")]
-        [ValidateAntiForgeryTokenAttribute]
+        [ValidateAntiForgeryToken]
+        [Route("/thoughts/{thoughtId}/comments")]
         public async Task<IActionResult> Create(int thoughtId, string content,
             string returnUrl)
         {
@@ -65,8 +63,8 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpPost]
-        [RouteAttribute("/thoughts/{thoughtId}/comments/{commentId}/update")]
-        [ValidateAntiForgeryTokenAttribute]
+        [ValidateAntiForgeryToken]
+        [Route("/thoughts/{thoughtId}/comments/{commentId}/update")]
         public async Task<IActionResult> Update(int thoughtId, int commentId,
             string updatedContent, string returnUrl, string userName)
         {
@@ -105,8 +103,8 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpPost]
-        [RouteAttribute("/thoughts/{thoughtId}/comments/{commentId}/delete")]
-        [ValidateAntiForgeryTokenAttribute]
+        [ValidateAntiForgeryToken]
+        [Route("/thoughts/{thoughtId}/comments/{commentId}/delete")]
         public async Task<IActionResult> Delete(int thoughtId, int commentId,
             string returnUrl, string userName)
         {
