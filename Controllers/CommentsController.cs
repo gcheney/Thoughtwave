@@ -32,7 +32,7 @@ namespace Thoughtwave.Controllers
             string returnUrl)
         {
             // no content for comment
-            if (content == null)
+            if (String.IsNullOrWhiteSpace(content))
             {
                 TempData["error"] = "No comment content was provided";
                 return Redirect(returnUrl);
@@ -68,6 +68,12 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> Update(int thoughtId, int commentId,
             string updatedContent, string returnUrl, string userName)
         {
+            if (String.IsNullOrWhiteSpace(updatedContent))
+            {
+                TempData["error"] = "No comment content was provided";
+                return Redirect(returnUrl);
+            }
+
             var currentUser = await GetCurrentUserAsync();
 
             // current user is comment user
