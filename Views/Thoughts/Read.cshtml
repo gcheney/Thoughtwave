@@ -193,12 +193,11 @@
 
             // validate comment submission form
             var $commentForm = $('#comment-form');
-            var $content = $('#comment-content');
+            var $commentContent = $('#comment-content');
             $commentForm.on('submit', function(e) {
-                //check for validation success
                 var validtionSuccess = true;
-                if (!$content.val()) {
-                    $content.addClass('comment-validation-error');
+                if (!$commentContent.val()) {
+                    $commentContent.addClass('comment-validation-error');
                     var errMsg = '<ul class="text-danger" id="name-val-msg"><li>You forgot to write your comment!</li></ul>';
                     $commentForm.prepend(errMsg);
                     return false;
@@ -208,8 +207,8 @@
             });
             
             // remove validation errors
-            $content.keypress(function(e) {
-                $content.removeClass('comment-validation-error');
+            $commentContent.keypress(function(e) {
+                $commentContent.removeClass('comment-validation-error');
                 $('#name-val-msg').remove();
             });
 
@@ -221,12 +220,13 @@
                 }
             });
 
-            // show comment editor for logged in users comments
+            // show comment editor on click or mouseover
             $('.user-comment').on('click mouseover', function(e) {
                 $(this).addClass('comment-editor');
                 $(this).focus();
             });
 
+            // remove comment editor class
             $('.user-comment').on('blur mouseleave', function(e) {
                 $(this).removeClass('comment-editor');
                 $(this).blur();
@@ -242,9 +242,18 @@
                 var id = $updateForm.attr('id');
 
                 // update hidden value
-                var updatedContent = $('#content' + id).html();
-                $('#hidden' + id).val(updatedContent);
-                $updateForm.submit();
+                var $commentBox = $('#content' + id);
+                var updatedContent = $commentBox.html();
+
+                // check for comment content
+                if (updatedContent.length <= 0) {
+                    $commentBox.addClass('comment-validation-error');
+                    $commentBox.append(errMsg);
+                } else {
+                    // form is valid - update hidden val and submit form
+                    $('#hidden' + id).val(updatedContent);
+                    $updateForm.submit();
+                }
             });
         });
 
