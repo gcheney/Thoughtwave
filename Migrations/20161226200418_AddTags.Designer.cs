@@ -8,9 +8,10 @@ using Thoughtwave.Data;
 namespace Thoughtwave.Migrations
 {
     [DbContext(typeof(ThoughtwaveDbContext))]
-    partial class ThoughtwaveDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161226200418_AddTags")]
+    partial class AddTags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");
