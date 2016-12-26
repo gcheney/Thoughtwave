@@ -22,6 +22,9 @@ namespace Thoughtwave.ViewModels.ThoughtViewModels
         [Display(Name = "Disable Comments?")]
         public bool DisableComments { get; set; }
 
+        [Display(Name = "Thought Tags, seperated by a comma")]
+        public string Tags { get; set; }
+
         public DateTime CreatedOn { get; set; }
     }
 }
