@@ -34,6 +34,16 @@
                                 @Model.Category
                             </a>
                         </p>
+                        @if (Model.Tags != null && Model.Tags.Length > 0)
+                        {
+                            <p>
+                                Tags: 
+                                @foreach (var tag in Model.TagList)
+                                {
+                                    <a>@tag</a>
+                                }
+                            </p>
+                        }
                     </div>
                     <div class="lead">
                         @Html.Raw(WebUtility.HtmlDecode(Model.Content))
@@ -92,80 +102,84 @@
 
                 <!-- Posted Comments -->
                 <!-- Comment -->
-                if (!Model.Comments.Any())
+                @if (!Model.Comments.Any())
                 {
                     <h2 class="text-center text-muted">No comments to display</h2>
                 }
-
-                @foreach (var comment in @Model.Comments)
+                else
                 {
-                    <div class="media">
-                        <a asp-action="Details" 
-                            asp-controller="Users" 
-                            asp-route-username="@comment.User.UserName" 
-                            class="pull-left">
-                            <img class="media-object img-responsive user-img" src="@comment.User.Avatar" alt="User Image">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a asp-action="Details" 
-                                    asp-controller="Users" 
-                                    asp-route-username="@comment.User.UserName">
-                                    @comment.User.FullName
-                                </a> 
-                                <small>
-                                    @comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
-                                </small>
-                            </h4>
-                            @if (SignInManager.IsSignedIn(User) 
-                                && (await UserManager.GetUserAsync(User)).Id == comment.User.Id)
-                            {
-                                <div class="comment-content user-comment" contenteditable="true" id="@string.Concat("content", comment.Id)">
-                                    @comment.Content
-                                </div>
-                                <div class="row">   
-                                    <div class="form-group col-md-6"> 
-                                        <form role="form" method="POST" 
-                                            asp-controller="Comments" 
-                                            asp-action="Update" 
-                                            asp-route-thoughtId="@Model.Id"
-                                            asp-route-commentId="@comment.Id"
-                                            asp-anti-forgery="true"
-                                            id="@comment.Id">
-                                            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                            <input type="hidden" name="userName" value="@comment.User.UserName" />
-                                            <input type="hidden" name="updatedContent" id="@string.Concat("hidden", comment.Id)" />
-                                            <button type="submit" class="btn btn-link btn-edit">
-                                                <span class="text-success">Update</span>
-                                            </button>
-                                        </form>
+                    foreach (var comment in @Model.Comments)
+                    {
+                        <div class="media">
+                            <a asp-action="Details" 
+                                asp-controller="Users" 
+                                asp-route-username="@comment.User.UserName" 
+                                class="pull-left">
+                                <img class="media-object img-responsive user-img" 
+                                    src="@comment.User.Avatar" alt="User Image">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a asp-action="Details" 
+                                        asp-controller="Users" 
+                                        asp-route-username="@comment.User.UserName">
+                                        @comment.User.FullName
+                                    </a> 
+                                    <small>
+                                        @comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
+                                    </small>
+                                </h4>
+                                @if (SignInManager.IsSignedIn(User) 
+                                    && (await UserManager.GetUserAsync(User)).Id == comment.User.Id)
+                                {
+                                    <div class="comment-content user-comment" 
+                                        contenteditable="true" id="@string.Concat("content", comment.Id)">
+                                        @comment.Content
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <form role="form" method="POST" 
-                                            asp-controller="Comments" 
-                                            asp-action="Delete" 
-                                            asp-route-thoughtId="@Model.Id"
-                                            asp-route-commentId="@comment.Id"
-                                            asp-anti-forgery="true">
-                                            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                            <input type="hidden" name="userName" value="@comment.User.UserName" />
-                                            <button type="submit" class="btn btn-link btn-remove">
-                                                <span class="text-danger">Remove</span>
-                                            </button>
-                                        </form>
+                                    <div class="row">   
+                                        <div class="form-group col-md-6"> 
+                                            <form role="form" method="POST" 
+                                                asp-controller="Comments" 
+                                                asp-action="Update" 
+                                                asp-route-thoughtId="@Model.Id"
+                                                asp-route-commentId="@comment.Id"
+                                                asp-anti-forgery="true"
+                                                id="@comment.Id">
+                                                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                                                <input type="hidden" name="userName" value="@comment.User.UserName" />
+                                                <input type="hidden" name="updatedContent" id="@string.Concat("hidden", comment.Id)" />
+                                                <button type="submit" class="btn btn-link btn-edit">
+                                                    <span class="text-success">Update</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <form role="form" method="POST" 
+                                                asp-controller="Comments" 
+                                                asp-action="Delete" 
+                                                asp-route-thoughtId="@Model.Id"
+                                                asp-route-commentId="@comment.Id"
+                                                asp-anti-forgery="true">
+                                                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                                                <input type="hidden" name="userName" value="@comment.User.UserName" />
+                                                <button type="submit" class="btn btn-link btn-remove">
+                                                    <span class="text-danger">Remove</span>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="comment-content">
-                                    @comment.Content
-                                </div>
-                            }
+                                }
+                                else
+                                {
+                                    <div class="comment-content">
+                                        @comment.Content
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <hr />
-                } 
+                        <hr />
+                    } 
+                }
             }
         </div>
     </div>
@@ -208,13 +222,14 @@
             });
 
             // show comment editor for logged in users comments
-            $('.user-comment').on('click', function(e) {
+            $('.user-comment').on('click mouseover', function(e) {
                 $(this).addClass('comment-editor');
                 $(this).focus();
             });
 
-            $('.comment-editor').on('blur', function(e) {
+            $('.user-comment').on('blur mouseleave', function(e) {
                 $(this).removeClass('comment-editor');
+                $(this).blur();
             });
 
             // handle edit form submission
