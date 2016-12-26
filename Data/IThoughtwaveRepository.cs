@@ -16,6 +16,8 @@ namespace Thoughtwave.Data
 
         Task<List<Thought>> GetThoughtsByCategoryAsync(Category category);
 
+        Task<List<Thought>> GetThoughtsByTagAsync(string tag);
+
         Task<List<Thought>> GetThoughtsByQueryAsync(string query);
 
         Task<List<Thought>> GetThoughtsByQueryAsync(string query, Category category);
