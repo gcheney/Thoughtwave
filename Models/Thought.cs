@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Thoughtwave.ExtensionMethods;
@@ -13,6 +14,7 @@ namespace Thoughtwave.Models
         public DateTime CreatedOn { get; set; }
         public Category Category { get; set; }
         public bool DisableComments { get; set; }
+        public string Tags { get; set; }
 
         public string Lead 
         { 
@@ -40,6 +42,14 @@ namespace Thoughtwave.Models
                 // add hyphens
                 str = Regex.Replace(str, @"\s", "-");    
                 return str;
+            }
+        }
+
+        public List<string> TagList
+        {
+            get
+            {
+                return Tags.Split(',').ToList();
             }
         }
         
