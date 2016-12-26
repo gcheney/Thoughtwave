@@ -76,7 +76,7 @@ namespace Thoughtwave.Data
                             new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
-                                User = user1,
+                                User = user2,
                             },
                             new Comment() 
                             {  
@@ -96,7 +96,7 @@ namespace Thoughtwave.Data
                             new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
-                                User = user1,
+                                User = user2,
                             },
                             new Comment() 
                             {  
@@ -117,7 +117,7 @@ namespace Thoughtwave.Data
                             new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
-                                User = user1,
+                                User = user2,
                             },
                             new Comment() 
                             {  
@@ -138,7 +138,7 @@ namespace Thoughtwave.Data
                             new Comment() 
                             {  
                                 Content = "Kogi scenester iceland neutra polaroid tumeric snackwave craft beer. Authentic wolf man bun succulents messenger bag blog. Hexagon hoodie schlitz, celiac migas trust fund whatever.", 
-                                User = user1,
+                                User = user2,
                             },
                             new Comment() 
                             {  
