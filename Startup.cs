@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Session;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 using Thoughtwave.ViewModels.ThoughtViewModels;
+using Thoughtwave.ViewModels.ManageViewModels;
+using Thoughtwave.ExtensionMethods;
 using Thoughtwave.Services;
 using AutoMapper;
 
@@ -93,10 +95,12 @@ namespace Thoughtwave
             Mapper.Initialize(config =>
             {
                 config.CreateMap<CreateThoughtViewModel, Thought>()
-                    .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content));
+                    .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content))
+                    .BeforeMap((src, dest) => src.Tags = src.Tags.RemoveWhiteSpaces());
 
                 config.CreateMap<EditThoughtViewModel, Thought>()
                     .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content))
+                    .BeforeMap((src, dest) => src.Tags = src.Tags.RemoveWhiteSpaces())
                     .ReverseMap()
                     .AfterMap((src, dest) => dest.Content = WebUtility.HtmlDecode(dest.Content));
             });
