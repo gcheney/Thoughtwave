@@ -43,16 +43,19 @@ namespace Thoughtwave.Data
             modelBuilder.Entity<User>()
                 .Property(u => u.FirstName)
                 .IsRequired()
+                .HasMaxLength(50)
                 .HasDefaultValue("Anonymous");
 
             modelBuilder.Entity<User>()
                 .Property(u => u.LastName)
                 .IsRequired()
+                .HasMaxLength(50)
                 .HasDefaultValue("User");
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Bio)
                 .IsRequired()
+                .HasMaxLength(500)
                 .HasDefaultValue("This user hasn't filled out their Bio yet.");
 
             // Comment Configuration
@@ -96,7 +99,7 @@ namespace Thoughtwave.Data
             modelBuilder.Entity<Thought>()
                 .Property(t => t.Content)
                 .IsRequired()
-                .HasMaxLength(2000);
+                .HasMaxLength(10000);
 
             modelBuilder.Entity<Thought>()
                 .Property(t => t.Category)

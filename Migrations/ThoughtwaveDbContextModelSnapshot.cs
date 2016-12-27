@@ -133,7 +133,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 26, 14, 4, 18, 507, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 26, 22, 29, 41, 705, DateTimeKind.Local));
 
                     b.Property<int?>("ThoughtId");
 
@@ -161,11 +161,11 @@ namespace Thoughtwave.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 2000);
+                        .HasAnnotation("MaxLength", 10000);
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 26, 14, 4, 18, 507, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 26, 22, 29, 41, 706, DateTimeKind.Local));
 
                     b.Property<bool>("DisableComments")
                         .ValueGeneratedOnAdd()
@@ -198,7 +198,8 @@ namespace Thoughtwave.Migrations
                     b.Property<string>("Bio")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue("This user hasn't filled out their Bio yet.");
+                        .HasDefaultValue("This user hasn't filled out their Bio yet.")
+                        .HasAnnotation("MaxLength", 500);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -211,12 +212,14 @@ namespace Thoughtwave.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue("Anonymous");
+                        .HasDefaultValue("Anonymous")
+                        .HasAnnotation("MaxLength", 50);
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue("User");
+                        .HasDefaultValue("User")
+                        .HasAnnotation("MaxLength", 50);
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -238,7 +241,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("SignUpDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2016, 12, 26, 14, 4, 18, 499, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2016, 12, 26, 22, 29, 41, 693, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 
