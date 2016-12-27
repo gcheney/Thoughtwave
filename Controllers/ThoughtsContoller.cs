@@ -92,6 +92,34 @@ namespace Thoughtwave.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("/tags/{tag}")]
+        public async Task<IActionResult> TagIndex(string tag)
+        {
+            if (tag == null)
+            {
+                _logger.LogError("Invalid tag provided");
+                return NotFound();
+            }
+                        
+            var thoughts = await _repository.GetThoughtsByTagAsync(tag);
+
+            if (thoughts == null)
+            {
+                _logger.LogError("Unable to retrieve thoughts for tag {tag}");
+                return View("Error");
+            }
+            
+            if (!thoughts.Any())
+            {
+                ViewBag.Message = $"No thoughts tagged with {tag} were found";
+            }
+
+            ViewBag.Content = $"Thoughts tagged with {tag}";
+            return View("Index", thoughts);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         [Route("/search")]
         public async Task<IActionResult> Search(string q, string c = "All")
         {
@@ -158,11 +186,11 @@ namespace Thoughtwave.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateThoughtViewModel viewModel)
+        public async Task<IActionResult> Create(CreateThoughtViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var thought = Mapper.Map<Thought>(viewModel);
+                var thought = Mapper.Map<Thought>(model);
 
                 // Save associated Thought author
                 thought.Author = await GetCurrentUserAsync();
@@ -185,7 +213,7 @@ namespace Thoughtwave.Controllers
             }
 
             // issue with model state
-            return View(viewModel);
+            return View(model);
         }
 
         [HttpGet]
@@ -231,11 +259,11 @@ namespace Thoughtwave.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditThoughtViewModel viewModel)
+        public async Task<IActionResult> Edit(int id, EditThoughtViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var thought = Mapper.Map<Thought>(viewModel);
+                var thought = Mapper.Map<Thought>(model);
                 thought.Id = id;
                 _repository.UpdateThought(thought); 
 
@@ -261,7 +289,7 @@ namespace Thoughtwave.Controllers
             }
 
             // issue with model state 
-            return View(viewModel);
+            return View(model);
         }
 
         [HttpGet]
