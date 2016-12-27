@@ -47,10 +47,11 @@ namespace Thoughtwave.Data
                 {
                     new Thought()
                     {
-                        Title = "How Can I Live Better",
+                        Title = "This Film Is Amazing",
                         Content = "Forage gochujang vape, mustache tumeric church-key master cleanse salvia godard hella hoodie everyday carry freegan. Sustainable forage aesthetic, neutra scenester lyft bespoke roof party taxidermy next level meggings coloring book. Jean shorts keffiyeh tacos migas normcore scenester.\n Fashion axe williamsburg lo-fi flexitarian unicorn ennui edison bulb.Forage gochujang vape, mustache tumeric church-key master cleanse salvia godard hella hoodie everyday carry freegan. Sustainable forage aesthetic, neutra scenester lyft bespoke roof party taxidermy next level meggings coloring book.\n Jean shorts keffiyeh tacos migas normcore scenester. Fashion axe williamsburg lo-fi flexitarian unicorn ennui edison bulb.",
                         Author = user3,
                         Category = Category.Film,
+                        Tags = "film,art,indie,hip,cinephile",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -71,6 +72,7 @@ namespace Thoughtwave.Data
                         Content = "Bushwick truffaut pok pok, schlitz pinterest thundercats whatever vinyl tilde yuccie fixie fashion axe letterpress synth master cleanse. Umami pork belly before they sold out subway tile, craft beer air plant stumptown kombucha meditation. Thundercats marfa celiac hella banjo, af franzen polaroid.\n\n Prism raw denim vinyl, single-origin coffee plaid trust fund everyday carry kitsch pickled jianbing seitan fap. IPhone biodiesel lo-fi blue bottle, occupy live-edge distillery iceland pabst green juice wayfarers waistcoat. Sriracha subway tile fashion axe hoodie retro, offal mustache PBR&B selfies whatever bushwick beard vinyl. Gluten-free prism kitsch, umami listicle waistcoat tumblr subway tile VHS typewriter schlitz poke glossier squid.",
                         Author = user2,
                         Category = Category.Music,
+                        Tags = "music,indie,hipster",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -91,6 +93,7 @@ namespace Thoughtwave.Data
                         Content = "Asymmetrical viral bushwick schlitz flannel, raclette glossier yr sartorial plaid butcher direct trade kickstarter. Hell of plaid craft beer kinfolk, intelligentsia gochujang cardigan direct trade viral forage truffaut shoreditch slow-carb pinterest. Deep v jean shorts taxidermy hoodie migas.\n\n \tSquid selvage fanny pack synth single-origin coffee. Art party wolf live-edge helvetica gochujang, kickstarter slow-carb gluten-free shabby chic franzen selvage ethical. Af chicharrones asymmetrical, banh mi you probably haven't heard of them ramps synth dreamcatcher offal man braid irony four dollar toast. Twee hammock chambray organic.",
                         Author = user1,
                         Category = Category.Politics,
+                        Tags = "world,news,bernie,hope,optimism,democratic",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -111,7 +114,7 @@ namespace Thoughtwave.Data
                         Content = "Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo. Cronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache. Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo. Cronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache. Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo.\n\n \tCronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache.",
                         Author = user1,
                         Category = Category.World,
-                        Tags = "world, news, politics, hope, optimism",
+                        Tags = "world,news,politics,hope,optimism",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -132,7 +135,7 @@ namespace Thoughtwave.Data
                         Content = "Single-origin coffee pabst succulents hexagon. Readymade try-hard prism semiotics. Art party YOLO meggings pitchfork cliche, jianbing scenester artisan cornhole green juice air plant retro sustainable. Mumblecore kinfolk chia, plaid stumptown disrupt tattooed irony migas retro gentrify flannel neutra hell of fixie. Schlitz enamel pin air plant PBR&B, migas organic everyday carry literally dreamcatcher kogi lo-fi chambray hammock tumeric. Waistcoat humblebrag prism, street art fap etsy meh knausgaard crucifix small batch bushwick butcher DIY poutine salvia. Synth etsy sriracha, chillwave authentic meggings gastropub retro artisan brunch.",
                         Author = user2,
                         Category = Category.World,
-                        Tags = "depression, doomsday",
+                        Tags = "depression,doomsday",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -151,7 +154,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "This is a Very Personal Confession",
                         Content = "Stumptown iceland lumbersexual vexillologist put a bird on it.\n\n Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac.",
-                        Tags = "personal, confession",
+                        Tags = "personal,confession",
                         Author = user2,
                         DisableComments = true,
                         Comments = new List<Comment>()
@@ -160,7 +163,7 @@ namespace Thoughtwave.Data
                     {
                         Title = "This is a ANOTHER Very Personal Confession",
                         Content = "Stumptown iceland lumbersexual vexillologist put a bird on it.\n\n Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac.",
-                        Tags = "personal, confession",
+                        Tags = "personal,confession",
                         Author = user3,
                         Comments = new List<Comment>()
                     }                        
