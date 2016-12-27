@@ -145,7 +145,7 @@ a {
       .navbar-custom.is-fixed .navbar-brand {
           color: #404040;
       }
-
+      
       .navbar-custom.is-fixed .navbar-brand:hover,
       .navbar-custom.is-fixed .navbar-brand:focus {
           color: #0085a1;
@@ -366,6 +366,11 @@ a {
 .comment-content {
     font-size: 20px;
     display: block;
+}
+
+.tag-link {
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 /* Footer Styles */

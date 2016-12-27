@@ -40,7 +40,10 @@
                                 Tags: 
                                 @foreach (var tag in Model.TagList)
                                 {
-                                    <a>@tag</a>
+                                    <a asp-action="TagIndex" asp-controller="Thoughts" 
+                                        asp-route-tag="@tag" class="tag-link">
+                                        @tag
+                                    </a>
                                 }
                             </p>
                         }
