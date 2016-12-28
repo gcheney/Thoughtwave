@@ -83,6 +83,39 @@ namespace Thoughtwave.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(EditProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await GetCurrentUserAsync();
+
+            if (user == null)
+            {
+                _logger.LogError("No current user found");
+                return View("Error");
+            }
+
+            // update user
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Bio = model.Bio;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.UpdateProfileSuccess });
+            }
+
+            AddErrors(result);
+            return View(model);
+        }
+
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
