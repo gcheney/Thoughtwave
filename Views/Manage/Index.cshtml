@@ -18,6 +18,8 @@
 
                 <p class="text-success" id="flash-message">@ViewData["StatusMessage"]</p>
 
+                <p><a asp-controller="Manage" asp-action="Profile" class="btn btn-default">Edit Profile</a></p>
+
                 @if (Model.HasPassword)
                 {
                     <p><a asp-controller="Manage" asp-action="ChangePassword" class="btn btn-default">Change Your Password</a></p>

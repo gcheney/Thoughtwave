@@ -1,0 +1,37 @@
+@model EditProfileViewModel
+
+@{
+    ViewBag.Title = "Edit Profile";
+}
+
+@await Html.PartialAsync("_PageHeader")
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">    
+            <h1 class="text-center">Change Your Profile Details</h1>
+            <hr class="large"/>
+            <form method="POST" asp-controller="Manage" asp-action="Profile" asp-antiforgery="true">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" type="text" class="form-control" value="@Model.FirstName">
+                    <span asp-validation-for="FirstName"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" type="text" class="form-control" placeholder="@Model.LastName">
+                    <span asp-validation-for="LastName"></span>
+                </div>
+                <div class="form-group">                
+                    <label asp-for="Bio"></label>
+                    <textarea asp-for="Bio" rows="5" class="form-control">
+                        @Model.Bio
+                    </textarea>
+                    <span asp-validation-for="Bio"></span>
+                </div>
+                <button type="submit" class="btn btn-success pull-right">Save Profile Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
