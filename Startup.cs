@@ -103,6 +103,8 @@ namespace Thoughtwave
                     .BeforeMap((src, dest) => src.Tags = src.Tags.RemoveWhiteSpaces())
                     .ReverseMap()
                     .AfterMap((src, dest) => dest.Content = WebUtility.HtmlDecode(dest.Content));
+
+                config.CreateMap<EditProfileViewModel, User>().ReverseMap();
             });
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -117,6 +119,7 @@ namespace Thoughtwave
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
             }
 
             app.UseSession();
@@ -125,7 +128,6 @@ namespace Thoughtwave
 
             app.UseIdentity();
             
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
