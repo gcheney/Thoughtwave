@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Thoughtwave.Models;
 using Thoughtwave.ViewModels.ManageViewModels;
 using Thoughtwave.Services;
+using AutoMapper;
 
 namespace Thoughtwave.Controllers
 {
@@ -43,6 +44,7 @@ namespace Thoughtwave.Controllers
         {
             ViewData["StatusMessage"] =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.UpdateProfileSuccess ? "Your profile has been updated."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
@@ -63,6 +65,21 @@ namespace Thoughtwave.Controllers
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
             };
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await GetCurrentUserAsync();
+
+            if (user == null)
+            {
+                _logger.LogError("No current user found");
+                return View("Error");
+            }
+
+            var model = Mapper.Map<EditProfileViewModel>(user);
             return View(model);
         }
 
@@ -288,7 +305,8 @@ namespace Thoughtwave.Controllers
                 return View("Error");
             }
             var userLogins = await _userManager.GetLoginsAsync(user);
-            var otherLogins = _signInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+            var otherLogins = _signInManager.GetExternalAuthenticationSchemes()
+                .Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
             ViewData["ShowRemoveButton"] = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
             {
@@ -305,7 +323,8 @@ namespace Thoughtwave.Controllers
         {
             // Request a redirect to the external login provider to link a login for the current user
             var redirectUrl = Url.Action("LinkLoginCallback", "Manage");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
+            var properties = _signInManager
+                .ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
             return Challenge(properties, provider);
         }
 
@@ -341,6 +360,7 @@ namespace Thoughtwave.Controllers
 
         public enum ManageMessageId
         {
+            UpdateProfileSuccess,
             AddPhoneSuccess,
             AddLoginSuccess,
             ChangePasswordSuccess,
