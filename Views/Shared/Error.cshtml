@@ -1,14 +1,43 @@
+@model int
+
 @{
-    ViewData["Title"] = "Error";
+    switch (Model)
+    {
+        case 400:
+            ViewData["Icon"] = "fa fa-ban text-danger";
+            ViewData["Title"] = "Bad Request";
+            ViewData["Description"] = "Your browser sent a request that this server could not understand.";
+            break;
+        case 401:
+            ViewData["Icon"] = "fa fa-ban text-danger";
+            ViewData["Title"] = "Unauthorized";
+            ViewData["Description"] = "Sorry, but the page requires authentication.";
+        break;
+        case 403:
+            ViewData["Icon"] = "fa fa-exclamation-circle text-danger";
+            ViewData["Title"] = "Forbidden";
+            ViewData["Description"] = "Sorry, but you don't have permission to access this page.";
+        break;
+        case 404:
+            ViewData["Icon"] = "fa fa-exclamation-circle text-danger";
+            ViewData["Title"] = "Page Not Found";
+            ViewData["Description"] = "Sorry, but the page you were looking for can't be found.";
+            break;
+        case 500:
+        default:
+            ViewData["Icon"] = "fa fa-exclamation-circle text-danger";
+            ViewData["Title"] = "Unexpected Error";
+            ViewData["Description"] = "Well, this is embarrassing. An error occurred while processing your request.";
+            break;
+    }
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+@await Html.PartialAsync("_PageHeader")
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>Development environment should not be enabled in deployed applications</strong>, as it can result in sensitive information from exceptions being displayed to end users. For local debugging, development environment can be enabled by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>, and restarting the application.
-</p>
+<div class="jumbotron text-center">
+    <header>
+        <h1><i aria-hidden="true" class="@ViewData["Icon"]"></i> @ViewData["Title"]</h1>
+    </header>
+    <p>@ViewData["Description"]</p>
+    <a class="btn btn-primary btn-lg" href="/"><i aria-hidden="true" class="fa fa-home"></i> Go Home</a>
+</div>
