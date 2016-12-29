@@ -266,6 +266,13 @@ namespace Thoughtwave.Controllers
                 _repository.UpdateThought(thought); 
 
                 var updatedThought = await _repository.GetThoughtByIdAsync(id);
+
+                if (updatedThought == null)
+                {
+                    _logger.LogError($"Unable to retrieve thought for id {id}");
+                    return View("Error");
+                }
+
                 if (await UserIsThoughtAuthorAsync(updatedThought))
                 {
                     if (await _repository.CommitChangesAsync())
@@ -320,6 +327,12 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var thought = await _repository.GetThoughtByIdAsync(id);
+
+            if (thought == null)
+            {
+                _logger.LogError("Unable to retrieve thought with id {id}");
+                return View("Error");
+            }
 
             if (await UserIsThoughtAuthorAsync(thought))
             {
