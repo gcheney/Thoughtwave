@@ -118,7 +118,7 @@ namespace Thoughtwave
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Exception");
                 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
             }
 
