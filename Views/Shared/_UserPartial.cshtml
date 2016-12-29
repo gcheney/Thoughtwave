@@ -4,7 +4,7 @@
 <div class="well well-lg clearfix">
     <div class="text-center">
         <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.UserName">
-            <img alt="User Image" src="@Model.Avatar" class="img-circle bio-img">
+            <img alt="User Image" src="@Model.Avatar" class="img-circle bio-img" alt="@Model.UserName image">
         </a>
         <h2>
             <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.UserName">
