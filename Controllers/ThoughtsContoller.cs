@@ -33,7 +33,7 @@ namespace Thoughtwave.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("/all")]
+        [Route("/browse/all")]
         public async Task<IActionResult> Index()
         {
             var thoughts = await _repository.GetAllThoughtsAsync();
@@ -55,7 +55,7 @@ namespace Thoughtwave.Controllers
         
         [HttpGet]
         [AllowAnonymous]
-        [Route("/{categoryId}")]
+        [Route("/browse/{categoryId}")]
         public async Task<IActionResult> CategoryIndex(string categoryId)
         {
             if (categoryId == null)
@@ -84,10 +84,8 @@ namespace Thoughtwave.Controllers
                 ViewBag.Content = $"Thoughts on {category.ToString()}";
                 return View("Index", thoughts);
             }
-            else
-            {
-                return Redirect("/all");
-            }
+
+            return NotFound();
         }
 
         [HttpGet]
