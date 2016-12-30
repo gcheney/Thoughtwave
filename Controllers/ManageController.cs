@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft​.AspNetCore​.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,7 @@ namespace Thoughtwave.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+        private IHostingEnvironment _environment;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -23,12 +26,14 @@ namespace Thoughtwave.Controllers
         private readonly ILogger _logger;
 
         public ManageController(
+            IHostingEnvironment environment,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory)
         {
+            _environment = environment;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -69,6 +74,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
+        [Route("/manage/profile")]
         public async Task<IActionResult> Profile()
         {
             var user = await GetCurrentUserAsync();
@@ -98,6 +104,22 @@ namespace Thoughtwave.Controllers
             {
                 _logger.LogError("No current user found");
                 return View("Error");
+            }
+
+            var files = HttpContext.Request.Form.Files;
+            var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads");
+
+            foreach (var image in files)
+            {
+                if (image != null && image.Length > 0)
+                {
+                    var filePath = Path.Combine(imagePath, image.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                        user.Avatar = $"/dist/uploads/{image.FileName}";
+                    }
+                }
             }
 
             // update user
