@@ -18,6 +18,12 @@
 
                 <p class="text-success" id="flash-message">@ViewData["StatusMessage"]</p>
 
+                <p>
+                    <a asp-controller="Users" asp-action="Details" 
+                        asp-route-username="@await UserManager.GetUserAsync(User)" 
+                        class="btn btn-default">View Profile</a>
+                </p>
+
                 <p><a asp-controller="Manage" asp-action="Profile" class="btn btn-default">Edit Profile</a></p>
 
                 @if (Model.HasPassword)
