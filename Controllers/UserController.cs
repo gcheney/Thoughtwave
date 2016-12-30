@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 
@@ -30,7 +31,7 @@ namespace Thoughtwave.Controllers
             if (users == null)
             {
                 _logger.LogError("Unable to retrieve users from repository");
-                users = new List<User>();
+                return View("Error");
             }
             
             if (!users.Any())
@@ -50,7 +51,7 @@ namespace Thoughtwave.Controllers
             if (username == null)
             {
                 _logger.LogError("Invalid username provided");
-                return RedirectToAction("Index");
+                return NotFound();
             }
 
             var user = await _repository.GetUserActivityByUserNameAsync(username);
@@ -58,10 +59,33 @@ namespace Thoughtwave.Controllers
             if (user == null)
             {
                 _logger.LogError($"No user found for username {username}");
-                return RedirectToAction("Index");
+                return NotFound();
             }
 
             return View(user);
+        }
+
+        [HttpGet]
+        [Route("/users/manage")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Manage()
+        {
+            var users = await _repository.GetAllUsersAsync();
+
+            if (users == null)
+            {
+                _logger.LogError("Unable to retrieve users from repository");
+                return View("Error");
+            }
+            
+            if (!users.Any())
+            {
+                ViewBag.Message = "No users found";
+            }
+
+            ViewBag.Content = "Thoughtwave Users - Admin Panel";
+            
+            return View(users);
         }
     }
 }
