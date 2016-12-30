@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Thoughtwave.Models;
 
 namespace Thoughtwave.Data
@@ -17,11 +18,16 @@ namespace Thoughtwave.Data
             ThoughtwaveDbContext context = app.ApplicationServices
                 .GetRequiredService<ThoughtwaveDbContext>();
 
-            context.Database.EnsureCreated();
+            // create database if not exist
+            await context.Database.EnsureCreatedAsync();
 
             // Get user manager
             UserManager<User> userManager = app.ApplicationServices
                 .GetRequiredService<UserManager<User>>();
+
+            // Get role manager
+            RoleManager<IdentityRole> roleManager = app.ApplicationServices
+                .GetRequiredService<RoleManager<IdentityRole>>();
 
             // seed user data
             var user1 = await SeedUserDataAsync(userManager, 
@@ -39,6 +45,29 @@ namespace Thoughtwave.Data
             var user4 = await SeedUserDataAsync(userManager, 
                 "genericuser4", "genericuser4@email.com", "Pa$$word4",
                 "Johnny", "Walker", "https://randomuser.me/api/portraits/men/27.jpg");
+
+
+            var admin = await SeedUserDataAsync(userManager, 
+                "admin", "admin@email.com", "Pa$$wordAdmin1",
+                "Admin", "Istrator", "https://randomuser.me/api/portraits/men/20.jpg");
+
+            // seed roles
+            string[] roles = new string[] { "Administrator" };
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+
+            // assign admin user to role
+            var adminResult = await userManager.AddToRolesAsync(admin, roles);
+            if (adminResult.Succeeded)
+            {
+                Console.WriteLine("Adminstrator successfully created");
+            }
 
             // Seed thought data
             if (!context.Thoughts.Any())
