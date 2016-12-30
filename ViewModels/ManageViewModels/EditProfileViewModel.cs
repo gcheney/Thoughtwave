@@ -18,6 +18,7 @@ namespace Thoughtwave.ViewModels.ManageViewModels
             MinimumLength = 1)]
         public string LastName { get; set; }
 
+        [Display(Name="Profile Image")]
         public string Avatar { get; set; }
 
         [Required]
