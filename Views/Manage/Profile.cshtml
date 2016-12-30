@@ -11,7 +11,11 @@
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">    
             <h1 class="text-center">Change Your Profile Details</h1>
             <hr class="large"/>
-            <form method="POST" asp-controller="Manage" asp-action="Profile" asp-antiforgery="true">
+            <form method="POST" 
+                asp-controller="Manage" 
+                asp-action="Profile" 
+                asp-antiforgery="true" 
+                enctype="multipart/form-data">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="FirstName"></label>
@@ -29,6 +33,11 @@
                         @Model.Bio
                     </textarea>
                     <span asp-validation-for="Bio"></span>
+                </div>
+                <div class="form-group">                
+                    <label asp-for="Avatar"></label>
+                    <img src="@Model.Avatar" alt="User image" class="thumbnail">
+                    <input  class="form-control"  type="file" name="files" accept="image/*"/>          
                 </div>
                 <button type="submit" class="btn btn-success pull-right">Save Profile Changes</button>
             </form>
