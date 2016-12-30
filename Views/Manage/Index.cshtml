@@ -10,21 +10,24 @@
 <h1>@ViewData["Title"].</h1>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="text-center">
-                <h1>Hello @await UserManager.GetUserAsync(User)!</h1>
-                <h3>Manage Your Account</h3>
+    <div class="text-center">
+        <div class="row">
+            <h1>Hello @await UserManager.GetUserAsync(User)!</h1>
+            <h3>Manage Your Account</h3>
 
-                <p class="text-success" id="flash-message">@ViewData["StatusMessage"]</p>
-
+            <p class="text-success" id="flash-message">@ViewData["StatusMessage"]</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
                 <p>
                     <a asp-controller="Users" asp-action="Details" 
                         asp-route-username="@await UserManager.GetUserAsync(User)" 
-                        class="btn btn-default">View Profile</a>
+                        class="btn btn-default">
+                        View Profile
+                    </a>
                 </p>
 
-                <p><a asp-controller="Manage" asp-action="Profile" class="btn btn-default">Edit Profile</a></p>
+                <p><a asp-controller="Manage" asp-action="Profile" class="btn btn-default">Edit Your Profile</a></p>
 
                 @if (Model.HasPassword)
                 {
@@ -34,7 +37,8 @@
                 {
                     <p><a asp-controller="Manage" asp-action="SetPassword" class="btn btn-default">Create A Password</a></p>
                 }
-
+            </div>
+            <div class="col-md-6">
                 @if (Model.Logins.Count > 0)
                 {
                     <p><a asp-controller="Manage" asp-action="ManageLogins" class="btn btn-default">Manage External Logins</a></p>
@@ -42,9 +46,50 @@
 
                 <p><a asp-controller="Thoughts" asp-action="Create" class="btn btn-default">Create a New Thought</a></p>
 
-                <p><a asp-controller="Thoughts" asp-action="Manage" class="btn btn-default">Manage Thoughts</a></p>
+                <p><a asp-controller="Thoughts" asp-action="Manage" class="btn btn-default">Manage Your Thoughts</a></p>
+            </div>
+        </div>
+        
 
+        <br />
+        
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="alert alert-danger" id="delete-account">
+                    <h3 class="text-danger">
+                        This action CANNOT be undone <i class="fa fa-times close" aria-hidden="true"></i>
+                    </h3>
+                    <form method="POST" asp-anti-forgery="true" 
+                        asp-controller="Manage" asp-action="DeleteAccount" 
+                        asp-route-username="@await UserManager.GetUserAsync(User)">
+                        <button type="submit" class="btn btn-danger">Delete Account</button>
+                    </form>
+                </div>
+
+                <p><button id="delete-btn" class="btn btn-danger">Delete Your Account</button></p>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $('#delete-account').hide();
+
+            // show delete form
+            $('#delete-btn').on('click', function(e) {
+                e.preventDefault();
+                $('#delete-account').slideDown('slow');
+            });
+
+            // close delete form
+            $('.close').on('click', function(e) {
+                e.preventDefault();
+                $('#delete-account').hide();
+            });
+        });
+    </script>
+}
