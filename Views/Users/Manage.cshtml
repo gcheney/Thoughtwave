@@ -1,0 +1,28 @@
+@model IEnumerable<User>
+
+@{
+    ViewData["Title"] = ViewBag.Content;
+}
+
+@await Html.PartialAsync("_PageHeader")
+
+<!-- Page Content -->
+<div class="text-center">
+    <h1>@ViewBag.Content</h1>
+    <hr class="large"/>
+
+    <h3 class="text-muted">@ViewBag.Message</h3>
+</div>
+
+@foreach (var user in Model)
+{
+    <!-- user info -->
+    <div class="container">
+        <div class="row">  
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                @await Html.PartialAsync("_UserPartial", user)
+            </div>
+        </div>
+    </div>
+}
+
