@@ -106,6 +106,7 @@ namespace Thoughtwave.Controllers
                 return View("Error");
             }
 
+            // get new profile image
             var files = HttpContext.Request.Form.Files;
             var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads");
 
@@ -136,6 +137,34 @@ namespace Thoughtwave.Controllers
 
             AddErrors(result);
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAccount(string username)
+        {
+            var userToDelete = await _userManager.FindByNameAsync(username);
+            var currentUser = await GetCurrentUserAsync();
+
+            if (userToDelete == null || currentUser == null)
+            {
+                _logger.LogError($"Unable to find user with username {username}");
+                return View("Error");
+            }
+
+            if (userToDelete.Id == currentUser.Id)
+            {
+                await _signInManager.SignOutAsync();
+                var result = await _userManager.DeleteAsync(userToDelete);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }         
+                _logger.LogError($"Unable to delete user {userToDelete.Id}");
+                return View("Error");
+            }
+
+            return Forbid();
         }
 
         //
