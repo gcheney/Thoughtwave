@@ -17,7 +17,7 @@
 
             <p class="text-success" id="flash-message">@ViewData["StatusMessage"]</p>
 
-            @if (User.IsInRole("Administrator"))
+            @if (User.IsInRole("Admin"))
             {
                 <p><a asp-controller="Users" asp-action="Manage" class="btn btn-primary">Manage App Users</a></p>
             }

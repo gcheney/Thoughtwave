@@ -52,7 +52,7 @@ namespace Thoughtwave.Data
                 "Admin", "Istrator", "https://randomuser.me/api/portraits/men/20.jpg");
 
             // seed roles
-            string[] roles = new string[] { "Administrator" };
+            string[] roles = new string[] { "Admin" };
 
             foreach (var role in roles)
             {
