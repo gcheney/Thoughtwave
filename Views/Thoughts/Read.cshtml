@@ -94,8 +94,8 @@
                     else 
                     {
                         <h4 class="text-center">
-                            You must <a asp-action="Login" asp-controller="Account">Log In</a> 
-                            or <a asp-action="Register" asp-controller="Account">Register</a> to leave a comment
+                            You must <a asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Context.Request.Path">Log In</a> 
+                            or <a asp-action="Register" asp-controller="Account" asp-route-returnUrl="@Context.Request.Path">Register</a> to leave a comment
                         </h4>
                     }
                 </div>
