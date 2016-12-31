@@ -8,9 +8,10 @@ using Thoughtwave.Data;
 namespace Thoughtwave.Migrations
 {
     [DbContext(typeof(ThoughtwaveDbContext))]
-    partial class ThoughtwaveDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161231173426_AddBannedPropertyToUser")]
+    partial class AddBannedPropertyToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");
