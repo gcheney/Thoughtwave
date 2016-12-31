@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Thoughtwave.Models;
 
 namespace Thoughtwave.Data
@@ -17,7 +15,8 @@ namespace Thoughtwave.Data
         {
             _context = context;
         }
-
+    #region Thought GET Methods
+    
         /* GET ALL THOUGHTS */
 
         public async Task<List<Thought>> GetAllThoughtsAsync()
@@ -117,7 +116,19 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
+        /* GET THOUGHTS BY USERNAME */
 
+        public async Task<List<Thought>> GetThoughtsByUserNameAsync(string username)
+        {
+            return await _context.Thoughts  
+                .Where(t => t.Author.UserName == username)
+                .OrderByDescending(t => t.CreatedOn)
+                .ToListAsync();
+        }
+
+    #endregion
+
+    #region User GET Methods
         /* GET ALL USERS */
 
         public async Task<List<User>> GetAllUsersAsync()
@@ -139,15 +150,9 @@ namespace Thoughtwave.Data
                 .SingleOrDefaultAsync();
         }
 
-        /* GET THOUGHTS BY USERNAME */
+    #endregion
 
-        public async Task<List<Thought>> GetThoughtsByUserNameAsync(string username)
-        {
-            return await _context.Thoughts  
-                .Where(t => t.Author.UserName == username)
-                .OrderByDescending(t => t.CreatedOn)
-                .ToListAsync();
-        }
+    #region Thought CRUD Methods
 
         /* ADD A NEW THOUGHT */
 
@@ -169,6 +174,10 @@ namespace Thoughtwave.Data
         {
             _context.Thoughts.Remove(thought);
         }
+
+    #endregion
+
+    #region Comment CRUD Methods
 
         /* GET A COMMENT BY ID */
         public async Task<Comment> GetCommentByIdAsync(int id)
@@ -208,11 +217,16 @@ namespace Thoughtwave.Data
             }
         } 
 
+    #endregion
+
+    #region Commit
         /* SAVE CHANGES */
 
         public async Task<bool> CommitChangesAsync()
         {
             return (await _context.SaveChangesAsync()) > 0;
         }
+
+    #endregion
     }
 }
