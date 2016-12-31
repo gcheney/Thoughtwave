@@ -10,6 +10,7 @@ using Thoughtwave.Models;
 
 namespace Thoughtwave.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class UsersController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
@@ -23,6 +24,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("/users")]
         public async Task<IActionResult> Index()
         {
@@ -45,6 +47,7 @@ namespace Thoughtwave.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("/users/{username}")]
         public async Task<IActionResult> Details(string username)
         {
@@ -67,7 +70,6 @@ namespace Thoughtwave.Controllers
 
         [HttpGet]
         [Route("/users/manage")]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Manage()
         {
             var users = await _repository.GetAllUsersAsync();
