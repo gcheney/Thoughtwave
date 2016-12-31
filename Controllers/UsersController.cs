@@ -5,22 +5,26 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 
 namespace Thoughtwave.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
         private readonly ILogger<UsersController> _logger;
+        private readonly UserManager<User> _userManager;
 
         public UsersController(IThoughtwaveRepository repository, 
-            ILogger<UsersController> logger)
+            ILogger<UsersController> logger,
+            UserManager<User> userManager)
         {
             _repository = repository;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -73,7 +77,7 @@ namespace Thoughtwave.Controllers
         public async Task<IActionResult> Manage()
         {
             var users = await _repository.GetAllUsersAsync();
-
+            
             if (users == null)
             {
                 _logger.LogError("Unable to retrieve users from repository");
@@ -89,5 +93,39 @@ namespace Thoughtwave.Controllers
             
             return View(users);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/users/admin/grant/{userId}")]
+        public async Task<IActionResult> GrantAdminAccess(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                _logger.LogError($"Unable to locate user with id {userId}");
+                return View("Error");
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, "Admin"))
+            {
+                var result = await _userManager.AddToRoleAsync(user, "Admin");
+                if (result.Succeeded)
+                {
+                    TempData["success"] = $"Successfully made user {user.UserName} an admin";
+                    return RedirectToAction("Manage");
+                }
+                else
+                {
+                    TempData["error"] = $"An error occurred. User {user.UserName} was not made an admin";
+                    return RedirectToAction("Manage");
+                }
+            }
+
+            TempData["error"] = $"User {user.UserName} is already an admin";
+            return RedirectToAction("Manage");
+        }
+
+
     }
 }
