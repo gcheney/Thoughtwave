@@ -1,5 +1,7 @@
 @model User
 
+@inject UserManager<User> UserManager
+
 <!-- Author details/bio -->
 <div class="well well-lg clearfix">
     <div class="text-center">
@@ -12,9 +14,12 @@
             </a> 
             <span class="text-muted small">(@@@Model.UserName)</span>
         </h2>
-        <h4>
-            Memeber since @Model.SignUpDate.ToString("MM/dd/yyyy")
-        </h4>
+        <h4>Memeber since @Model.SignUpDate.ToString("MM/dd/yyyy")</h4>
+        @if (await UserManager.IsInRoleAsync(Model, "Admin"))
+        {
+            <img src="/dist/images/admin-user.png" alt="Admin user image"/>
+            <h3>Admin</h3>
+        }
         <p>
             @Model.Bio
         </p>
