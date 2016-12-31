@@ -29,7 +29,8 @@ namespace Thoughtwave.Data
             modelBuilder.Entity<Thought>().ToTable("Thoughts");
             modelBuilder.Entity<Comment>().ToTable("Comments");
 
-            // User Configuration
+        #region User configuration
+
             modelBuilder.Entity<User>()
                 .Property(u => u.Avatar)
                 .IsRequired()
@@ -58,29 +59,13 @@ namespace Thoughtwave.Data
                 .HasMaxLength(500)
                 .HasDefaultValue("This user hasn't filled out their Bio yet.");
 
-            // Comment Configuration
-            modelBuilder.Entity<Comment>()
-                .HasOne(c => c.Thought)
-                .WithMany(t => t.Comments)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Comment>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Comments)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Comment>()
-                .Property(c => c.Content)
+            modelBuilder.Entity<User>()
+                .Property(u => u.IsBanned)
                 .IsRequired()
-                .HasMaxLength(3000);
+                .HasDefaultValue(false);
+        #endregion
 
-            modelBuilder.Entity<Comment>()
-                .Property(c => c.CreatedOn)
-                .IsRequired()
-                .HasDefaultValue(DateTime.Now);
-
-
-            // Thought Configuration
+        #region Thought Configuration
             modelBuilder.Entity<Thought>()
                 .HasOne(t => t.Author)
                 .WithMany(u => u.Thoughts)
@@ -110,6 +95,31 @@ namespace Thoughtwave.Data
                 .Property(t => t.DisableComments)
                 .IsRequired()
                 .HasDefaultValue(false);
+
+        #endregion
+
+        #region Comment Configuration
+        
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Thought)
+                .WithMany(t => t.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Comment>()
+                .Property(c => c.Content)
+                .IsRequired()
+                .HasMaxLength(3000);
+
+            modelBuilder.Entity<Comment>()
+                .Property(c => c.CreatedOn)
+                .IsRequired()
+                .HasDefaultValue(DateTime.Now);
+        #endregion
         }
     }
 }
