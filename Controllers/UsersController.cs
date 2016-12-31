@@ -17,14 +17,17 @@ namespace Thoughtwave.Controllers
         private readonly IThoughtwaveRepository _repository;
         private readonly ILogger<UsersController> _logger;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
         public UsersController(IThoughtwaveRepository repository, 
             ILogger<UsersController> logger,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             _repository = repository;
             _logger = logger;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -126,6 +129,36 @@ namespace Thoughtwave.Controllers
             return RedirectToAction("Manage");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/users/admin/revoke/{userId}")]
+        public async Task<IActionResult> RevokeAdminAccess(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
 
+            if (user == null)
+            {
+                _logger.LogError($"Unable to locate user with id {userId}");
+                return View("Error");
+            }
+
+            if (await _userManager.IsInRoleAsync(user, "Admin"))
+            {
+                var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
+                if (result.Succeeded)
+                {
+                    TempData["success"] = $"Successfully removed user {user.UserName} as an admin";
+                    return RedirectToAction("Manage");
+                }
+                else
+                {
+                    TempData["error"] = $"An error occurred. User {user.UserName} is still an admin";
+                    return RedirectToAction("Manage");
+                }
+            }
+
+            TempData["error"] = $"User {user.UserName} is already not an admin";
+            return RedirectToAction("Manage");
+        }
     }
 }

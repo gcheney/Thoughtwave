@@ -42,14 +42,14 @@
                             <div class="col-md-6">
                                 @if (await UserManager.IsInRoleAsync(user, "Admin"))
                                 {
-                                    <form method="POST" asp-controller="Users" 
+                                    <form method="POST" asp-controller="Users" asp-anti-forgery="true" 
                                         asp-action="RevokeAdminAccess" asp-route-userId="@user.Id">
                                         <button type="submit" class="btn btn-warning">Revoke Admin Access</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form method="POST" asp-controller="Users" 
+                                    <form method="POST" asp-controller="Users" asp-anti-forgery="true"
                                         asp-action="GrantAdminAccess" asp-route-userId="@user.Id">
                                         <button type="submit" class="btn btn-primary">Grant Admin Access</button>
                                     </form>
