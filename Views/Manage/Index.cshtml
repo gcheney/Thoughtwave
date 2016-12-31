@@ -16,6 +16,11 @@
             <h3>Manage Your Account</h3>
 
             <p class="text-success" id="flash-message">@ViewData["StatusMessage"]</p>
+
+            @if (User.IsInRole("Administrator"))
+            {
+                <p><a asp-controller="Users" asp-action="Manage" class="btn btn-primary">Manage App Users</a></p>
+            }
         </div>
         <div class="row">
             <div class="col-md-6">
