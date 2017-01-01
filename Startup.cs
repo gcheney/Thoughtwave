@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 using Thoughtwave.ViewModels.ThoughtViewModels;
@@ -20,6 +21,9 @@ namespace Thoughtwave
 {
     public class Startup
     {
+        public IConfigurationRoot Configuration { get; }
+        public IHostingEnvironment Environment { get; }
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -34,9 +38,8 @@ namespace Thoughtwave
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            Environment = env;
         }
-
-        public IConfigurationRoot Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -74,7 +77,18 @@ namespace Thoughtwave
                 .AddEntityFrameworkStores<ThoughtwaveDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            if (Environment.IsProduction())
+            {
+                services.AddMvc(options =>
+                {
+                    options.SslPort = 44321;
+                    options.Filters.Add(new RequireHttpsAttribute());
+                });
+            }
+            else
+            {
+                services.AddMvc();
+            }
 
             services.AddLogging();
 
