@@ -56,9 +56,22 @@
                                 }
                             </div>
                             <div class="col-md-6">
-                                <form>
-                                    <button type="submit" class="btn btn-danger">Ban This User</button>          
-                                </form>
+                                @if (user.IsBanned)
+                                {
+                                    <form method="POST" asp-anti-forgery="true" 
+                                        asp-action="Ban" asp-controller="Users" 
+                                        asp-route-id="@user.Id" asp-route-isBanned="false">
+                                        <button type="submit" class="btn btn-success">Remove User Ban</button>          
+                                    </form>
+                                }
+                                else 
+                                {
+                                    <form method="POST" asp-anti-forgery="true" 
+                                        asp-action="Ban" asp-controller="Users" 
+                                        asp-route-id="@user.Id" asp-route-isBanned="true">
+                                        <button type="submit" class="btn btn-danger">Ban User</button>          
+                                    </form>
+                                }
                             </div>
                         </div>
                     </div>
