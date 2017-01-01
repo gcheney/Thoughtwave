@@ -180,21 +180,13 @@ namespace Thoughtwave.Controllers
 
             if (updateUserResult.Succeeded)
             {
-                IdentityResult lockoutResult;
-
-                if (isBanned)
-                {
-                    var lockoutEnd = new DateTimeOffset(new DateTime(2100, 1, 1));
-                    lockoutResult = await _userManager.SetLockoutEndDateAsync(user, lockoutEnd);
-                }
-                else
-                {
-                    lockoutResult = await _userManager.SetLockoutEnabledAsync(user, false);
-                }
+                // lockout banned users
+                var lockoutResult = await _userManager.SetLockoutEnabledAsync(user, isBanned);
 
                 if (lockoutResult.Succeeded)
                 {
-                    TempData["success"] = isBanned ? $"{username} has been banned" : $"{username} is no longer banned";
+                    var banned = await _userManager.IsLockedOutAsync(user);
+                    TempData["success"] = banned ? $"{username} has been banned" : $"{username} is no longer banned";
                     return RedirectToAction("Manage");
                 }
 
