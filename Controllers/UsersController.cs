@@ -160,5 +160,50 @@ namespace Thoughtwave.Controllers
             TempData["error"] = $"User {user.UserName} is already not an admin";
             return RedirectToAction("Manage");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/users/ban/{id}")]
+        public async Task<IActionResult> Ban(string id, bool isBanned)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                _logger.LogError($"Unable to locate user with id {id}");
+                return View("Error");
+            }
+
+            user.IsBanned = isBanned;
+            var username = user.UserName;
+            var updateUserResult = await _userManager.UpdateAsync(user);
+
+            if (updateUserResult.Succeeded)
+            {
+                IdentityResult lockoutResult;
+
+                if (isBanned)
+                {
+                    var lockoutEnd = new DateTimeOffset(new DateTime(2100, 1, 1));
+                    lockoutResult = await _userManager.SetLockoutEndDateAsync(user, lockoutEnd);
+                }
+                else
+                {
+                    lockoutResult = await _userManager.SetLockoutEnabledAsync(user, false);
+                }
+
+                if (lockoutResult.Succeeded)
+                {
+                    TempData["success"] = isBanned ? $"{username} has been banned" : $"{username} is no longer banned";
+                    return RedirectToAction("Manage");
+                }
+
+                TempData["error"] = $"An error occurred updating {username} lockout status";
+                return RedirectToAction("Manage");
+            }
+
+            TempData["error"] = $"Issue updating {username} banned status";
+            return RedirectToAction("Manage");
+        }
     }
 }
