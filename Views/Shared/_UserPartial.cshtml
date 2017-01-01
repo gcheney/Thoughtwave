@@ -2,26 +2,33 @@
 
 @inject UserManager<User> UserManager
 
-<!-- Author details/bio -->
+<!-- User details/bio -->
 <div class="well well-lg clearfix">
     <div class="text-center">
-        <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.UserName">
-            <img alt="User Image" src="@Model.Avatar" class="img-circle bio-img" alt="@Model.UserName image">
-        </a>
-        <h2>
-            <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.UserName">
-                @Model.FullName
-            </a> 
-            <span class="text-muted small">(@@@Model.UserName)</span>
-        </h2>
-        <h4>Memeber since @Model.SignUpDate.ToString("MM/dd/yyyy")</h4>
-        @if (await UserManager.IsInRoleAsync(Model, "Admin"))
+        @if (Model.IsBanned)
         {
-            <img src="/dist/images/admin-user.png" alt="Admin user image"/>
-            <h3>Admin</h3>
+            <h1 class="text-danger">This User Has Been Banned</h1>
         }
-        <p>
-            @Model.Bio
-        </p>
+        else
+        {
+            <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.UserName">
+                <img alt="User Image" src="@Model.Avatar" class="img-circle bio-img" alt="@Model.UserName image">
+            </a>
+            <h2>
+                <a asp-action="Details" asp-controller="Users" asp-route-username="@Model.UserName">
+                    @Model.FullName
+                </a> 
+                <span class="text-muted small">(@@@Model.UserName)</span>
+            </h2>
+            <h4>Memeber since @Model.SignUpDate.ToString("MM/dd/yyyy")</h4>
+            @if (await UserManager.IsInRoleAsync(Model, "Admin"))
+            {
+                <img src="/dist/images/admin-user.png" alt="Admin user image"/>
+                <h3>Admin</h3>
+            }
+            <p>
+                @Model.Bio
+            </p>
+        }
     </div>
 </div>

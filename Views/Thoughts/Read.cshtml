@@ -126,7 +126,15 @@
                                     <a asp-action="Details" 
                                         asp-controller="Users" 
                                         asp-route-username="@comment.User.UserName">
-                                        @comment.User.FullName
+                                        @if (SignInManager.IsSignedIn(User) 
+                                            && await UserManager.IsInRoleAsync(comment.User, "Admin"))
+                                        {
+                                            <span class="text-success">@comment.User.FullName</span>
+                                        }
+                                        else
+                                        {
+                                            @comment.User.FullName
+                                        }
                                     </a> 
                                     <small>
                                         @comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
@@ -175,7 +183,14 @@
                                 else
                                 {
                                     <div class="comment-content">
-                                        @comment.Content
+                                        @if (comment.User.IsBanned)
+                                        {
+                                            <span class="text-danger">This User Has Been Banned</span>
+                                        }
+                                        else
+                                        {
+                                            @comment.Content
+                                        }
                                     </div>
                                 }
                             </div>
