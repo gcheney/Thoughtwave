@@ -1,4 +1,8 @@
 @model RegisterViewModel
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@inject SignInManager<User> SignInManager
+
 @{
     ViewData["Title"] = "Register";
 }
@@ -7,47 +11,87 @@
 
 <div class="container">
     <div class="row">
-        <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-            <h3 class="text-center">Create a new Thoughtwave account.</h3>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Email" class="form-control" placeholder="Your Email"/>
-                    <span asp-validation-for="Email" class="text-danger"></span>
+        <div class="col-md-8"
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                <h3 class="text-center">Create a new Thoughtwave account.</h3>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="ontrol-label"></label>
+                    <div>
+                        <input asp-for="Email" class="form-control" placeholder="Your Email"/>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Username" class="col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Username" class="form-control" placeholder="Pick a Username" />
-                    <span asp-validation-for="Username" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <div>
+                        <input asp-for="Username" class="form-control" placeholder="Pick a Username" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Password" class="form-control" placeholder="Set Your Password"/>
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <div >
+                        <input asp-for="Password" class="form-control" placeholder="Set Your Password"/>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Your Password"/>
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="control-label"></label>
+                    <div >
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Your Password"/>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="text-center">
-                    <button type="submit" class="btn btn-default">Register</button>
+                <div class="form-group">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-default">Register</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <p class="text-center">
-            Already have an account? <a asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">Log in here</a>
-        </p>
+            </form>
+            <p class="text-center">
+                Already have an account? <a asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">Log in here</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <section>
+                <h3>Register With Social.</h3>
+                <hr />
+                @{
+                    var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
+                    if (loginProviders.Count == 0)
+                    {
+                        <div>
+                            <p>
+                                There are no external authentication services configured.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form asp-controller="Account" 
+                            asp-action="ExternalLogin" 
+                            asp-route-returnurl="@ViewData["ReturnUrl"]" 
+                            method="post" class="form-horizontal">
+                            <div>
+                                <p class="text-center">
+                                    @foreach (var provider in loginProviders)
+                                    {
+                                        <button type="submit" class="btn btn-default" 
+                                            name="provider" value="@provider.AuthenticationScheme" 
+                                            title="Log in using your @provider.DisplayName account">
+                                            <i class="fa fa-@provider.AuthenticationScheme.ToLower()" aria-hidden="true"></i> 
+                                            @provider.AuthenticationScheme
+                                        </button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </section>
+        </div>
     </div>
 </div>
 
