@@ -50,8 +50,12 @@ namespace Thoughtwave.ExtensionMethods
         /// </returns>
         public static string RemoveWhiteSpaces(this string str)
         {
-            var sb = new StringBuilder();
+            if (str == null)
+            {
+                return null;
+            }
 
+            var sb = new StringBuilder();
             for (int i = 0; i < str.Length; i++)
             {
                 char c = str[i];
