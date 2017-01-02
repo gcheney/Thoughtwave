@@ -66,6 +66,10 @@ namespace Thoughtwave.Data
         #endregion
 
         #region Thought Configuration
+
+            modelBuilder.Entity<Thought>()
+                .HasKey(t => t.Id);
+
             modelBuilder.Entity<Thought>()
                 .HasOne(t => t.Author)
                 .WithMany(u => u.Thoughts)
@@ -99,6 +103,9 @@ namespace Thoughtwave.Data
         #endregion
 
         #region Comment Configuration
+
+            modelBuilder.Entity<Comment>()
+                .HasKey(c => c.Id);
         
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Thought)
