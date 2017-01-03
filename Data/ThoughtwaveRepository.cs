@@ -214,11 +214,13 @@ namespace Thoughtwave.Data
 
         public void RemoveComment(int thoughtId, Comment comment)
         {
+            _context.Comments.Remove(comment);
+            
             var thought = _context.Thoughts
                 .Where(t => t.Id == thoughtId)
                 .Include(t => t.Comments)
                 .SingleOrDefault();
-
+                
             if (thought != null)
             {
                 thought.Comments.Remove(comment);
