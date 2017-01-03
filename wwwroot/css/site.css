@@ -501,6 +501,14 @@ form .row:first-child .floating-label-form-group {
     text-decoration: none;
 }
 
+.btn-social-icon {
+    margin-top: 0.5em;
+}
+
+.btn-social-text {
+    margin-left: 2em;
+}
+
 /*  Search Form */
 
 #search {
