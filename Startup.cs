@@ -154,7 +154,11 @@ namespace Thoughtwave
                 ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"]
             });
 
-            
+            app.UseGoogleAuthentication(new GoogleOptions()
+            {
+                ClientId = Configuration["Authentication:Google:ClientId"],
+                ClientSecret = Configuration["Authentication:Google:ClientSecret"]
+            });
             
             app.UseMvc(routes =>
             {
