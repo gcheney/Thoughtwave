@@ -35,7 +35,7 @@ namespace Thoughtwave.Controllers
         [Route("/users")]
         public async Task<IActionResult> Index()
         {
-            var users = await _repository.GetAllUsersAsync();
+            var users = await _repository.GetAllActiveUsersAsync();
 
             if (users == null)
             {
@@ -185,8 +185,9 @@ namespace Thoughtwave.Controllers
 
                 if (lockoutResult.Succeeded)
                 {
-                    var banned = await _userManager.IsLockedOutAsync(user);
-                    TempData["success"] = banned ? $"{username} has been banned" : $"{username} is no longer banned";
+                    var lockedOut = await _userManager.IsLockedOutAsync(user);
+                    TempData["success"] = isBanned ? $"User {username} has been banned" 
+                        : $"User {username} is no longer banned";
                     return RedirectToAction("Manage");
                 }
 
