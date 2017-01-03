@@ -19,7 +19,8 @@ var config = {
     bowerDir: './wwwroot/lib',
     jsSrc: 'wwwroot/js/main.js',
     jsDest: 'wwwroot/dist/js',
-    cssSrc: 'wwwroot/css/site.css',
+    cssSrc: ['normalize.css', 'bootstrap.min.css', 
+            'font-awesome.min.css', 'bootstrap-social.css'],
     cssDest: 'wwwroot/dist/css',
     fontSrc: [ 'wwwroot/lib/font-awesome/fonts/**.*', 
               'wwwroot/lib/bootstrap/fonts/**.*'],
@@ -53,7 +54,7 @@ gulp.task('css', function() {
 	return gulp.src(bowerFiles())
 		.pipe(filter('**/*.css'))
         .pipe(debug({title: 'css'}))
-		.pipe(order(['normalize.css', '*']))
+		.pipe(order(config.cssSrc))
 		.pipe(concat('bundle.css'))
 		.pipe(cssnano())
         .pipe(rename('bundle.min.css'))
