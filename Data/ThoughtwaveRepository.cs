@@ -138,6 +138,14 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
+        public async Task<List<User>> GetAllActiveUsersAsync()
+        {
+            return await _context.Users
+                .Where(u => u.IsBanned == false)
+                .OrderByDescending(u => u.SignUpDate)
+                .ToListAsync();
+        }
+
         /* GET USER ACTIVITY BY USERNAME */
 
         public async Task<User> GetUserActivityByUserNameAsync(string username)
