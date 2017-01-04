@@ -11,8 +11,11 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8"
-            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+        <div class="col-md-8">
+            <form asp-controller="Account" asp-action="Register" 
+                asp-route-returnurl="@ViewData["ReturnUrl"]" 
+                method="post" class="form-horizontal" 
+                asp-anti-forgery="true">
                 <h3 class="text-center">Create a new Thoughtwave account.</h3>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
@@ -56,7 +59,7 @@
         </div>
         <div class="col-md-4">
             <section>
-                <h3>Register With Social.</h3>
+                <h3 class="text-center">Register With Social.</h3>
                 <hr />
                 @{
                     var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
@@ -78,11 +81,13 @@
                                 <p class="text-center">
                                     @foreach (var provider in loginProviders)
                                     {
-                                        <button type="submit" class="btn btn-default" 
-                                            name="provider" value="@provider.AuthenticationScheme" 
+                                        var providerName = @provider.AuthenticationScheme.ToLower();
+                                        <button type="submit" name="provider"
+                                            value="@provider.AuthenticationScheme" 
+                                            class="btn btn-block btn-social btn-@providerName" 
                                             title="Log in using your @provider.DisplayName account">
-                                            <i class="fa fa-@provider.AuthenticationScheme.ToLower()" aria-hidden="true"></i> 
-                                            @provider.AuthenticationScheme
+                                            <i class="fa fa-@providerName btn-social-icon"></i> 
+                                            <span class="btn-social-text">Register with @provider.AuthenticationScheme</span>
                                         </button>
                                     }
                                 </p>
