@@ -44,7 +44,7 @@ namespace Thoughtwave.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View(new LoginViewModel());
         }
 
         //
@@ -63,6 +63,11 @@ namespace Thoughtwave.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+                    if (string.IsNullOrWhiteSpace(returnUrl))
+                    {
+                        // redirect to manage index if return URL is homepage
+                        return RedirectToAction("Index", "Manage");
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -72,7 +77,7 @@ namespace Thoughtwave.Controllers
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning(2, "User account locked out.");
+                    _logger.LogWarning(2, "Attempted login. User account locked out.");
                     return View("Lockout");
                 }
                 else
@@ -93,7 +98,7 @@ namespace Thoughtwave.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View(new RegisterViewModel());
         }
 
         //
@@ -110,15 +115,15 @@ namespace Thoughtwave.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // For more information on how to enable account confirmation 
-                    // and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
+
+                    if (string.IsNullOrWhiteSpace(returnUrl))
+                    {
+                        // redirect to profile page
+                        return RedirectToAction("Profile", "Manage");
+                    }
+
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -175,6 +180,10 @@ namespace Thoughtwave.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                if (string.IsNullOrWhiteSpace(returnUrl))
+                {
+                    return RedirectToAction("Index", "Manage");
+                }
                 return RedirectToLocal(returnUrl);
             }
             if (result.RequiresTwoFactor)
@@ -222,6 +231,13 @@ namespace Thoughtwave.Controllers
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+
+                        if (string.IsNullOrWhiteSpace(returnUrl))
+                        {
+                            // redirect to profile page
+                            return RedirectToAction("Profile", "Manage");
+                        }
+
                         return RedirectToLocal(returnUrl);
                     }
                 }
@@ -263,7 +279,7 @@ namespace Thoughtwave.Controllers
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
-            return View();
+            return View(new ForgotPasswordViewModel());
         }
 
         //
