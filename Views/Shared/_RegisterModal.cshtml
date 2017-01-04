@@ -1,0 +1,105 @@
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+
+@model RegisterViewModel
+
+@inject SignInManager<User> SignInManager
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Register Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                       <i class="fa fa-times" aria-hidden="true"></i>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="registerModalLabel">
+                    Register a new Thoughtwave account
+                </h4>
+            </div>
+
+            <!-- Register Modal Body -->
+            <div class="modal-body">
+                <form asp-controller="Account" asp-action="Register" 
+                    asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" 
+                    class="form-horizontal" asp-anti-forgery="true">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label" asp-for="Username"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Username" class="form-control" placeholder="Username"/>
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label" asp-for="Email"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Email" class="form-control" placeholder="Email"/>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" asp-for="Password"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Password" class="form-control" placeholder="Set Your Password"/>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" asp-for="ConfirmPassword"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Your Password"/>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-4">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-user" aria-hidden="true"></i> Sign Up</button> 
+                        </div>
+                    </div>
+                </form>     
+                <hr />
+                @{
+                    var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
+                    if (loginProviders.Count != 0)
+                    {
+                        <form asp-controller="Account" 
+                            asp-action="ExternalLogin" 
+                            asp-route-returnurl="@ViewData["ReturnUrl"]" 
+                            method="post" class="form-horizontal">
+                            <div>
+                                <p class="text-center">
+                                    @foreach (var provider in loginProviders)
+                                    {
+                                        var providerName = @provider.AuthenticationScheme.ToLower();
+                                        <button type="submit" name="provider" 
+                                            value="@provider.AuthenticationScheme" 
+                                            class="btn btn-block btn-social btn-@providerName" 
+                                            title="Log in using your @provider.DisplayName account">
+                                            <i class="fa fa-@providerName btn-social-icon"></i> 
+                                            <span class="btn-social-text">Sign Up with @provider.AuthenticationScheme</span>
+                                        </button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+                <a href="#" class="text-center" data-dismiss="modal" data-toggle="modal" data-target="#loginModal">
+                    Already have an account? 
+                </a>
+            </div>  
+
+            <!-- Register Modal Footer -->
+            <div class="modal-footer">
+                <button href="#" class="btn btn-default" data-dismiss="modal">
+                    Close 
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Register Modal End -->
