@@ -15,10 +15,10 @@
                     <hr class="large">
                     @if (!User.Identity.IsAuthenticated)
                     {
-                        <a href="/account/login" class="btn btn-success btn-intro-header ">
+                        <a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-primary btn-intro-header ">
                             <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In
                         </a>
-                        <a href="/account/register" class="btn btn-primary btn-intro-header ">
+                        <a href="#" data-toggle="modal" data-target="#registerModal" class="btn btn-success btn-intro-header ">
                             <i class="fa fa-user" aria-hidden="true"></i> Sign up
                         </a>
                     }
@@ -43,4 +43,8 @@
 {
     @await Html.PartialAsync("_ThoughtPreview", thought)
 }
+
+@await Html.PartialAsync("_LoginModal", new LoginViewModel())
+
+@await Html.PartialAsync("_RegisterModal", new RegisterViewModel())
 
