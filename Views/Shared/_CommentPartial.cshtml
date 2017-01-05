@@ -1,0 +1,87 @@
+@model Comment
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<div class="media">
+    <a asp-action="Details" 
+        asp-controller="Users" 
+        asp-route-username="@Model.User.UserName" 
+        class="pull-left">
+        <img class="media-object img-responsive user-img" 
+            src="@Model.User.Avatar" alt="@Model.User.UserName Image">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading">
+            <a asp-action="Details" 
+                asp-controller="Users" 
+                asp-route-username="@Model.User.UserName">
+                @if (await UserManager.IsInRoleAsync(Model.User, "Admin"))
+                {
+                    <span class="text-success">@Model.User.FullName</span>
+                }
+                else
+                {
+                    @Model.User.FullName
+                }
+            </a> 
+            <small>
+                @Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
+            </small>
+        </h4>
+        @if (SignInManager.IsSignedIn(User) 
+            && (await UserManager.GetUserAsync(User)).Id == Model.User.Id)
+        {
+            <div class="comment-content user-comment" 
+                contenteditable="true" id="@string.Concat("content", Model.Id)">
+                @Model.Content
+            </div>
+            <div class="row">   
+                <div class="form-group col-md-6"> 
+                    <form role="form" method="POST" 
+                        asp-controller="Comments" 
+                        asp-action="Update" 
+                        asp-route-thoughtId="@Model.Thought.Id"
+                        asp-route-commentId="@Model.Id"
+                        asp-anti-forgery="true"
+                        id="@Model.Id">
+                        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                        <input type="hidden" name="userName" value="@Model.User.UserName" />
+                        <input type="hidden" name="updatedContent" id="@string.Concat("hidden", Model.Id)" />
+                        <button type="submit" class="btn btn-link btn-edit">
+                            <span class="text-success">Update</span>
+                        </button>
+                    </form>
+                </div>
+                <div class="form-group col-md-6">
+                    <form role="form" method="POST" 
+                        asp-controller="Comments" 
+                        asp-action="Delete" 
+                        asp-route-thoughtId="@Model.Thought.Id"
+                        asp-route-commentId="@Model.Id"
+                        asp-anti-forgery="true">
+                        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                        <input type="hidden" name="userName" value="@Model.User.UserName" />
+                        <button type="submit" class="btn btn-link btn-remove">
+                            <span class="text-danger">Remove</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="comment-content">
+                @if (Model.User.IsBanned)
+                {
+                    <span class="text-danger">This User Has Been Banned</span>
+                }
+                else
+                {
+                    @Model.Content
+                }
+            </div>
+        }
+    </div>
+</div>
+<hr />
