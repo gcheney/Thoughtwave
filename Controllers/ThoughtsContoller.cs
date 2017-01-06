@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft​.AspNetCore​.Hosting;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 using Thoughtwave.ViewModels.ThoughtViewModels;
@@ -21,14 +23,17 @@ namespace Thoughtwave.Controllers
         private readonly IThoughtwaveRepository _repository;
         private readonly ILogger<ThoughtsController> _logger;
         private readonly UserManager<User> _userManager;
+        private readonly IHostingEnvironment _environment;
 
         public ThoughtsController(IThoughtwaveRepository repository, 
             UserManager<User> userManager,
-            ILogger<ThoughtsController> logger)
+            ILogger<ThoughtsController> logger,
+            IHostingEnvironment environment)
         {
             _repository = repository;
             _logger = logger;
             _userManager = userManager;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -193,6 +198,23 @@ namespace Thoughtwave.Controllers
                 // Save associated Thought author
                 thought.Author = await GetCurrentUserAsync();
 
+                // set thought image
+                var files = HttpContext.Request.Form.Files;
+                var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/images");
+
+                foreach (var image in files)
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        var filePath = Path.Combine(imagePath, image.FileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await image.CopyToAsync(fileStream);
+                            thought.Image = $"/dist/uploads/images/{image.FileName}";
+                        }
+                    }
+                }
+
                 // Save to the database
                 _repository.AddThought(thought);
 
@@ -263,6 +285,25 @@ namespace Thoughtwave.Controllers
             {
                 var thought = Mapper.Map<Thought>(model);
                 thought.Id = id;
+
+                // get new thoguht image
+                var files = HttpContext.Request.Form.Files;
+                var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/images");
+
+                foreach (var image in files)
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        Console.WriteLine("HHHHEERREEE");
+                        var filePath = Path.Combine(imagePath, image.FileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await image.CopyToAsync(fileStream);
+                            thought.Image = $"/dist/uploads/images/{image.FileName}";
+                        }
+                    }
+                }
+
                 _repository.UpdateThought(thought); 
 
                 var updatedThought = await _repository.GetThoughtByIdAsync(id);
