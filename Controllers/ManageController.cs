@@ -108,7 +108,7 @@ namespace Thoughtwave.Controllers
 
             // get new profile image
             var files = HttpContext.Request.Form.Files;
-            var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads");
+            var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/avatars");
 
             foreach (var image in files)
             {
@@ -118,7 +118,7 @@ namespace Thoughtwave.Controllers
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await image.CopyToAsync(fileStream);
-                        user.Avatar = $"/dist/uploads/{image.FileName}";
+                        user.Avatar = $"/dist/uploads/avatars/{image.FileName}";
                     }
                 }
             }
