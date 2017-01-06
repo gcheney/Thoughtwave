@@ -36,8 +36,8 @@ else
             <div class="col-md-12">
                 <div class="well well-lg clearfix">
                     <div class="text-center">
-                        <!--<h1 class="section-heading">@Model.Title</h1>-->
-                        <h3 class="text-muted">
+                        <h1 class="section-heading">@Model.Title</h1>
+                        <p class="text-muted">
                             Posted by 
                             <a asp-action="Details" 
                                 asp-controller="Users" 
@@ -50,7 +50,7 @@ else
                                 asp-route-categoryId="@Model.Category">
                                 @Model.Category
                             </a>
-                        </h3>
+                        </p>
                         @if (Model.Tags != null && Model.Tags.Length > 0)
                         {
                             <p>

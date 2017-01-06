@@ -339,6 +339,18 @@ a {
     background-image: linear-gradient(to bottom, transparent, #f5f5f5);
 }
 
+.thumbnail {
+    position: relative;
+}
+
+.caption {
+    background: none repeat scroll 0 0 #FFFFFF;
+    opacity: 0.5;
+    top:0;
+    left:0;
+    position: absolute;
+}
+
 @media only screen and (min-width: 768px) {
   .thought-preview > a > .thought-title {
       font-size: 36px;
