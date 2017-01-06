@@ -5,25 +5,29 @@
     {
         case 400:
             ViewData["Icon"] = "fa fa-ban text-danger";
-            ViewData["Title"] = "Bad Request";
+            ViewData["Title"] = "400 - Bad Request";
             ViewData["Description"] = "Your browser sent a request that this server could not understand.";
             break;
         case 401:
             ViewData["Icon"] = "fa fa-ban text-danger";
-            ViewData["Title"] = "Unauthorized";
+            ViewData["Title"] = "401 - Unauthorized";
             ViewData["Description"] = "Sorry, but the page requires authentication.";
         break;
         case 403:
             ViewData["Icon"] = "fa fa-exclamation-circle text-danger";
-            ViewData["Title"] = "Forbidden";
+            ViewData["Title"] = "403 - Forbidden";
             ViewData["Description"] = "Sorry, but you don't have permission to access this page.";
         break;
         case 404:
             ViewData["Icon"] = "fa fa-exclamation-circle text-danger";
-            ViewData["Title"] = "Page Not Found";
+            ViewData["Title"] = "404 - Page Not Found";
             ViewData["Description"] = "Sorry, but the page you were looking for can't be found.";
             break;
         case 500:
+            ViewData["Icon"] = "fa fa-exclamation-circle text-danger";
+            ViewData["Title"] = "500 - Internal Server Error";
+            ViewData["Description"] = "An error occurred on the server";
+            break;
         default:
             ViewData["Icon"] = "fa fa-exclamation-circle text-danger";
             ViewData["Title"] = "Unexpected Error";
@@ -32,12 +36,16 @@
     }
 }
 
-@await Html.PartialAsync("_PageHeader")
+@await Html.PartialAsync("_PageHeader", (string)@ViewData["Title"])
 
 <div class="jumbotron text-center">
     <header>
-        <h1><i aria-hidden="true" class="@ViewData["Icon"]"></i> @ViewData["Title"]</h1>
+        <h1>
+            <i aria-hidden="true" class="@ViewData["Icon"]"></i> @ViewData["Title"]
+        </h1>
     </header>
     <p>@ViewData["Description"]</p>
-    <a class="btn btn-primary btn-lg" href="/"><i aria-hidden="true" class="fa fa-home"></i> Go Home</a>
+    <a class="btn btn-primary btn-lg" href="/">
+        <i aria-hidden="true" class="fa fa-home"></i> Go Home
+    </a>
 </div>
