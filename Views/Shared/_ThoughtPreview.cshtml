@@ -6,9 +6,17 @@
             <div class="col-lg-10 col-lg-offset-1 col-md-12">
                 <div class="thought-preview">
                     <div class="well well-lg clearfix">
-                        @if (Model.Iamge != null)
+                        @if (Model.Image != null)
                         {
-                            <img class="thumbnail img-responsive" src="@Model.Image" alt="@Model.Title" >
+                            <div class="row">
+                                <a asp-action="Read" 
+                                    asp-controller="Thoughts" 
+                                    asp-route-id="@Model.Id" 
+                                    asp-route-categoryId="@Model.Category.ToString().ToLower()" 
+                                    asp-route-slug="@Model.Slug">
+                                    <img class="center-block img-responsive thumbnail" src="@Model.Image" alt="@Model.Title" >
+                                </a>
+                            </div>
                         }
                         <h1 class="section-heading text-center">
                             <a asp-action="Read" 
