@@ -15,12 +15,13 @@ namespace Thoughtwave.Models
         public Category Category { get; set; }
         public bool DisableComments { get; set; }
         public string Tags { get; set; }
+        public string Image { get; set; }
 
         public string Lead 
         { 
             get 
             {
-                return Content.Length < 400 ? Content : Content.TruncateString(400) + "...";
+                return Content.Length < 500 ? Content : Content.TruncateString(500) + "...";
             }
         }
 
