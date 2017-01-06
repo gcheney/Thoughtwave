@@ -322,7 +322,7 @@ a {
     }
 
 .thought-lead {
-  max-height: 400px;
+  max-height: 900px;
   position: relative;
   overflow: hidden;
 }
