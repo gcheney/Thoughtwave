@@ -25,7 +25,7 @@ namespace Thoughtwave.ViewModels.ThoughtViewModels
         [Display(Name = "Thought Tags, seperated by a comma")]
         public string Tags { get; set; }
 
-        [Display(Name = "Add a banner image")]
+        [Display(Name = "Add an image")]
         public string Image { get; set; }
     }
 }
