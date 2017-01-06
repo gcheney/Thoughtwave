@@ -4,14 +4,33 @@
     ViewBag.Title = ViewBag.Title;
 }
 
-@await Html.PartialAsync("_PageHeader")
+@if (Model.Image != null)
+{
+    <header class="intro-header" style="background-image: url('@Model.Image')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>@Model.Title</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+}
+else
+{
+    @await Html.PartialAsync("_PageHeader", @Model.Title)
+}
 
 <div class="container">
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">    
-            <h1 class="text-center">What are you thinking today?</h1>
+            <h1 class="text-center">Edit Your Thought</h1>
             <hr class="large"/>
-            <form method="POST" asp-antiforgery="true">
+            <form method="POST" asp-antiforgery="true"
+                asp-controller="Thoughts" asp-action="Edit" 
+                enctype="multipart/form-data">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <input type="hidden" asp-for="CreatedOn" value="@Model.CreatedOn" />
                 <div class="form-group">
@@ -24,6 +43,7 @@
                     <input asp-for="Tags" type="text" class="form-control" placeholder="@Model.Tags">
                     <span asp-validation-for="Tags"></span>
                 </div>
+                
                 <div class="form-group">                
                     <label asp-for="Category"></label>
                     <select asp-for="Category" asp-items="@Html.GetEnumSelectList(typeof(Category))" class="form-control">
@@ -37,6 +57,15 @@
                     <label asp-for="Content"></label><br />
                     <textarea asp-for="Content" class="form-control" id="editor" rows="10">@Model.Content</textarea>
                     <span asp-validation-for="Content"></span>
+                </div>
+                <div class="form-group">
+                    @if (Model.Image != null)
+                    {
+                        <h3 class="text-center">Current Banner Image</h3>
+                        <img class="thumbnail img-responsive" src="@Model.Image" alt="Article Image">
+                    }
+                    <label asp-for="Image"></label>
+                    <input  class="form-control"  type="file" name="files" accept="image/*"/> 
                 </div>
                 <div class="form-group">
                     <div class="checkbox pull-left">

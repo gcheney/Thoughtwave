@@ -8,7 +8,24 @@
     ViewData["Title"] = @Model.Title;
 }
 
-@await Html.PartialAsync("_PageHeader")
+@if (Model.Image != null)
+{
+    <header class="intro-header" style="background-image: url('@Model.Image')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>@Model.Title</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+}
+else
+{
+    @await Html.PartialAsync("_PageHeader", @Model.Title)
+}
 
 @await Html.PartialAsync("_FlashMessage")
 
@@ -19,8 +36,8 @@
             <div class="col-md-12">
                 <div class="well well-lg clearfix">
                     <div class="text-center">
-                        <h1 class="section-heading">@Model.Title</h1>
-                        <p class="text-muted">
+                        <!--<h1 class="section-heading">@Model.Title</h1>-->
+                        <h3 class="text-muted">
                             Posted by 
                             <a asp-action="Details" 
                                 asp-controller="Users" 
@@ -33,7 +50,7 @@
                                 asp-route-categoryId="@Model.Category">
                                 @Model.Category
                             </a>
-                        </p>
+                        </h3>
                         @if (Model.Tags != null && Model.Tags.Length > 0)
                         {
                             <p>
@@ -111,91 +128,9 @@
                 }
                 else
                 {
-                    foreach (var comment in @Model.Comments)
+                    foreach (var comment in Model.Comments)
                     {
-                        <div class="media">
-                            <a asp-action="Details" 
-                                asp-controller="Users" 
-                                asp-route-username="@comment.User.UserName" 
-                                class="pull-left">
-                                <img class="media-object img-responsive user-img" 
-                                    src="@comment.User.Avatar" alt="@comment.User.UserName Image">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading">
-                                    <a asp-action="Details" 
-                                        asp-controller="Users" 
-                                        asp-route-username="@comment.User.UserName">
-                                        @if (SignInManager.IsSignedIn(User) 
-                                            && await UserManager.IsInRoleAsync(comment.User, "Admin"))
-                                        {
-                                            <span class="text-success">@comment.User.FullName</span>
-                                        }
-                                        else
-                                        {
-                                            @comment.User.FullName
-                                        }
-                                    </a> 
-                                    <small>
-                                        @comment.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")
-                                    </small>
-                                </h4>
-                                @if (SignInManager.IsSignedIn(User) 
-                                    && (await UserManager.GetUserAsync(User)).Id == comment.User.Id)
-                                {
-                                    <div class="comment-content user-comment" 
-                                        contenteditable="true" id="@string.Concat("content", comment.Id)">
-                                        @comment.Content
-                                    </div>
-                                    <div class="row">   
-                                        <div class="form-group col-md-6"> 
-                                            <form role="form" method="POST" 
-                                                asp-controller="Comments" 
-                                                asp-action="Update" 
-                                                asp-route-thoughtId="@Model.Id"
-                                                asp-route-commentId="@comment.Id"
-                                                asp-anti-forgery="true"
-                                                id="@comment.Id">
-                                                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                                <input type="hidden" name="userName" value="@comment.User.UserName" />
-                                                <input type="hidden" name="updatedContent" id="@string.Concat("hidden", comment.Id)" />
-                                                <button type="submit" class="btn btn-link btn-edit">
-                                                    <span class="text-success">Update</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <form role="form" method="POST" 
-                                                asp-controller="Comments" 
-                                                asp-action="Delete" 
-                                                asp-route-thoughtId="@Model.Id"
-                                                asp-route-commentId="@comment.Id"
-                                                asp-anti-forgery="true">
-                                                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                                <input type="hidden" name="userName" value="@comment.User.UserName" />
-                                                <button type="submit" class="btn btn-link btn-remove">
-                                                    <span class="text-danger">Remove</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="comment-content">
-                                        @if (comment.User.IsBanned)
-                                        {
-                                            <span class="text-danger">This User Has Been Banned</span>
-                                        }
-                                        else
-                                        {
-                                            @comment.Content
-                                        }
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <hr />
+                        @await Html.PartialAsync("_CommentPartial", comment)
                     } 
                 }
             }

@@ -6,6 +6,10 @@
             <div class="col-lg-10 col-lg-offset-1 col-md-12">
                 <div class="thought-preview">
                     <div class="well well-lg clearfix">
+                        @if (Model.Iamge != null)
+                        {
+                            <img class="thumbnail img-responsive" src="@Model.Image" alt="@Model.Title" >
+                        }
                         <h1 class="section-heading text-center">
                             <a asp-action="Read" 
                                 asp-controller="Thoughts" 

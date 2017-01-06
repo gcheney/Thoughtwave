@@ -4,13 +4,12 @@
     ViewData["Title"] = ViewBag.Content;
 }
 
-@await Html.PartialAsync("_PageHeader")
+@await Html.PartialAsync("_PageHeader", (string)@ViewBag.Content)
 
 @await Html.PartialAsync("_SearchPartial")
 
 <!-- Page Content -->
 <div class="text-center">
-    <h1>@ViewBag.Content</h1>
     <hr class="large"/>
 
     <h3 class="text-muted">@ViewBag.Message</h3>

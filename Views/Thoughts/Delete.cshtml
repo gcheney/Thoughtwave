@@ -4,7 +4,24 @@
     ViewData["Title"] = @ViewBag.Title;
 }
 
-@await Html.PartialAsync("_PageHeader")
+@if (Model.Image != null)
+{
+    <header class="intro-header" style="background-image: url('@Model.Image')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>@Model.Title</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+}
+else
+{
+    @await Html.PartialAsync("_PageHeader", @Model.Title)
+}
 
  <!-- Thought Content -->
 <article>

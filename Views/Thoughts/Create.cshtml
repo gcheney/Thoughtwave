@@ -4,14 +4,16 @@
     ViewBag.Title = "Create a New Thought";
 }
 
-@await Html.PartialAsync("_PageHeader")
+@await Html.PartialAsync("_PageHeader", "Create Your Thought")
 
 <div class="container">
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">    
             <h1 class="text-center">What are you thinking today?</h1>
             <hr class="large"/>
-            <form asp-controller="Thoughts" asp-action="Create" method="post" asp-antiforgery="true">
+            <form asp-controller="Thoughts" asp-action="Create" 
+                method="post" asp-antiforgery="true"
+                enctype="multipart/form-data">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Title"></label>
@@ -33,6 +35,10 @@
                     <label asp-for="Content"></label><br />
                     <textarea asp-for="Content" class="form-control" id="editor" rows="10"></textarea>
                     <span asp-validation-for="Content"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image"></label>
+                    <input  class="form-control"  type="file" name="files" accept="image/*"/> 
                 </div>
                 <div class="form-group">
                     <div class="checkbox pull-left">
