@@ -141,7 +141,17 @@ namespace Thoughtwave.Controllers
 
             if (userToDelete.Id == currentUser.Id)
             {
+                // sign user out 
                 await _signInManager.SignOutAsync();
+
+                // delete user avatar
+                var avatarPath = _environment.WebRootPath + userToDelete.Avatar;
+                if (System.IO.File.Exists(avatarPath))
+                {
+                    System.IO.File.Delete(avatarPath);
+                }
+
+                // delete user
                 var result = await _userManager.DeleteAsync(userToDelete);
                 if (result.Succeeded)
                 {
