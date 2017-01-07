@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft​.AspNetCore​.Hosting;
+using Microsoft.AspNetCore.Http;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 using Thoughtwave.ViewModels.ThoughtViewModels;
@@ -199,21 +200,7 @@ namespace Thoughtwave.Controllers
                 thought.Author = await GetCurrentUserAsync();
 
                 // set thought image
-                var files = HttpContext.Request.Form.Files;
-                var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/images");
-
-                foreach (var image in files)
-                {
-                    if (image != null && image.Length > 0)
-                    {
-                        var filePath = Path.Combine(imagePath, image.FileName);
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await image.CopyToAsync(fileStream);
-                            thought.Image = $"/dist/uploads/images/{image.FileName}";
-                        }
-                    }
-                }
+                thought.Image = await SaveThoughtImageAsync(HttpContext.Request.Form.Files);
 
                 // Save to the database
                 _repository.AddThought(thought);
@@ -286,23 +273,8 @@ namespace Thoughtwave.Controllers
                 var thought = Mapper.Map<Thought>(model);
                 thought.Id = id;
 
-                // get new thoguht image
-                var files = HttpContext.Request.Form.Files;
-                var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/images");
-
-                foreach (var image in files)
-                {
-                    if (image != null && image.Length > 0)
-                    {
-                        Console.WriteLine("HHHHEERREEE");
-                        var filePath = Path.Combine(imagePath, image.FileName);
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await image.CopyToAsync(fileStream);
-                            thought.Image = $"/dist/uploads/images/{image.FileName}";
-                        }
-                    }
-                }
+                // get new thought image
+                thought.Image = await SaveThoughtImageAsync(HttpContext.Request.Form.Files);
 
                 _repository.UpdateThought(thought); 
 
@@ -429,6 +401,25 @@ namespace Thoughtwave.Controllers
             {
                 return Category.None;
             }
+        }
+
+        private async Task<string> SaveThoughtImageAsync(IFormFileCollection files)
+        {
+            foreach (var image in files)
+            {
+                if (image != null && image.Length > 0)
+                {
+                    var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/images");
+                    var filePath = Path.Combine(imagePath, image.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                        return $"/dist/uploads/images/{image.FileName}";
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }
