@@ -61,10 +61,11 @@ gulp.task('css', function() {
 		.pipe(gulp.dest(config.cssDest));
 });
 
-gulp.task('uglify', function() {
+gulp.task('js', function() {
     return gulp.src(bowerFiles())
         .pipe(filter('**/*.js'))
         .pipe(debug({title: 'js'}))
+        .pipe(order(['jquery.js', '*']))
         .pipe(concat('bundle.js'))
         .pipe(uglify())
         .pipe(rename('bundle.min.js'))
@@ -87,7 +88,7 @@ gulp.task('images', function(){
 gulp.task('build', function (callback) {
     console.log('Building files...');
     runSequence('clean', 'jslint', 
-                ['css', 'uglify', 'fonts', 'images'], 
+                ['css', 'js', 'fonts', 'images'], 
                 callback);
 });
 
