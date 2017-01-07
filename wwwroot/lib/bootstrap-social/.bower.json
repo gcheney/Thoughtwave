@@ -24,7 +24,6 @@
     "commit": "8b7618556d386d3fecf4b37783e20f2090cb4fd0"
   },
   "_source": "https://github.com/lipis/bootstrap-social.git",
-  "_target": "^5.1.1",
-  "_originalSource": "bootstrap-social",
-  "_direct": true
+  "_target": "~5.1.1",
+  "_originalSource": "bootstrap-social"
 }

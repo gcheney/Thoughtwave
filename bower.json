@@ -8,22 +8,23 @@
     "normalize-css": "~4.1.1",
     "jquery": "2.2.3",
     "jquery-validation": "1.15.0",
-    "jquery-validation-unobtrusive": "3.2.6"
+    "jquery-validation-unobtrusive": "3.2.6",
+    "jquery.are-you-sure": "^1.9.0"
   },
   "overrides": {
     "bootstrap": {
-        "main": [
-            "dist/js/bootstrap.min.js",
-            "dist/css/bootstrap.min.css",
-            "less/bootstrap.less"
-        ]
+      "main": [
+        "dist/js/bootstrap.min.js",
+        "dist/css/bootstrap.min.css",
+        "less/bootstrap.less"
+      ]
     },
     "font-awesome": {
-        "main": [
-            "less/font-awesome.less",
-            "css/font-awesome.min.css",
-            "scss/font-awesome.scss"
-        ]
+      "main": [
+        "less/font-awesome.less",
+        "css/font-awesome.min.css",
+        "scss/font-awesome.scss"
+      ]
     }
   }
 }
