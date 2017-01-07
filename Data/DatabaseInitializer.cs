@@ -81,6 +81,7 @@ namespace Thoughtwave.Data
                         Author = user3,
                         Category = Category.Film,
                         Tags = "film,art,indie,hip,cinephile",
+                        Image = "http://www.victoriabid.co.uk/wp-content/uploads/2015/02/Film.jpg",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -102,6 +103,7 @@ namespace Thoughtwave.Data
                         Author = user2,
                         Category = Category.Music,
                         Tags = "music,indie,hipster",
+                        Image = "http://quickman.gameological.com/wp-content/uploads/2013/09/130910_feature_rockband_ledzep.jpg",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -123,6 +125,7 @@ namespace Thoughtwave.Data
                         Author = user1,
                         Category = Category.Politics,
                         Tags = "world,news,bernie,hope,optimism,democratic",
+                        Image = "https://s.bsd.net/bernie16/main/page/-/website/fb-share.png",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -139,11 +142,12 @@ namespace Thoughtwave.Data
                     },
                     new Thought()
                     {
-                        Title = "The World Is NOT All Bad",
+                        Title = "The True Cost of War",
                         Content = "Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo. Cronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache. Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo. Cronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache. Distillery gastropub williamsburg, iceland sriracha dreamcatcher church-key. Viral flannel franzen, pug narwhal photo booth vape cliche mustache blog subway tile neutra selvage. Locavore vape heirloom meggings, williamsburg ugh etsy raclette. Jean shorts truffaut photo booth, schlitz farm-to-table master cleanse paleo.\n\n \tCronut gluten-free activated charcoal, kombucha hell of plaid hashtag la croix unicorn bitters vinyl kickstarter slow-carb chambray retro. Jean shorts street art retro direct trade, keytar lyft iceland snackwave deep v ethical cliche 90's irony air plant poutine. Coloring book hammock raclette glossier umami yr, truffaut knausgaard forage bespoke mustache.",
                         Author = user1,
                         Category = Category.World,
-                        Tags = "world,news,politics,hope,optimism",
+                        Tags = "world,news,politics,war,syria",
+                        Image = "http://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2016/5/7/59e79cb733d147d3a3ae18fd8ba34cb1_18.jpg",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -165,6 +169,7 @@ namespace Thoughtwave.Data
                         Author = user2,
                         Category = Category.World,
                         Tags = "depression,doomsday",
+                        Image = "http://3.bp.blogspot.com/-ZtsnqC9oL-E/T9XTO-c4EMI/AAAAAAAAAes/JkW_bvKCuqs/s1600/terrible%2Bworld.jpg",
                         Comments = new List<Comment>()
                         {
                             new Comment() 
@@ -186,12 +191,13 @@ namespace Thoughtwave.Data
                         Tags = "personal,confession",
                         Author = user2,
                         DisableComments = true,
+                        Image = "http://virginiapeerspecialists.org/wp-content/uploads/2015/03/flashback-vulnerability.jpg",
                         Comments = new List<Comment>()
                     },
                     new Thought()
                     {
-                        Title = "This is a ANOTHER Very Personal Confession",
-                        Content = "Stumptown iceland lumbersexual vexillologist put a bird on it.\n\n Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac.",
+                        Title = "This is a NEW Very Personal Confession",
+                        Content = "Stumptown iceland lumbersexual vexillologist put a bird on it.\n\n Street art organic butcher, cliche lumbersexual keffiyeh wolf neutra tumeric biodiesel asymmetrical celiac swag. Poke austin umami, pok pok meggings church-key lomo. Health goth hella pitchfork craft beer listicle celiac. There is no photo. There is no photo.",
                         Tags = "personal,confession",
                         Author = user3,
                         Comments = new List<Comment>()
