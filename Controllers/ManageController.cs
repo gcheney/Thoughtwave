@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft​.AspNetCore​.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -106,22 +107,8 @@ namespace Thoughtwave.Controllers
                 return View("Error");
             }
 
-            // get new profile image
-            var files = HttpContext.Request.Form.Files;
-            var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/avatars");
-
-            foreach (var image in files)
-            {
-                if (image != null && image.Length > 0)
-                {
-                    var filePath = Path.Combine(imagePath, image.FileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(fileStream);
-                        user.Avatar = $"/dist/uploads/avatars/{image.FileName}";
-                    }
-                }
-            }
+            // set profile image
+            user.Avatar = await SaveProfileImageAsync(HttpContext.Request.Form.Files);
 
             // update user
             user.FirstName = model.FirstName;
@@ -458,6 +445,25 @@ namespace Thoughtwave.Controllers
         private Task<User> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(HttpContext.User);
+        }
+
+        private async Task<string> SaveProfileImageAsync(IFormFileCollection files)
+        {
+            foreach (var image in files)
+            {
+                if (image != null && image.Length > 0)
+                {
+                    var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/avatars");
+                    var filePath = Path.Combine(imagePath, image.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                        return $"/dist/uploads/avatars/{image.FileName}";
+                    }
+                }
+            }
+
+            return null;
         }
 
         #endregion
