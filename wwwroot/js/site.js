@@ -79,11 +79,17 @@
             setTimeout(function() {
                 flashFadeout();
             }, 10000);
+        },
+        enableAreYouSure: function() {
+            $('form').areYouSure({
+                'message': 'Your changes will not be saved!'
+            });
         }
     }
 
     //when the dom has loaded setup form validation rules
     $(D).ready(function($) {
+        JQUERY.UTIL.enableAreYouSure();
         JQUERY.UTIL.initNavigationSlide();
         JQUERY.UTIL.initNavbarSerach();
         JQUERY.UTIL.initSearchPanelForm();
