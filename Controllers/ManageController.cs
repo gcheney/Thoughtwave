@@ -112,7 +112,11 @@ namespace Thoughtwave.Controllers
             }
 
             // set profile image
-            user.Avatar = await SaveProfileImageAsync(HttpContext.Request.Form.Files);
+            var avatarPath = await SaveProfileImageAsync(HttpContext.Request.Form.Files);
+            if (avatarPath != null)
+            {
+                user.Avatar = avatarPath;
+            }
 
             // update user
             user.FirstName = model.FirstName;
