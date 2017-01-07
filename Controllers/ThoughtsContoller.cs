@@ -349,6 +349,14 @@ namespace Thoughtwave.Controllers
 
             if (await UserIsThoughtAuthorAsync(thought))
             {
+                // remove thought image from file system
+                var imagePath = _environment.WebRootPath + thought.Image;
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+
+                // delete thought
                 _repository.DeleteThought(thought);
                 
                 if (await _repository.CommitChangesAsync())
