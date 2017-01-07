@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Thoughtwave.Models;
+using Thoughtwave.Data;
 using Thoughtwave.ViewModels.ManageViewModels;
 using Thoughtwave.Services;
 using AutoMapper;
@@ -25,6 +26,7 @@ namespace Thoughtwave.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IThoughtwaveRepository _repository;
 
         public ManageController(
             IHostingEnvironment environment,
@@ -32,13 +34,15 @@ namespace Thoughtwave.Controllers
             SignInManager<User> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IThoughtwaveRepository repository)
         {
             _environment = environment;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
+            _repository = repository;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
@@ -145,11 +149,10 @@ namespace Thoughtwave.Controllers
                 await _signInManager.SignOutAsync();
 
                 // delete user avatar
-                var avatarPath = _environment.WebRootPath + userToDelete.Avatar;
-                if (System.IO.File.Exists(avatarPath))
-                {
-                    System.IO.File.Delete(avatarPath);
-                }
+                DeleteImage(userToDelete.Avatar);
+
+                // delete users thoughts images
+                await DeleteThoughtImagesAsync(userToDelete);
 
                 // delete user
                 var result = await _userManager.DeleteAsync(userToDelete);
@@ -474,6 +477,29 @@ namespace Thoughtwave.Controllers
             }
 
             return null;
+        }
+
+        private async Task DeleteThoughtImagesAsync(User user)
+        {
+            var thoughts = await _repository.GetThoughtsByUserNameAsync(user.UserName);
+
+            if (thoughts == null)
+            {
+                return;
+            }
+            foreach (var thought in thoughts)
+            {
+                DeleteImage(thought.Image);
+            }
+        }
+
+        private void DeleteImage(string filePath)
+        {
+            var imagePath = _environment.WebRootPath + filePath;
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
         }
 
         #endregion
