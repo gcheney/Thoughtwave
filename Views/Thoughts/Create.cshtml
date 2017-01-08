@@ -38,7 +38,9 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Image"></label>
-                    <input  class="form-control"  type="file" name="files" accept="image/*"/> 
+                    <a href="#" id="remove-image" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remove Image</a>
+                    <img id="thought-image" class="thumbnail img-responsive" src="" alt="No Image Selected">
+                    <input id="image-input"  class="form-control"  type="file" name="files" accept="image/*"/> 
                 </div>
                 <div class="form-group">
                     <div class="checkbox pull-left">
@@ -56,7 +58,7 @@
 
 @section Scripts {
      <!-- TinyMCE Editor Setup-->
-    <script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+    <script type="text/javascript" src='//cdn.tinymce.com/4/tinymce.min.js'></script>
     <script>
     tinymce.init({
         selector: '#editor',
@@ -70,5 +72,39 @@
         theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
         fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt"
     });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() { 
+            
+            $removeImageBtn = $('#remove-image');
+            $thoughtImage = $('#thought-image');
+            $imageInput = $("#image-input");
+
+            $removeImageBtn.hide();
+
+            function displayImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $thoughtImage.attr('src', e.target.result);
+                        $removeImageBtn.show();
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $removeImageBtn.on('click', function(e) {
+                e.preventDefault();
+                $(this).hide();
+                $thoughtImage.attr('src', '');
+                $imageInput.val('');
+            });
+
+            $imageInput.change(function() {
+                displayImage(this);
+            });
+            
+        });
     </script>
 }
