@@ -45,6 +45,10 @@ hr.large {
     background-color: black;
 }
 
+.hidden {
+    display: none;
+}
+
 /* Link Styles */
 
 a {
