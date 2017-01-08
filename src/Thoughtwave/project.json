@@ -1,7 +1,9 @@
 {
+  "userSecretsId": "aspnet-Thoughtwave-45d0febc-4fd0-49ad-832a-5bbabeac0fba",
+
   "dependencies": {
     "Microsoft.NETCore.App": {
-      "version": "1.0.1",
+      "version": "1.0.0",
       "type": "platform"
     },
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
