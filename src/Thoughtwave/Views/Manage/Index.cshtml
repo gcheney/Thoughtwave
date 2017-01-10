@@ -89,18 +89,21 @@
         $(document).ready(function() {
 
             var $deleteAccount = $('#delete-account');
+            $deleteAccount.hide().removeClass('hidden');
 
             // show delete form
             $('#delete-btn').on('click', function(e) {
                 e.preventDefault();
-                $deleteAccount.removeClass('hidden').slideDown('slow');
+                $deleteAccount.slideDown('slow', function() {
+                    $deleteAccount.show();
+                });
             });
 
             // close delete form
             $('.close').on('click', function(e) {
                 e.preventDefault();
                 $deleteAccount.slideUp('slow', function() {
-                    $(this).addClass('hidden')
+                    $deleteAccount.hide();
                 });
             });
         });
