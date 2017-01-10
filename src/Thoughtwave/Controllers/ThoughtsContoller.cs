@@ -127,7 +127,8 @@ namespace Thoughtwave.Controllers
         [Route("/search")]
         public async Task<IActionResult> Search(string q, string c = "All")
         {
-            Category categroy = GetCategoryFromString(c);
+            var categroy = GetCategoryFromString(c);
+            q = q.ToLower();
             IEnumerable<Thought> thoughts = null;
 
             if (categroy != Category.None) 
