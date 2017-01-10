@@ -66,7 +66,7 @@
         
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="alert alert-danger" id="delete-account">
+                <div class="alert alert-danger hidden" id="delete-account">
                     <h3 class="text-danger">
                         This action CANNOT be undone <i class="fa fa-times close" aria-hidden="true"></i>
                     </h3>
@@ -88,18 +88,20 @@
 
         $(document).ready(function() {
 
-            $('#delete-account').hide();
+            var $deleteAccount = $('#delete-account');
+            $deleteAccount.hide();
 
             // show delete form
             $('#delete-btn').on('click', function(e) {
                 e.preventDefault();
-                $('#delete-account').slideDown('slow');
+                $deleteAccount.removeClass('hidden');
+                $deleteAccount.slideDown('slow');
             });
 
             // close delete form
             $('.close').on('click', function(e) {
                 e.preventDefault();
-                $('#delete-account').hide();
+                $deleteAccount.hide();
             });
         });
     </script>
