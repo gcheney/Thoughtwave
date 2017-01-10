@@ -89,19 +89,19 @@
         $(document).ready(function() {
 
             var $deleteAccount = $('#delete-account');
-            $deleteAccount.hide();
 
             // show delete form
             $('#delete-btn').on('click', function(e) {
                 e.preventDefault();
-                $deleteAccount.removeClass('hidden');
-                $deleteAccount.slideDown('slow');
+                $deleteAccount.removeClass('hidden').slideDown('slow');
             });
 
             // close delete form
             $('.close').on('click', function(e) {
                 e.preventDefault();
-                $deleteAccount.hide();
+                $deleteAccount.slideUp('slow', function() {
+                    $(this).addClass('hidden')
+                });
             });
         });
     </script>
