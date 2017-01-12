@@ -47,12 +47,12 @@ namespace Thoughtwave.Data
                 "Johnny", "Walker", "https://randomuser.me/api/portraits/men/27.jpg");
 
 
-            var admin = await SeedUserDataAsync(userManager, 
-                "admin", "admin@email.com", "Pa$$wordAdmin1",
+            var superAdmin = await SeedUserDataAsync(userManager, 
+                "superadmin", "superadmin@thoughtwave.xyz", "Pa$$wordAdmin1",
                 "Admin", "Istrator", "https://randomuser.me/api/portraits/men/20.jpg");
 
             // seed roles
-            string[] roles = new string[] { "Admin" };
+            var roles = new List<string>{ "Admin", "SuperAdmin" };
 
             foreach (var role in roles)
             {
@@ -63,10 +63,10 @@ namespace Thoughtwave.Data
             }
 
             // assign admin user to role
-            var adminResult = await userManager.AddToRolesAsync(admin, roles);
-            if (adminResult.Succeeded)
+            var superAdminResult = await userManager.AddToRolesAsync(superAdmin, roles);
+            if (superAdminResult.Succeeded)
             {
-                Console.WriteLine("Adminstrator successfully created");
+                Console.WriteLine("Super Adminstrator successfully created");
             }
 
             // Seed thought data
@@ -210,6 +210,7 @@ namespace Thoughtwave.Data
                     context.Comments.AddRange(thought.Comments);
                 }
 
+                // save all changes
                 await context.SaveChangesAsync();
             }
         }
