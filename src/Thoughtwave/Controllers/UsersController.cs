@@ -99,6 +99,7 @@ namespace Thoughtwave.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SuperAdmin")]
         [Route("/users/admin/grant/{userId}")]
         public async Task<IActionResult> GrantAdminAccess(string userId)
         {
@@ -131,6 +132,7 @@ namespace Thoughtwave.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SuperAdmin")]
         [Route("/users/admin/revoke/{userId}")]
         public async Task<IActionResult> RevokeAdminAccess(string userId)
         {
