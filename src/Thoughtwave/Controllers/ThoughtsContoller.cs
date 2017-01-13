@@ -201,7 +201,12 @@ namespace Thoughtwave.Controllers
                 thought.Author = await GetCurrentUserAsync();
 
                 // set thought image
-                thought.Image = await SaveThoughtImageAsync(HttpContext.Request.Form.Files);
+                var uploadedFiles = HttpContext.Request.Form.Files;
+                var imagePath = await UploadThoughtImageAsync(uploadedFiles);
+                if (imagePath != null)
+                {
+                    thought.Image = imagePath;
+                }
 
                 // Save to the database
                 _repository.AddThought(thought);
@@ -275,7 +280,12 @@ namespace Thoughtwave.Controllers
                 thought.Id = id;
 
                 // get new thought image
-                thought.Image = await SaveThoughtImageAsync(HttpContext.Request.Form.Files);
+                var uploadedFiles = HttpContext.Request.Form.Files;
+                var imagePath = await UploadThoughtImageAsync(uploadedFiles);
+                if (imagePath != null)
+                {
+                    thought.Image = imagePath;
+                }
 
                 _repository.UpdateThought(thought); 
 
@@ -412,18 +422,22 @@ namespace Thoughtwave.Controllers
             }
         }
 
-        private async Task<string> SaveThoughtImageAsync(IFormFileCollection files)
+        private async Task<string> UploadThoughtImageAsync(IFormFileCollection uploadedImages)
         {
-            foreach (var image in files)
+            if (uploadedImages.Any())
             {
-                if (image != null && image.Length > 0)
+                var image = uploadedImages.FirstOrDefault();
+                string[] validFileFormats = { ".jpg", ".png", ".jpeg" };
+                var isValidFormat = validFileFormats.Any(s => image.FileName.EndsWith(s));
+
+                if (image != null && image.Length > 0 && isValidFormat)
                 {
-                    var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/images");
-                    var filePath = Path.Combine(imagePath, image.FileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    string filePath = Path.Combine(_environment.WebRootPath, "dist/uploads/avatars");
+                    var imagePath = Path.Combine(filePath, image.FileName);
+                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
                     {
                         await image.CopyToAsync(fileStream);
-                        return $"/dist/uploads/images/{image.FileName}";
+                        return $"/dist/uploads/avatars/{image.FileName}";
                     }
                 }
             }
