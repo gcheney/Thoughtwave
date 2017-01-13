@@ -73,6 +73,7 @@ else
                         <img id="thought-image" class="thumbnail img-responsive" src="" alt="No Image Selected">
                     }
                     <label asp-for="Image"></label>
+                    <input type="hidden" id="model-image" asp-for="Image" value="@Model.Image">
                     <input id="image-input" class="form-control"  type="file" name="files" accept="image/*"/> 
                 </div>
                 <div class="form-group">
@@ -83,6 +84,7 @@ else
                 </div>
                 <button type="submit" class="btn btn-success pull-right">Save Thought Changes</button>
             </form>
+            <a asp-action="Manage" asp-controller="Thoughts" class="btn btn-default pull-right">Cancel</a>
         </div>
     </div>
 </div>
@@ -108,16 +110,23 @@ else
     <script type="text/javascript">
         $(document).ready(function() { 
             
-            $removeImageBtn = $('#remove-image');
-            $thoughtImage = $('#thought-image');
-            $imageInput = $("#image-input");
+            var $removeImageBtn = $('#remove-image');
+            var $thoughtImage = $('#thought-image');
+            var $modelImage = $('#model-image');
+            var $imageInput = $("#image-input");
+
+            var currentImage = $modelImage.val();
+
+            if (currentImage === '') {
+                $removeImageBtn.hide();
+            }
 
             function displayImage(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        $removeImageBtn.removeClass('hidden');
                         $thoughtImage.attr('src', e.target.result);
+                        $removeImageBtn.show();
                     }
                     reader.readAsDataURL(input.files[0]);
                 }
@@ -125,9 +134,15 @@ else
 
             $removeImageBtn.on('click', function(e) {
                 e.preventDefault();
-                $(this).hide();
-                $thoughtImage.attr('src', '');
                 $imageInput.val('');
+                if ($thoughtImage.attr('src') === currentImage) {
+                    $removeImageBtn.hide();
+                    $thoughtImage.attr('src', '');
+                    $modelImage.val('');
+                } else {
+                    $thoughtImage.attr('src', currentImage);
+                    $modelImage.val(currentImage);
+                }
             });
 
             $imageInput.change(function() {

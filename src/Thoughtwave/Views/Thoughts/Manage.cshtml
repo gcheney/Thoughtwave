@@ -12,6 +12,11 @@
 <div class="text-center">
     <h3 class="text-muted">@ViewBag.Message</h3>
 
+    @if (!Model.Any())
+    {
+        <a asp-action="Create" asp-controller="Thoughts" class="btn btn-default">Create a New Thought</a>
+    }
+
     @foreach (var thought in Model)
     {
         <div class="well clearfix">
