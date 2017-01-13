@@ -104,7 +104,6 @@ namespace Thoughtwave.Controllers
             }
 
             var user = await GetCurrentUserAsync();
-
             if (user == null)
             {
                 _logger.LogError("No current user found");
@@ -112,13 +111,20 @@ namespace Thoughtwave.Controllers
             }
 
             // set profile image
-            var avatarPath = await SaveProfileImageAsync(HttpContext.Request.Form.Files);
-            if (avatarPath != null)
+            if (model.Avatar == "/dist/images/generic-user.jpg")
             {
-                user.Avatar = avatarPath;
+                user.Avatar = model.Avatar;
+            }
+            else
+            {
+                var uploadedFiles = HttpContext.Request.Form.Files;
+                var avatarPath = await UploadProfileImageAsync(uploadedFiles);
+                if (avatarPath != null)
+                {
+                    user.Avatar = avatarPath;
+                }
             }
 
-            // update user
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.Bio = model.Bio;
@@ -364,6 +370,7 @@ namespace Thoughtwave.Controllers
             }
 
             var user = await GetCurrentUserAsync();
+
             if (user != null)
             {
                 var result = await _userManager.AddPasswordAsync(user, model.NewPassword);
@@ -375,6 +382,7 @@ namespace Thoughtwave.Controllers
                 AddErrors(result);
                 return View(model);
             }
+
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
@@ -464,15 +472,19 @@ namespace Thoughtwave.Controllers
             return _userManager.GetUserAsync(HttpContext.User);
         }
 
-        private async Task<string> SaveProfileImageAsync(IFormFileCollection files)
+        private async Task<string> UploadProfileImageAsync(IFormFileCollection uploadedImages)
         {
-            foreach (var image in files)
+            if (uploadedImages.Any())
             {
-                if (image != null && image.Length > 0)
+                var image = uploadedImages.FirstOrDefault();
+                string[] validFileFormats = { ".jpg", ".png", ".jpeg" };
+                var isValidFormat = validFileFormats.Any(s => image.FileName.EndsWith(s));
+
+                if (image != null && image.Length > 0 && isValidFormat)
                 {
-                    var imagePath = Path.Combine(_environment.WebRootPath, "dist/uploads/avatars");
-                    var filePath = Path.Combine(imagePath, image.FileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    string filePath = Path.Combine(_environment.WebRootPath, "dist/uploads/avatars");
+                    var imagePath = Path.Combine(filePath, image.FileName);
+                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
                     {
                         await image.CopyToAsync(fileStream);
                         return $"/dist/uploads/avatars/{image.FileName}";
@@ -486,7 +498,6 @@ namespace Thoughtwave.Controllers
         private async Task DeleteThoughtImagesAsync(User user)
         {
             var thoughts = await _repository.GetThoughtsByUserNameAsync(user.UserName);
-
             if (thoughts == null)
             {
                 return;
