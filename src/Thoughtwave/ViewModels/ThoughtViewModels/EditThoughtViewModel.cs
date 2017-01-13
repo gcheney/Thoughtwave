@@ -25,7 +25,7 @@ namespace Thoughtwave.ViewModels.ThoughtViewModels
         [Display(Name = "Thought Tags, seperated by a comma")]
         public string Tags { get; set; }
 
-        [Display(Name = "Add a new image")]
+        [Display(Name = "Upload a new image (Supported formats: .jpg, .jpeg, .png)")]
         public string Image { get; set; }
 
         public DateTime CreatedOn { get; set; }
