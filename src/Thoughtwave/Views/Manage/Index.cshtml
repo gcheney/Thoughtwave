@@ -95,7 +95,7 @@
             $('#delete-btn').on('click', function(e) {
                 e.preventDefault();
                 $deleteAccount.slideDown('slow', function() {
-                    $deleteAccount.show();
+                    $(this).show();
                 });
             });
 
@@ -103,7 +103,7 @@
             $('.close').on('click', function(e) {
                 e.preventDefault();
                 $deleteAccount.slideUp('slow', function() {
-                    $deleteAccount.hide();
+                    $(this).hide();
                 });
             });
         });

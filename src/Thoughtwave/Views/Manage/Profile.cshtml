@@ -36,12 +36,14 @@
                 </div>
                 <div class="form-group">                
                     <label asp-for="Avatar"></label>
-                    <a href="#" id="remove-img" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>
+                    <a href="#" id="remove-avatar" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>
                     <img src="@Model.Avatar" alt="User image" id="avatar-img" class="thumbnail">
+                    <input type="hidden" id="avatar-hidden" asp-for="Avatar" value="@Model.Avatar">
                     <input id="avatar-input"  class="form-control"  type="file" name="files" accept="image/*"/>          
                 </div>
                 <button type="submit" class="btn btn-success pull-right">Save Profile Changes</button>
             </form>
+            <a asp-controller="Manage" asp-action="Index" class="btn btn-default pull-left">Cancel</a>
         </div>
     </div>
 </div>
@@ -50,29 +52,41 @@
     <script type="text/javascript">
         $(document).ready(function() { 
             
-            $removeImageBtn = $('#remove-img');
-            $avatarImage = $('#avatar-img');
-            $avatarInput = $("#avatar-input");
+            var $removeAvatarBtn = $('#remove-avatar');
+            var $avatarImage = $('#avatar-img');
+            var $avatarHidden = $('#avatar-hidden');
+            var $avatarInput = $('#avatar-input');
 
-            $removeImageBtn.hide();
             var currentAvatar = $avatarImage.attr('src');
+            var genericAvatar = '/dist/images/generic-user.jpg';
+
+            if (currentAvatar === genericAvatar) {
+                $removeAvatarBtn.hide();
+            }
 
             function readURL(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
                         $avatarImage.attr('src', e.target.result);
+                        $avatarHidden.val(e.target.result);
+                        $removeAvatarBtn.show();
                     }
-                    $removeImageBtn.show();
                     reader.readAsDataURL(input.files[0]);
                 }
             }
 
-            $removeImageBtn.on('click', function(e) {
+            $removeAvatarBtn.on('click', function(e) {
                 e.preventDefault();
-                $(this).hide();
-                $avatarImage.attr('src', currentAvatar);
                 $avatarInput.val('');
+                if ($avatarHidden.val() === currentAvatar) {
+                    $avatarImage.attr('src', genericAvatar);
+                    $avatarHidden.val(genericAvatar);
+                    $(this).hide();
+                } else {
+                    $avatarImage.attr('src', currentAvatar);
+                    $avatarHidden.val(currentAvatar);
+                }
             });
 
             $avatarInput.change(function() {
