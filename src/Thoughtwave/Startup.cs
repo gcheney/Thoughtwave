@@ -91,6 +91,7 @@ namespace Thoughtwave
 
             services.AddLogging();
 
+            // add repository 
             services.AddScoped<IThoughtwaveRepository, ThoughtwaveRepository>();
 
             // use lowercase routes
@@ -99,6 +100,7 @@ namespace Thoughtwave
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IFileManager, FileManager>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
