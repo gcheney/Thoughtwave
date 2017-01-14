@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
@@ -27,11 +28,13 @@ namespace Thoughtwave.Services
                 if (file != null && file.Length > 0 && isValidFormat)
                 {
                     var rootPath = Path.Combine(_environment.WebRootPath, destinationPath);
-                    var filePath = Path.Combine(rootPath, file.FileName);
+                    var fileName = GenerateUniqueFileName(file.FileName);
+                    var filePath = Path.Combine(rootPath, fileName);
+
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(fileStream);
-                        return $"/{destinationPath}/{file.FileName}";
+                        return $"/{destinationPath}/{fileName}";
                     }
                 }
             }
@@ -46,6 +49,23 @@ namespace Thoughtwave.Services
             {
                 System.IO.File.Delete(fullPath);
             }
+        }
+
+        /// <summary>
+        /// Generates a unique file name using the provided file name, current timestamp and Guid
+        /// </summary>
+        /// <param name="fileName">The files current name</param>
+        /// <returns>
+        /// The newly generated, unique file name
+        /// </returns>
+        private string GenerateUniqueFileName(string fileName)
+        {
+            var extension = Path.GetExtension(fileName);
+            var context = Path.GetFileNameWithoutExtension(fileName);
+            var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            var guid = Guid.NewGuid().ToString("N");
+
+            return $"{context}_{timeStamp}_{guid}{extension}";
         }
     }
 }
