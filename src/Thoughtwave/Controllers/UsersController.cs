@@ -15,19 +15,19 @@ namespace Thoughtwave.Controllers
     public class UsersController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
-        private readonly ILogger<UsersController> _logger;
+        private readonly ILogger _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
         public UsersController(IThoughtwaveRepository repository, 
-            ILogger<UsersController> logger,
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            ILoggerFactory loggerFactory)
         {
             _repository = repository;
-            _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = loggerFactory.CreateLogger<UsersController>();
         }
 
         [HttpGet]

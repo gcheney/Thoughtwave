@@ -31,9 +31,9 @@ namespace Thoughtwave.Controllers
             SignInManager<User> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory,
             IThoughtwaveRepository repository,
-            IFileManager fileManager)
+            IFileManager fileManager,
+            ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -116,10 +116,10 @@ namespace Thoughtwave.Controllers
             }
             else
             {
-                var uploadedFile = HttpContext.Request.Form.Files;
+                var imageFile = HttpContext.Request.Form.Files;
                 var dest = "dist/uploads/avatars";
                 var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
-                var avatarPath = await _fileManager.UploadFileAsync(uploadedFile, dest, validFormats);
+                var avatarPath = await _fileManager.UploadFileAsync(imageFile, dest, validFormats);
 
                 if (avatarPath != null)
                 {

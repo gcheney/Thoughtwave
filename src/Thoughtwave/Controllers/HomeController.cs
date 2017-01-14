@@ -11,13 +11,13 @@ namespace Thoughtwave.Controllers
     public class HomeController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger _logger;
 
         public HomeController(IThoughtwaveRepository repository, 
-            ILogger<HomeController> logger)
+            ILoggerFactory loggerFactory)
         {
             _repository = repository;
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger<HomeController>();
         }
 
         [HttpGet]

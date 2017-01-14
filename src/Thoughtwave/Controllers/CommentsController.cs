@@ -13,16 +13,16 @@ namespace Thoughtwave.Controllers
     public class CommentsController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
-        private readonly ILogger<CommentsController> _logger;
+        private readonly ILogger _logger;
         private readonly UserManager<User> _userManager;
 
-        public CommentsController(IThoughtwaveRepository repository, 
-            ILogger<CommentsController> logger,
-            UserManager<User> userManager)
+        public CommentsController(IThoughtwaveRepository repository,
+            UserManager<User> userManager,
+            ILoggerFactory loggerFactory)
         {
             _repository = repository;
-            _logger = logger;
             _userManager = userManager;
+            _logger = loggerFactory.CreateLogger<CommentsController>();
         }
 
         [HttpPost]

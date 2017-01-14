@@ -27,13 +27,13 @@ namespace Thoughtwave.Controllers
 
         public ThoughtsController(IThoughtwaveRepository repository, 
             UserManager<User> userManager,
-            ILogger<ThoughtsController> logger,
-            IFileManager fileManager)
+            IFileManager fileManager,
+            ILoggerFactory loggerFactory)
         {
             _repository = repository;
-            _logger = logger;
             _userManager = userManager;
             _fileManager = fileManager;
+            _logger = loggerFactory.CreateLogger<ThoughtsController>();
         }
 
         [HttpGet]
@@ -200,10 +200,10 @@ namespace Thoughtwave.Controllers
                 thought.Author = await GetCurrentUserAsync();
 
                 // set thought image
-                var uploadedFile = HttpContext.Request.Form.Files;
+                var imageFile = HttpContext.Request.Form.Files;
                 var dest = "dist/uploads/images";
                 var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
-                var imagePath = await _fileManager.UploadFileAsync(uploadedFile, dest, validFormats);
+                var imagePath = await _fileManager.UploadFileAsync(imageFile, dest, validFormats);
                 if (imagePath != null)
                 {
                     thought.Image = imagePath;
@@ -281,10 +281,10 @@ namespace Thoughtwave.Controllers
                 thought.Id = id;
 
                 // get new thought image
-                var uploadedFile = HttpContext.Request.Form.Files;
+                var imageFile = HttpContext.Request.Form.Files;
                 var dest = "dist/uploads/images";
                 var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
-                var imagePath = await _fileManager.UploadFileAsync(uploadedFile, dest, validFormats);
+                var imagePath = await _fileManager.UploadFileAsync(imageFile, dest, validFormats);
                 if (imagePath != null)
                 {
                     // remove old image from file system
