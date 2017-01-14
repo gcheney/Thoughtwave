@@ -154,9 +154,9 @@ namespace Thoughtwave.Data
 
         /* ADD A NEW THOUGHT */
 
-        public void AddThought(Thought thought)
+        public async void AddThought(Thought thought)
         {
-             _context.Thoughts.Add(thought);
+             await _context.Thoughts.AddAsync(thought);
         }
 
         /* UPDATE A THOUGHT */
@@ -187,12 +187,12 @@ namespace Thoughtwave.Data
 
         /* ADD A COMMENT */
 
-        public void AddComment(int thoughtId, Comment comment)
+        public async void AddComment(int thoughtId, Comment comment)
         {
-            var thought = _context.Thoughts
+            var thought = await _context.Thoughts
                 .Where(t => t.Id == thoughtId)
                 .Include(t => t.Comments)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
 
             if (thought != null)
             {
@@ -202,14 +202,14 @@ namespace Thoughtwave.Data
 
          /* REMOVE A COMMENT */
 
-        public void RemoveComment(int thoughtId, Comment comment)
+        public async void RemoveComment(int thoughtId, Comment comment)
         {
             _context.Comments.Remove(comment);
             
-            var thought = _context.Thoughts
+            var thought = await _context.Thoughts
                 .Where(t => t.Id == thoughtId)
                 .Include(t => t.Comments)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
                 
             if (thought != null)
             {
