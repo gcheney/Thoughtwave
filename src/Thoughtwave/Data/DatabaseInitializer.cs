@@ -72,7 +72,7 @@ namespace Thoughtwave.Data
             // Seed thought data
             if (!context.Thoughts.Any())
             {
-                var Thoughts = new List<Thought>()
+                var thoughts = new List<Thought>()
                 {
                     new Thought()
                     {
@@ -204,7 +204,7 @@ namespace Thoughtwave.Data
                     }                        
                 };
 
-                foreach (var thought in Thoughts)
+                foreach (var thought in thoughts)
                 {
                     context.Thoughts.Add(thought);
                     context.Comments.AddRange(thought.Comments);
