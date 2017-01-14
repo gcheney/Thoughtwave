@@ -2,17 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft​.AspNetCore​.Hosting;
 using Microsoft.AspNetCore.Http;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
 using Thoughtwave.ViewModels.ThoughtViewModels;
 using Thoughtwave.ExtensionMethods;
+using Thoughtwave.Services;
 using AutoMapper;
 
 
@@ -24,17 +23,17 @@ namespace Thoughtwave.Controllers
         private readonly IThoughtwaveRepository _repository;
         private readonly ILogger<ThoughtsController> _logger;
         private readonly UserManager<User> _userManager;
-        private readonly IHostingEnvironment _environment;
+        private readonly IFileManager _fileManager;
 
         public ThoughtsController(IThoughtwaveRepository repository, 
             UserManager<User> userManager,
             ILogger<ThoughtsController> logger,
-            IHostingEnvironment environment)
+            IFileManager fileManager)
         {
             _repository = repository;
             _logger = logger;
             _userManager = userManager;
-            _environment = environment;
+            _fileManager = fileManager;
         }
 
         [HttpGet]
@@ -201,8 +200,10 @@ namespace Thoughtwave.Controllers
                 thought.Author = await GetCurrentUserAsync();
 
                 // set thought image
-                var uploadedFiles = HttpContext.Request.Form.Files;
-                var imagePath = await UploadThoughtImageAsync(uploadedFiles);
+                var uploadedFile = HttpContext.Request.Form.Files;
+                var dest = "dist/uploads/images";
+                var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
+                var imagePath = await _fileManager.UploadFileAsync(uploadedFile, dest, validFormats);
                 if (imagePath != null)
                 {
                     thought.Image = imagePath;
@@ -280,10 +281,15 @@ namespace Thoughtwave.Controllers
                 thought.Id = id;
 
                 // get new thought image
-                var uploadedFiles = HttpContext.Request.Form.Files;
-                var imagePath = await UploadThoughtImageAsync(uploadedFiles);
+                var uploadedFile = HttpContext.Request.Form.Files;
+                var dest = "dist/uploads/images";
+                var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
+                var imagePath = await _fileManager.UploadFileAsync(uploadedFile, dest, validFormats);
                 if (imagePath != null)
                 {
+                    // remove old image from file system
+                    _fileManager.DeleteFile(thought.Image);
+                    //set new image path
                     thought.Image = imagePath;
                 }
 
@@ -299,18 +305,18 @@ namespace Thoughtwave.Controllers
 
                 if (await UserIsThoughtAuthorAsync(updatedThought))
                 {
-                    if (await _repository.CommitChangesAsync())
-                    {
-                        var thoughtUrl = GetThoughtUrl(thought);
-                        TempData["success"] = "Thought successfully saved";
-                        return Redirect(thoughtUrl);
-                    }
-                    else 
-                    {
-                        _logger.LogError($"Issue saving changes for thought with id: {thought.Id}");
-                        TempData["error"] = "There was an issue saving your changes";
-                        return RedirectToAction("Manage");
-                    }
+                        if (await _repository.CommitChangesAsync())
+                        {
+                            var thoughtUrl = GetThoughtUrl(thought);
+                            TempData["success"] = "Thought successfully saved";
+                            return Redirect(thoughtUrl);
+                        }
+                        else 
+                        {
+                            _logger.LogError($"Issue saving changes for thought with id: {thought.Id}");
+                            TempData["error"] = "There was an issue saving your changes";
+                            return RedirectToAction("Manage");
+                        }
                 }
 
                 // user is not thought author
@@ -361,11 +367,7 @@ namespace Thoughtwave.Controllers
             if (await UserIsThoughtAuthorAsync(thought))
             {
                 // remove thought image from file system
-                var imagePath = _environment.WebRootPath + thought.Image;
-                if (System.IO.File.Exists(imagePath))
-                {
-                    System.IO.File.Delete(imagePath);
-                }
+                _fileManager.DeleteFile(thought.Image);
 
                 // delete thought
                 _repository.DeleteThought(thought);
@@ -420,29 +422,6 @@ namespace Thoughtwave.Controllers
             {
                 return Category.None;
             }
-        }
-
-        private async Task<string> UploadThoughtImageAsync(IFormFileCollection uploadedImages)
-        {
-            if (uploadedImages.Any())
-            {
-                var image = uploadedImages.FirstOrDefault();
-                string[] validFileFormats = { ".jpg", ".png", ".jpeg" };
-                var isValidFormat = validFileFormats.Any(s => image.FileName.EndsWith(s));
-
-                if (image != null && image.Length > 0 && isValidFormat)
-                {
-                    string filePath = Path.Combine(_environment.WebRootPath, "dist/uploads/avatars");
-                    var imagePath = Path.Combine(filePath, image.FileName);
-                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(fileStream);
-                        return $"/dist/uploads/avatars/{image.FileName}";
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }
