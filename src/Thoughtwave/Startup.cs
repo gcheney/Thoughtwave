@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,20 +8,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using AutoMapper;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
-using Thoughtwave.ViewModels.ThoughtViewModels;
-using Thoughtwave.ViewModels.ManageViewModels;
-using Thoughtwave.ExtensionMethods;
 using Thoughtwave.Services;
-using AutoMapper;
+using Thoughtwave.Infrastructure;
 
 namespace Thoughtwave
 {
     public class Startup
     {
-        public IConfigurationRoot Configuration { get; }
-        public IHostingEnvironment Environment { get; }
+        private IConfigurationRoot Configuration { get; set; }
+        private IHostingEnvironment Environment { get; set; }
+        private MapperConfiguration MapperConfiguration { get; set; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -36,6 +34,12 @@ namespace Thoughtwave
             {
                 builder.AddUserSecrets();
             }
+
+            // add AutoMapper profile
+            MapperConfiguration = new MapperConfiguration(config => 
+            {
+                config.AddProfile(new AutoMapperProfileConfiguration());
+            });
 
             Configuration = builder.Build();
             Environment = env;
@@ -94,6 +98,9 @@ namespace Thoughtwave
             // add repository 
             services.AddScoped<IThoughtwaveRepository, ThoughtwaveRepository>();
 
+            // add AutoMapper as singleton
+            services.AddSingleton<IMapper>(sp => MapperConfiguration.CreateMapper());
+
             // use lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -103,25 +110,10 @@ namespace Thoughtwave
             services.AddTransient<IFileManager, FileManager>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
             ILoggerFactory loggerFactory)
         {
-            // Automapper configuration 
-            Mapper.Initialize(config =>
-            {
-                config.CreateMap<CreateThoughtViewModel, Thought>()
-                    .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content))
-                    .BeforeMap((src, dest) => src.Tags = src.Tags.RemoveWhiteSpaces());
-
-                config.CreateMap<EditThoughtViewModel, Thought>()
-                    .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content))
-                    .BeforeMap((src, dest) => src.Tags = src.Tags.RemoveWhiteSpaces())
-                    .ReverseMap()
-                    .AfterMap((src, dest) => dest.Content = WebUtility.HtmlDecode(dest.Content));
-
-                config.CreateMap<EditProfileViewModel, User>().ReverseMap();
-            });
-
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
