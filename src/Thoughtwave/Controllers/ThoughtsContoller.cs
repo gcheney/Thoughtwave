@@ -282,7 +282,7 @@ namespace Thoughtwave.Controllers
             if (await UserIsThoughtAuthorAsync(thought))
             {
                 // current user is author
-                var viewModel = Mapper.Map<EditThoughtViewModel>(thought);
+                var viewModel = _mapper.Map<EditThoughtViewModel>(thought);
                 ViewBag.Title = $"Editing {thought.Title}";
                 return View(viewModel);
             }
