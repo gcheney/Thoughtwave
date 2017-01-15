@@ -203,7 +203,7 @@ namespace Thoughtwave.Controllers
         {
             if (ModelState.IsValid)
             {
-                var thought = Mapper.Map<Thought>(model);
+                var thought = _mapper.Map<Thought>(model);
 
                 // Save associated Thought author
                 thought.Author = await GetCurrentUserAsync();
@@ -242,9 +242,14 @@ namespace Thoughtwave.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("{categoryId}/{id}/{slug}")]
-        public async Task<IActionResult> Read(int id)
+        public async Task<IActionResult> Read(int? id)
         {
-            var thought = await _repository.GetThoughtAndCommentsByIdAsync(id);
+            if (!id.HasValue)
+            {
+                return BadRequest("No thought ID was provided");
+            }
+
+            var thought = await _repository.GetThoughtAndCommentsByIdAsync(id.Value);
 
             if (thought == null)
             {
@@ -258,9 +263,14 @@ namespace Thoughtwave.Controllers
 
         [HttpGet]
         [Route("/thoughts/edit/{id}")]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var thought = await _repository.GetThoughtByIdAsync(id);
+            if (!id.HasValue)
+            {
+                return BadRequest("No thought ID was provided");
+            }
+
+            var thought = await _repository.GetThoughtByIdAsync(id.Value);
 
             if (thought == null)
             {
@@ -283,58 +293,62 @@ namespace Thoughtwave.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditThoughtViewModel model)
+        public async Task<IActionResult> Edit(int? id, EditThoughtViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!id.HasValue)
             {
-                var thought = Mapper.Map<Thought>(model);
-                thought.Id = id;
-
-                // get new thought image
-                var imageFile = HttpContext.Request.Form.Files;
-                var dest = "dist/uploads/images";
-                var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
-                var imagePath = await _fileManager.UploadFileAsync(imageFile, dest, validFormats);
-                if (imagePath != null)
-                {
-                    // remove old image from file system
-                    _fileManager.DeleteFile(thought.Image);
-                    //set new image path
-                    thought.Image = imagePath;
-                }
-
-                _repository.UpdateThought(thought); 
-
-                var updatedThought = await _repository.GetThoughtByIdAsync(id);
-
-                if (updatedThought == null)
-                {
-                    _logger.LogError($"Unable to retrieve thought for id {id}");
-                    return View("Error");
-                }
-
-                if (await UserIsThoughtAuthorAsync(updatedThought))
-                {
-                        if (await _repository.CommitChangesAsync())
-                        {
-                            var thoughtUrl = GetThoughtUrl(thought);
-                            TempData["success"] = "Thought successfully saved";
-                            return Redirect(thoughtUrl);
-                        }
-                        else 
-                        {
-                            _logger.LogError($"Issue saving changes for thought with id: {thought.Id}");
-                            TempData["error"] = "There was an issue saving your changes";
-                            return RedirectToAction("Manage");
-                        }
-                }
-
-                // user is not thought author
-                return Forbid();
+                return BadRequest("No thought ID was provided");
             }
 
-            // issue with model state 
-            return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var thought = _mapper.Map<Thought>(model);
+            thought.Id = id.Value;
+
+            // get new thought image
+            var imageFile = HttpContext.Request.Form.Files;
+            var dest = "dist/uploads/images";
+            var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
+            var imagePath = await _fileManager.UploadFileAsync(imageFile, dest, validFormats);
+            if (imagePath != null)
+            {
+                // remove old image from file system
+                _fileManager.DeleteFile(thought.Image);
+                //set new image path
+                thought.Image = imagePath;
+            }
+
+            // update thought
+            _repository.UpdateThought(thought); 
+
+            var updatedThought = await _repository.GetThoughtByIdAsync(id.Value);
+            if (updatedThought == null)
+            {
+                _logger.LogError($"Unable to retrieve thought for id {id}");
+                return View("Error");
+            }
+
+            if (await UserIsThoughtAuthorAsync(updatedThought))
+            {
+                    if (await _repository.CommitChangesAsync())
+                    {
+                        var thoughtUrl = GetThoughtUrl(thought);
+                        TempData["success"] = "Thought successfully saved";
+                        return Redirect(thoughtUrl);
+                    }
+                    else 
+                    {
+                        _logger.LogError($"Issue saving changes for thought with id: {thought.Id}");
+                        TempData["error"] = "There was an issue saving your changes";
+                        return RedirectToAction("Manage");
+                    }
+            }
+
+            // user is not thought author
+            return Forbid();
         }
 
         [HttpGet]
