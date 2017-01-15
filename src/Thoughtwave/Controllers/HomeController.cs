@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -5,18 +6,23 @@ using Microsoft.Extensions.Logging;
 using Microsoft​.AspNetCore​.Diagnostics;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
+using Thoughtwave.ViewModels.ThoughtViewModels;
+using AutoMapper;
 
 namespace Thoughtwave.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
+        private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
         public HomeController(IThoughtwaveRepository repository, 
+            IMapper mapper,
             ILoggerFactory loggerFactory)
         {
             _repository = repository;
+            _mapper = mapper;
             _logger = loggerFactory.CreateLogger<HomeController>();
         }
 
@@ -30,13 +36,15 @@ namespace Thoughtwave.Controllers
                 _logger.LogError("Unable to get recent thoughts from repository");
                 return View("Error");
             }
-            
+
             if (!thoughts.Any())
             {
                 ViewBag.Message = "No recent thoughts were found";
             }
+
+            var model = _mapper.Map<IEnumerable<ThoughtViewModel>>(thoughts);
             
-            return View(thoughts);
+            return View(model);
         }
 
         [HttpGet]

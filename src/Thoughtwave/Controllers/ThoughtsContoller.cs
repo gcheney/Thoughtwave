@@ -21,18 +21,21 @@ namespace Thoughtwave.Controllers
     public class ThoughtsController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
-        private readonly ILogger<ThoughtsController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly IFileManager _fileManager;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ThoughtsController> _logger;
 
         public ThoughtsController(IThoughtwaveRepository repository, 
             UserManager<User> userManager,
             IFileManager fileManager,
+            IMapper mapper,
             ILoggerFactory loggerFactory)
         {
             _repository = repository;
             _userManager = userManager;
             _fileManager = fileManager;
+            _mapper = mapper;
             _logger = loggerFactory.CreateLogger<ThoughtsController>();
         }
 
@@ -55,7 +58,8 @@ namespace Thoughtwave.Controllers
                 ViewBag.Message = "No thoughts found";
             }
 
-            return View(thoughts);
+            var model = _mapper.Map<IEnumerable<ThoughtViewModel>>(thoughts);
+            return View(model);
         }
         
         [HttpGet]
@@ -86,8 +90,9 @@ namespace Thoughtwave.Controllers
                     ViewBag.Message = $"No thoughts found for {category.ToString()}";
                 }
 
+                var model = _mapper.Map<IEnumerable<ThoughtViewModel>>(thoughts);
                 ViewBag.Content = $"Thoughts on {category.ToString()}";
-                return View("Index", thoughts);
+                return View("Index", model);
             }
 
             return NotFound();
@@ -117,8 +122,9 @@ namespace Thoughtwave.Controllers
                 ViewBag.Message = $"No thoughts tagged with {tag} were found";
             }
 
+            var model = _mapper.Map<IEnumerable<ThoughtViewModel>>(thoughts);
             ViewBag.Content = $"Thoughts tagged with {tag}";
-            return View("Index", thoughts);
+            return View("Index", model);
         }
 
         [HttpGet]
@@ -152,7 +158,8 @@ namespace Thoughtwave.Controllers
                 ViewBag.Message = "No thoughts found for this search";
             }
 
-            return View("Index", thoughts);
+            var model = _mapper.Map<IEnumerable<ThoughtViewModel>>(thoughts);
+            return View("Index", model);
         }
 
         [HttpGet]
@@ -165,11 +172,12 @@ namespace Thoughtwave.Controllers
                 return View("Error");
             }
             
-            var thoughts = await _repository.GetThoughtsByUserNameAsync(user.UserName);
+            var userName = user.UserName;
+            var thoughts = await _repository.GetThoughtsByUserNameAsync(userName);
 
             if (thoughts == null)
             {
-                _logger.LogError($"Unable to retrieve thoughts from repository for {user.UserName}");
+                _logger.LogError($"Unable to retrieve thoughts from repository for {userName}");
                 return View("Error");
             }
 
@@ -178,8 +186,9 @@ namespace Thoughtwave.Controllers
                 ViewBag.Message = "You haven't created any thoughts yet!";
             }
 
+            var model = _mapper.Map<IEnumerable<ThoughtViewModel>>(thoughts);
             ViewBag.Content = "Your Thoughts";
-            return View(thoughts);
+            return View(model);
         }
 
         [HttpGet]
@@ -243,7 +252,8 @@ namespace Thoughtwave.Controllers
                 return NotFound();
             }
             
-            return View(thought);
+            var model = _mapper.Map<ThoughtViewModel>(thought);
+            return View(model);
         }
 
         [HttpGet]
@@ -343,8 +353,9 @@ namespace Thoughtwave.Controllers
             if (await UserIsThoughtAuthorAsync(thought))
             {
                 // current user is author
-                ViewBag.Title = $"Delete {thought.Title}?";
-                return View(thought);
+                var model = _mapper.Map<ThoughtViewModel>(thought);
+                ViewBag.Title = $"Delete {model.Title}?";
+                return View(model);
             }
 
             // current user is not author

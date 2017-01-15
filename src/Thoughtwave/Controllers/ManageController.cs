@@ -22,9 +22,10 @@ namespace Thoughtwave.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
-        private readonly ILogger _logger;
         private readonly IThoughtwaveRepository _repository;
         private readonly IFileManager _fileManager;
+        private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
         public ManageController(
             UserManager<User> userManager,
@@ -33,6 +34,7 @@ namespace Thoughtwave.Controllers
             ISmsSender smsSender,
             IThoughtwaveRepository repository,
             IFileManager fileManager,
+            IMapper mapper,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
@@ -41,6 +43,7 @@ namespace Thoughtwave.Controllers
             _smsSender = smsSender;
             _repository = repository;
             _fileManager = fileManager;
+            _mapper = mapper;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
@@ -88,7 +91,7 @@ namespace Thoughtwave.Controllers
                 return View("Error");
             }
 
-            var model = Mapper.Map<EditProfileViewModel>(user);
+            var model = _mapper.Map<EditProfileViewModel>(user);
             return View(model);
         }
 
@@ -102,6 +105,7 @@ namespace Thoughtwave.Controllers
             }
 
             var user = await GetCurrentUserAsync();
+            
             if (user == null)
             {
                 _logger.LogError("No current user found");
