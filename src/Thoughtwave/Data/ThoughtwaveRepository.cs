@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Thoughtwave.Models;
+using Thoughtwave.ExtensionMethods;
 
 namespace Thoughtwave.Data
 {
@@ -15,7 +16,7 @@ namespace Thoughtwave.Data
         {
             _context = context;
         }
-    #region Thought GET Methods
+        #region Thought GET Methods
     
         /* GET ALL THOUGHTS */
 
@@ -88,8 +89,7 @@ namespace Thoughtwave.Data
         public async Task<List<Thought>> GetThoughtsByQueryAsync(string query)
         {
             return await _context.Thoughts
-                .Where(t => t.Title.ToLower().Contains(query))
-                .OrderByDescending(t => t.CreatedOn)
+                .Where( t => t.Title.ToLower().Contains(query.ToLower()))
                 .Include(t => t.Author)
                 .ToListAsync();
         }
@@ -116,9 +116,9 @@ namespace Thoughtwave.Data
                 .ToListAsync();
         }
 
-    #endregion
+        #endregion
 
-    #region User GET Methods
+        #region User GET Methods
         /* GET ALL USERS */
 
         public async Task<List<User>> GetAllUsersAsync()
@@ -148,9 +148,9 @@ namespace Thoughtwave.Data
                 .SingleOrDefaultAsync();
         }
 
-    #endregion
+        #endregion
 
-    #region Thought CRUD Methods
+        #region Thought CRUD Methods
 
         /* ADD A NEW THOUGHT */
 
@@ -173,9 +173,9 @@ namespace Thoughtwave.Data
             _context.Thoughts.Remove(thought);
         }
 
-    #endregion
+        #endregion
 
-    #region Comment CRUD Methods
+        #region Comment CRUD Methods
 
         /* GET A COMMENT BY ID */
         public async Task<Comment> GetCommentByIdAsync(int id)
@@ -187,7 +187,7 @@ namespace Thoughtwave.Data
 
         /* ADD A COMMENT */
 
-        public async void AddComment(int thoughtId, Comment comment)
+        public async Task<bool> AddCommentAsync(int thoughtId, Comment comment)
         {
             var thought = await _context.Thoughts
                 .Where(t => t.Id == thoughtId)
@@ -197,15 +197,16 @@ namespace Thoughtwave.Data
             if (thought != null)
             {
                 thought.Comments.Add(comment);
+                return true;
             }
+
+            return false;
         } 
 
          /* REMOVE A COMMENT */
 
-        public async void RemoveComment(int thoughtId, Comment comment)
-        {
-            _context.Comments.Remove(comment);
-            
+        public async Task<bool> RemoveCommentAsync(int thoughtId, Comment comment)
+        {   
             var thought = await _context.Thoughts
                 .Where(t => t.Id == thoughtId)
                 .Include(t => t.Comments)
@@ -213,13 +214,17 @@ namespace Thoughtwave.Data
                 
             if (thought != null)
             {
+                _context.Comments.Remove(comment);
                 thought.Comments.Remove(comment);
+                return true;
             }
+
+            return false;
         } 
 
-    #endregion
+        #endregion
 
-    #region Commit
+        #region Commit
         /* SAVE CHANGES */
 
         public async Task<bool> CommitChangesAsync()
@@ -227,6 +232,6 @@ namespace Thoughtwave.Data
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-    #endregion
+        #endregion
     }
 }

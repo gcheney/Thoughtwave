@@ -38,9 +38,9 @@ namespace Thoughtwave.Data
 
         Task<Comment> GetCommentByIdAsync(int id);
 
-        void AddComment(int thoughtId, Comment comment);
+        Task<bool> AddCommentAsync(int thoughtId, Comment comment);
 
-        void RemoveComment(int thoughtId, Comment comment);
+        Task<bool> RemoveCommentAsync(int thoughtId, Comment comment);
 
         Task<bool> CommitChangesAsync();
     }

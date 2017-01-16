@@ -28,9 +28,14 @@ namespace Thoughtwave.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("/thoughts/{thoughtId}/comments")]
-        public async Task<IActionResult> Create(int thoughtId, string content,
+        public async Task<IActionResult> Create(int? thoughtId, string content,
             string returnUrl)
         {
+            if (!thoughtId.HasValue)
+            {
+                return BadRequest("No thought ID was provided");
+            }
+
             // no content for comment
             if (String.IsNullOrWhiteSpace(content))
             {
@@ -47,27 +52,40 @@ namespace Thoughtwave.Controllers
             };
             
             // add comment
-            _repository.AddComment(thoughtId, newComment);
+            var result = await _repository.AddCommentAsync(thoughtId.Value, newComment);
 
-            if (await _repository.CommitChangesAsync())
+            if (result)
             {
-                TempData["success"] = "Your comment has been added!";
-                return Redirect(returnUrl);
+                if (await _repository.CommitChangesAsync())
+                {
+                    TempData["success"] = "Your comment has been added!";
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    _logger.LogError($"Unable to save comment for thought with id {thoughtId}");
+                    TempData["error"] = "An error occurred, please try again.";
+                    return Redirect(returnUrl);
+                }
             }
-            else
-            {
-                _logger.LogError($"Unable to save comment for thought with id {thoughtId}");
-                TempData["error"] = "An error occurred, please try again";
-                return Redirect(returnUrl);
-            }
+
+            // comment was not added 
+            _logger.LogError($"Unable to find Thought with id {thoughtId}");
+            TempData["error"] = "This thought does not exist";
+            return Redirect(returnUrl);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("/thoughts/{thoughtId}/comments/{commentId}/update")]
-        public async Task<IActionResult> Update(int thoughtId, int commentId,
+        public async Task<IActionResult> Update(int? thoughtId, int? commentId,
             string updatedContent, string returnUrl, string userName)
         {
+            if (!thoughtId.HasValue || !commentId.HasValue)
+            {
+                return BadRequest("A thought or comment ID was not provided");
+            }
+            
             if (String.IsNullOrWhiteSpace(updatedContent))
             {
                 TempData["error"] = "No comment content was provided";
@@ -79,7 +97,7 @@ namespace Thoughtwave.Controllers
             // current user is comment user
             if (currentUser.UserName == userName)
             {
-                var comment = await _repository.GetCommentByIdAsync(commentId);
+                var comment = await _repository.GetCommentByIdAsync(commentId.Value);
 
                 if (comment == null)
                 {
@@ -111,15 +129,20 @@ namespace Thoughtwave.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("/thoughts/{thoughtId}/comments/{commentId}/delete")]
-        public async Task<IActionResult> Delete(int thoughtId, int commentId,
+        public async Task<IActionResult> Delete(int? thoughtId, int? commentId,
             string returnUrl, string userName)
         {
+            if (!thoughtId.HasValue || !commentId.HasValue)
+            {
+                return BadRequest("A thought or comment ID was not provided");
+            }
+
             var currentUser = await GetCurrentUserAsync();
 
             // current user is comment user
             if (currentUser.UserName == userName)
             {
-                var comment = await _repository.GetCommentByIdAsync(commentId);
+                var comment = await _repository.GetCommentByIdAsync(commentId.Value);
 
                 if (comment == null)
                 {
@@ -128,19 +151,27 @@ namespace Thoughtwave.Controllers
                 }
 
                 // commnet found, remove it
-                _repository.RemoveComment(thoughtId, comment);
+                var result = await _repository.RemoveCommentAsync(thoughtId.Value, comment);
 
-                if (await _repository.CommitChangesAsync())
+                if (result)
                 {
-                    TempData["success"] = "Your comment has been removed";
-                    return Redirect(returnUrl);
+                    if (await _repository.CommitChangesAsync())
+                    {
+                        TempData["success"] = "Your comment has been removed";
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        _logger.LogError($"Unable to remove comment {commentId} for thought {thoughtId}");
+                        TempData["error"] = "An error occurred, please try again";
+                        return Redirect(returnUrl);
+                    }
                 }
-                else
-                {
-                    _logger.LogError($"Unable to remove comment {commentId} for thought {thoughtId}");
-                    TempData["error"] = "An error occurred, please try again";
-                    return Redirect(returnUrl);
-                }
+
+                // comment was not added 
+                _logger.LogError($"Unable to find Thought with id {thoughtId}");
+                TempData["error"] = "This thought does not exist";
+                return Redirect(returnUrl);
             }
 
             // user is not comment User
