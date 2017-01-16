@@ -89,7 +89,10 @@ namespace Thoughtwave.Data
         public async Task<List<Thought>> GetThoughtsByQueryAsync(string query)
         {
             return await _context.Thoughts
-                .Where( t => t.Title.ToLower().Contains(query.ToLower()))
+                .Where(t => (t.Title.Contains(query, true)) || 
+                    (t.Author.FullName.Contains(query, true)) ||
+                    (t.Author.UserName.Contains(query, true)) ||
+                    (t.Tags.Contains(query, true)))
                 .Include(t => t.Author)
                 .ToListAsync();
         }
@@ -100,7 +103,10 @@ namespace Thoughtwave.Data
         {
             return await _context.Thoughts
                 .Where(t => t.Category == category)
-                .Where(t => t.Title.ToLower().Contains(query))
+                .Where(t => (t.Title.Contains(query, true)) || 
+                    (t.Author.FullName.Contains(query, true)) ||
+                    (t.Author.UserName.Contains(query, true)) ||
+                    (t.Tags.Contains(query, true)))
                 .OrderByDescending(t => t.CreatedOn)
                 .Include(t => t.Author)
                 .ToListAsync();
