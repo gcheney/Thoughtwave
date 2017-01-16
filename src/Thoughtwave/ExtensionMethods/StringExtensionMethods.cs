@@ -67,5 +67,24 @@ namespace Thoughtwave.ExtensionMethods
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns a bool result indicating if the provided string is present
+        /// </summary>
+        /// <param name="str"> The string to be checked</param>
+        /// <param name="toCheck">The string that is being checked for</param>
+        /// <param name="ignoreCase">Wether or not to ignore the case of the strings</param>
+        /// <returns>
+        /// true if the toCheck parameter is present in this string, false otherwise
+        /// </returns>
+        public static bool Contains(this string str, string toCheck, bool ignoreCase)
+        {
+            if (ignoreCase)
+            {
+                return str.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+
+            return str.IndexOf(toCheck) >= 0;
+        }
     }   
 }
