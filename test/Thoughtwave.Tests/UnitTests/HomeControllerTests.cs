@@ -38,7 +38,25 @@ namespace Thoughtwave.Tests.UnitTests
             Assert.Equal(3, model.Count());
         }
 
-        
+        [Fact]
+        public async Task Index_ReturnsErrorViewResult_WhenReturnDataIsNull()
+        {
+            Console.WriteLine("Running test: Index_ReturnsErrorViewResult_WhenReturnDataIsNull");
+
+            // Arrange
+            var mockRepo = new Mock<IThoughtwaveRepository>();
+            mockRepo.Setup(repo => repo.GetRecentThoughtsAsync())
+                .Returns(Task.FromResult(GetNullThoughts()));
+            var mapper = GetMapper();
+            var controller = new HomeController(mockRepo.Object, mapper, new LoggerFactory());
+
+            // Act
+            var result = await controller.Index();
+
+            // Assert
+            var errorResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal("Error", errorResult.ViewName);
+        }
 
         private List<Thought> GetTestThoughts()
         {
