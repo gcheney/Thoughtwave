@@ -51,10 +51,11 @@
                         <p>
                             @foreach (var provider in Model.OtherLogins)
                             {
-                                <button type="submit" class="btn-block btn-social btn-@provider.DisplayName.ToLower()" 
+                                <button type="submit" class="btn btn-block btn-social btn-@provider.DisplayName.ToLower()" 
                                     name="provider" value="@provider.AuthenticationScheme" 
                                     title="Log in using your @provider.DisplayName account">
-                                    @provider.AuthenticationScheme
+                                    <i class="fa fa-@providerName.ToLower() btn-social-icon"></i> 
+                                    <span class="btn-social-text">@provider.AuthenticationScheme</span>
                                 </button>
                             }
                         </p>
