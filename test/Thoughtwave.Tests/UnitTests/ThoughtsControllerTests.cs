@@ -40,7 +40,7 @@ namespace Thoughtwave.Tests.UnitTests
             // Arrange
             int testThoughtId = 666;
             var mockRepo = new Mock<IThoughtwaveRepository>();
-            mockRepo.Setup(repo => repo.GetThoughtByIdAsync(testThoughtId))
+            mockRepo.Setup(repo => repo.GetThoughtAndCommentsByIdAsync(testThoughtId))
                 .Returns(Task.FromResult((Thought)null));
             var controller = new ThoughtsController(mockRepo.Object, null, null, null, new LoggerFactory());
 
@@ -53,6 +53,31 @@ namespace Thoughtwave.Tests.UnitTests
         }
 
         [Fact]
+        public async Task Read_ReturnsViewResult_WithThoughtViewModel()
+        {
+            Console.WriteLine("Running test: Read_ReturnsViewResult_WithThoughtViewModel");
+
+            // Arrange
+            int testThoughtId = 1;
+            var mockRepo = new Mock<IThoughtwaveRepository>();
+            mockRepo.Setup(repo => repo.GetThoughtAndCommentsByIdAsync(testThoughtId))
+                .Returns(Task.FromResult(GetTestThoughts().FirstOrDefault(t => t.Id == testThoughtId)));
+            var mapper = GetMapper();
+            var controller = new ThoughtsController(mockRepo.Object, null, null, mapper, new LoggerFactory());
+
+            // Act
+            var result = await controller.Read(testThoughtId);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsType<ThoughtViewModel>(viewResult.ViewData.Model);
+            Assert.Equal("Generic Title 1", model.Title);
+            Assert.Equal(2, model.CreatedOn.Day);
+            Assert.Equal(testThoughtId, model.Id);
+        }
+
+
+        [Fact]
         public async Task CreatePost_ReturnsViewResult_WhenModelStateIsInvalid()
         {
             Console.WriteLine("Running test: CreatePost_ReturnsViewResult_WhenModelStateIsInvalid");
@@ -62,7 +87,7 @@ namespace Thoughtwave.Tests.UnitTests
                 .Setup(repo => repo.GetAllThoughtsAsync())
                 .Returns(Task.FromResult(GetTestThoughts()));
             var mapper = GetMapper();
-            var controller = new ThoughtsController(mockRepo.Object, null, null, mapper, new LoggerFactory());
+            var controller = new ThoughtsController(null, null, null, mapper, new LoggerFactory());
             controller.ModelState.AddModelError("Title", "Required");
             var newThought = new CreateThoughtViewModel();
 
@@ -85,7 +110,9 @@ namespace Thoughtwave.Tests.UnitTests
             thoughts.Add(new Thought()
             {
                 Title = "Generic Title 1",
+                Id = 1,
                 Content = "Generic contents.",
+                CreatedOn = new DateTime(2017, 2, 2),
                 Author = new User(),
                 Category = Category.Film,
                 Tags = "film,art,indie,hip,cinephile",
@@ -97,6 +124,7 @@ namespace Thoughtwave.Tests.UnitTests
             {   
                 Title = "Generic Title 2",
                 Content = "Generic contents.",
+                Id = 2,
                 Author = new User(),
                 Category = Category.Film,
                 Tags = "film,art,indie,hip,cinephile",
@@ -107,6 +135,7 @@ namespace Thoughtwave.Tests.UnitTests
             thoughts.Add(new Thought()
             {
                 Title = "Generic Title 3",
+                Id = 3,
                 Content = "Generic contents.",
                 Author = new User(),
                 Category = Category.Film,
