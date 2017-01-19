@@ -33,6 +33,27 @@ namespace Thoughtwave.Tests.UnitTests
         }
 
 
+        [Fact]
+        public async Task CreatePost_ReturnsViewResult_WhenModelStateIsInvalid()
+        {
+            Console.WriteLine("Running test: CreatePost_ReturnsViewResult_WhenModelStateIsInvalid");
+            // Arrange
+            var mockRepo = new Mock<IThoughtwaveRepository>();
+            mockRepo
+                .Setup(repo => repo.GetAllThoughtsAsync())
+                .Returns(Task.FromResult(GetTestThoughts()));
+            var mapper = GetMapper();
+            var controller = new ThoughtsController(mockRepo.Object, null, null, mapper, new LoggerFactory());
+            controller.ModelState.AddModelError("Title", "Required");
+            var newThought = new CreateThoughtViewModel();
+
+            // Act
+            var result = await controller.Create(newThought);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<CreateThoughtViewModel>(viewResult.Model);
+        }
 
         /*
         
