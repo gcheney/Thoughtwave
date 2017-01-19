@@ -99,10 +99,6 @@ namespace Thoughtwave.Tests.UnitTests
             Assert.IsType<CreateThoughtViewModel>(viewResult.Model);
         }
 
-        /*
-        
-        */
-
         private List<Thought> GetTestThoughts()
         {
             var thoughts = new List<Thought>();
