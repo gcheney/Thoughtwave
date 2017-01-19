@@ -32,6 +32,25 @@ namespace Thoughtwave.Tests.UnitTests
             Assert.IsType<String>(badRequestResult.Value);
         }
 
+        [Fact]
+        public async Task Read_ReturnsNotFound_WhenThoughtNotFound()
+        {
+            Console.WriteLine("Running test: Read_ReturnsNotFound_WhenThoughtNotFound");
+
+            // Arrange
+            int testThoughtId = 666;
+            var mockRepo = new Mock<IThoughtwaveRepository>();
+            mockRepo.Setup(repo => repo.GetThoughtByIdAsync(testThoughtId))
+                .Returns(Task.FromResult((Thought)null));
+            var controller = new ThoughtsController(mockRepo.Object, null, null, null, new LoggerFactory());
+
+            // Act
+            var result = await controller.Read(testThoughtId);
+
+            // Assert
+            var notFoundResult = Assert.IsType<NotFoundResult>(result);
+            Assert.Equal(404, notFoundResult.StatusCode);
+        }
 
         [Fact]
         public async Task CreatePost_ReturnsViewResult_WhenModelStateIsInvalid()
