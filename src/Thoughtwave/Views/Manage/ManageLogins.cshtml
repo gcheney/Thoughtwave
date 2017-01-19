@@ -47,15 +47,15 @@
                 <h4>Add another service to log in.</h4>
                 <hr />
                 <form asp-controller="Manage" asp-action="LinkLogin" method="post" class="form-horizontal">
-                    <div id="socialLoginList">
+                    <div id="socialLoginList" class="col-md-8 col-md-offset-2">
                         <p>
                             @foreach (var provider in Model.OtherLogins)
                             {
-                                <button type="submit" class="btn btn-block btn-social btn-@provider.AuthenticationScheme.ToLower()" 
+                                <button type="submit" class="btn btn-block btn-social btn-@provider.DisplayName.ToLower()" 
                                     name="provider" value="@provider.AuthenticationScheme" 
                                     title="Log in using your @provider.DisplayName account">
-                                    <i class="fa fa-@provider.AuthenticationScheme.ToLower() btn-social-icon"></i> 
-                                    <span class="btn-social-text">@provider.AuthenticationScheme</span>
+                                    <i class="fa fa-@provider.DisplayName.ToLower() btn-social-icon"></i> 
+                                    <span class="btn-social-text text-center">@provider.AuthenticationScheme</span>
                                 </button>
                             }
                         </p>
