@@ -219,7 +219,7 @@ namespace Thoughtwave.Controllers
                 }
 
                 // Save to the database
-                _repository.AddThought(thought);
+                _repository.AddThoughtAsync(thought);
 
                 if (await _repository.CommitChangesAsync())
                 {

@@ -30,7 +30,7 @@ namespace Thoughtwave.Data
 
         Task<List<Thought>> GetThoughtsByUserNameAsync(string username);
 
-        void AddThought(Thought thought);
+        void AddThoughtAsync(Thought thought);
 
         void UpdateThought(Thought thought);
 

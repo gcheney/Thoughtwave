@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Thoughtwave.Models;
 using Thoughtwave.ExtensionMethods;
 
@@ -160,7 +161,7 @@ namespace Thoughtwave.Data
 
         /* ADD A NEW THOUGHT */
 
-        public async void AddThought(Thought thought)
+        public async void AddThoughtAsync(Thought thought)
         {
              await _context.Thoughts.AddAsync(thought);
         }
