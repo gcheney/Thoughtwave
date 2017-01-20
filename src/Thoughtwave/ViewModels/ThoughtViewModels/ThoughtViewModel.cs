@@ -51,7 +51,7 @@ namespace Thoughtwave.ViewModels.ThoughtViewModels
         {
             get
             {
-                return Tags.Split(',').ToList();
+                return Tags != null ? Tags.Split(',').ToList() : new List<string>();
             }
         }
         
