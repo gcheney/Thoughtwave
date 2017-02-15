@@ -1,16 +1,11 @@
 
-## Thoughtwave
+# Thoughtwave
 
 ### A web app for sharing your thoughts with the world.
 
-![Thoughtwave Screenshot 1](https://glendoncheney.com/images/screenshots/thoughtwave/thoughtwave1-min.png) 
-![Thoughtwave Screenshot 2](https://glendoncheney.com/images/screenshots/thoughtwave/thoughtwave2-min.png) 
-![Thoughtwave Screenshot 3](https://glendoncheney.com/images/screenshots/thoughtwave/thoughtwave3-min.png) 
-![Thoughtwave Screenshot 4](https://glendoncheney.com/images/screenshots/thoughtwave/thoughtwave4-min.png)
-
 Thoughtwave is a blogging platform, allowing users to sign up and create new post, or "Thoughts" and comment on the thoughts of others. It was built using ASP.NET Core and a variety of related technologies.
 
-[Live Demo ](https://thoughtwave.azurewebsites.net/) - [Github](https://github.com/gcheney/thoughtwave)</div>
+## [Live Demo ](https://thoughtwave.azurewebsites.net/) - [Github](https://github.com/gcheney/thoughtwave)</div>
 
 ### Features
 
@@ -33,3 +28,8 @@ Thoughtwave is a blogging platform, allowing users to sign up and create new pos
 * [Bootstrap](//getbootstrap.com/) 
 * [jQuery](//jquery.com/) 
 * [Gulp](//gruntjs.com/)
+
+![Thoughtwave Screenshot 1](https://glendoncheney.com/images/screenshots/thoughtwave/thoughtwave1-min.png) 
+![Thoughtwave Screenshot 2](https://glendoncheney.com/images/screenshots/thoughtwave/thoughtwave2-min.png) 
+![Thoughtwave Screenshot 3](https://glendoncheney.com/images/screenshots/thoughtwave/thoughtwave3-min.png) 
+![Thoughtwave Screenshot 4](https://glendoncheney.com/images/screenshots/thoughtwave/thoughtwave4-min.png)
