@@ -157,7 +157,9 @@ namespace Thoughtwave
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller="Home", action="Index" }
+                );
             });
 
             DatabaseInitializer.Initialize(app).Wait();
