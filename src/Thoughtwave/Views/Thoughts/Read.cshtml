@@ -128,10 +128,15 @@ else
                 }
                 else
                 {
-                    foreach (var comment in Model.Comments)
-                    {
-                        @await Html.PartialAsync("_CommentPartial", comment)
-                    } 
+                    <h2 id="comment-heading" class="text-center">
+                        <i id="show-icon" class="fa fa-arrow-down" aria-hidden="true"></i> View @Model.NumberOfComments Comments
+                    </h2>
+                    <div id="comment-section">
+                        @foreach (var comment in Model.Comments)
+                        {
+                            @await Html.PartialAsync("_CommentPartial", comment)
+                        }
+                    </div>
                 }
             }
         </div>
@@ -143,6 +148,20 @@ else
     <script type="text/javascript">
 
         $(document).ready(function() {
+
+            // show/hide comment section
+            $('#comment-section').hide();
+            var $defaultCommentHeading = $('#comment-heading').html();
+
+            $('#comment-heading').on('click', function () {
+                var hideCommentHeading = '<i id="hide-icon" class="fa fa-arrow-up" aria-hidden="true"></i> Hide Comments';
+                if ($('#show-icon').is(":visible")) {
+                    $(this).html(hideCommentHeading);
+                } else {
+                    $(this).html($defaultCommentHeading);
+                }
+                $(this).next().slideToggle();
+            }).next().hide();
 
             // validate comment submission form
             var $commentForm = $('#comment-form');
