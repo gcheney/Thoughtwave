@@ -54,6 +54,14 @@ namespace Thoughtwave.ViewModels.ThoughtViewModels
                 return Tags != null ? Tags.Split(',').ToList() : new List<string>();
             }
         }
+
+        public int NumberOfComments
+        {
+            get
+            {
+                return Comments.Count;
+            }
+        }
         
         public ICollection<Comment> Comments { get; set; }
         public User Author { get; set; }
