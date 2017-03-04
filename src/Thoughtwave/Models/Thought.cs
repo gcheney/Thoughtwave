@@ -1,8 +1,5 @@
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using Thoughtwave.ExtensionMethods;
 
 namespace Thoughtwave.Models
 {
@@ -16,43 +13,6 @@ namespace Thoughtwave.Models
         public bool DisableComments { get; set; }
         public string Tags { get; set; }
         public string Image { get; set; }
-
-        public string Lead 
-        { 
-            get 
-            {
-                return Content.Length < 500 ? Content : Content.TruncateString(500) + "...";
-            }
-        }
-
-        public string Slug
-        {
-            get
-            {
-                string str = this.Title;
-
-                // invalid chars           
-                str = Regex.Replace(str, @"[^a-zA-Z0-9 -]", "");
-
-                // convert multiple spaces into one space   
-                str = Regex.Replace(str, @"\s+", " ").Trim();
-
-                // cut and trim 
-                str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
-
-                // add hyphens
-                str = Regex.Replace(str, @"\s", "-");    
-                return str;
-            }
-        }
-
-        public List<string> TagList
-        {
-            get
-            {
-                return Tags != null ? Tags.Split(',').ToList() : new List<string>();
-            }
-        }
         
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual User Author { get; set; }

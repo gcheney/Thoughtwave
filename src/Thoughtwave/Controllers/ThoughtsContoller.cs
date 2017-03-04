@@ -428,9 +428,10 @@ namespace Thoughtwave.Controllers
 
         private string GetThoughtUrl(Thought thought)
         {
-            var category = thought.Category.ToString().ToLower();
-            var id = thought.Id;
-            var slug = thought.Slug.ToLower();
+            var model = _mapper.Map<ThoughtViewModel>(thought);
+            var category = model.Category.ToString().ToLower();
+            var id = model.Id;
+            var slug = model.Slug.ToLower();
             return $"/{category}/{id}/{slug}";
         }
         

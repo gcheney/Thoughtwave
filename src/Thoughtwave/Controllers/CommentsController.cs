@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Thoughtwave.Data;
 using Thoughtwave.Models;
+using Thoughtwave.ViewModels.ThoughtViewModels;
+using AutoMapper;
 
 namespace Thoughtwave.Controllers
 {
@@ -13,13 +15,17 @@ namespace Thoughtwave.Controllers
     public class CommentsController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
+        
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
         public CommentsController(IThoughtwaveRepository repository,
             UserManager<User> userManager,
+            IMapper mapper,
             ILoggerFactory loggerFactory)
         {
+            _mapper = mapper;
             _repository = repository;
             _userManager = userManager;
             _logger = loggerFactory.CreateLogger<CommentsController>();
@@ -183,9 +189,10 @@ namespace Thoughtwave.Controllers
 
         private string GetThoughtUrl(Thought thought)
         {
-            var category = thought.Category.ToString().ToLower();
-            var id = thought.Id;
-            var slug = thought.Slug.ToLower();
+            var model = _mapper.Map<ThoughtViewModel>(thought);
+            var category = model.Category.ToString().ToLower();
+            var id = model.Id;
+            var slug = model.Slug.ToLower();
             return $"/{category}/{id}/{slug}";
         }
 
