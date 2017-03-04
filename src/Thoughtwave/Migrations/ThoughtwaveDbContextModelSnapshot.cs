@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Thoughtwave.Data;
+using Thoughtwave.Models;
 
 namespace Thoughtwave.Migrations
 {
@@ -13,24 +14,26 @@ namespace Thoughtwave.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1");
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
+                        .IsUnique()
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
@@ -102,8 +105,6 @@ namespace Thoughtwave.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUserRoles");
                 });
 
@@ -129,11 +130,11 @@ namespace Thoughtwave.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 3000);
+                        .HasMaxLength(3000);
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 1, 5, 12, 18, 51, 608, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 3, 3, 18, 16, 2, 165, DateTimeKind.Local));
 
                     b.Property<int?>("ThoughtId");
 
@@ -161,11 +162,11 @@ namespace Thoughtwave.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 10000);
+                        .HasMaxLength(10000);
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 1, 5, 12, 18, 51, 605, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 3, 3, 18, 16, 2, 163, DateTimeKind.Local));
 
                     b.Property<bool>("DisableComments")
                         .ValueGeneratedOnAdd()
@@ -177,7 +178,7 @@ namespace Thoughtwave.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -188,7 +189,8 @@ namespace Thoughtwave.Migrations
 
             modelBuilder.Entity("Thoughtwave.Models.User", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -201,13 +203,13 @@ namespace Thoughtwave.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue("This user hasn't filled out their Bio yet.")
-                        .HasAnnotation("MaxLength", 500);
+                        .HasMaxLength(500);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -215,7 +217,7 @@ namespace Thoughtwave.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue("Anonymous")
-                        .HasAnnotation("MaxLength", 50);
+                        .HasMaxLength(50);
 
                     b.Property<bool>("IsBanned")
                         .ValueGeneratedOnAdd()
@@ -225,17 +227,17 @@ namespace Thoughtwave.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue("User")
-                        .HasAnnotation("MaxLength", 50);
+                        .HasMaxLength(50);
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
 
@@ -247,12 +249,12 @@ namespace Thoughtwave.Migrations
 
                     b.Property<DateTime>("SignUpDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 1, 5, 12, 18, 51, 597, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 3, 3, 18, 16, 2, 153, DateTimeKind.Local));
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
