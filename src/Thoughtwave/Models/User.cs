@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Thoughtwave.Models
 {
-    // Add profile data for application users by adding properties to the User class
     public class User : IdentityUser
     {
         public string FirstName { get; set; }
@@ -18,7 +17,7 @@ namespace Thoughtwave.Models
         { 
             get 
             {
-                return this.FirstName + " " + this.LastName;
+                return $"{this.FirstName} {this.LastName}";
             }
         }
         
