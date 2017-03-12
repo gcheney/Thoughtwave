@@ -13,7 +13,6 @@ namespace Thoughtwave.Controllers
     public class CommentsController : Controller
     {
         private readonly IThoughtwaveRepository _repository;
-        
         private readonly ILogger _logger;
         private readonly UserManager<User> _userManager;
 

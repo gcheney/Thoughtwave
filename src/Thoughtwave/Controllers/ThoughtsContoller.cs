@@ -418,7 +418,7 @@ namespace Thoughtwave.Controllers
         private async Task<bool> UserIsThoughtAuthorAsync(Thought thought)
         {
             var currentUser = await GetCurrentUserAsync();
-            return currentUser.Id == thought.Author.Id;
+            return currentUser.Id == thought.AuthorId;
         }
 
         private async Task<User> GetCurrentUserAsync()
