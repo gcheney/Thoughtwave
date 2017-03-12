@@ -73,6 +73,7 @@ namespace Thoughtwave.Data
             modelBuilder.Entity<Thought>()
                 .HasOne(t => t.Author)
                 .WithMany(u => u.Thoughts)
+                .HasForeignKey(t => t.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Thought>()
@@ -110,11 +111,13 @@ namespace Thoughtwave.Data
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Thought)
                 .WithMany(t => t.Comments)
+                .HasForeignKey(c => c.ThoughtId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>()

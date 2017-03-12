@@ -46,6 +46,8 @@ namespace Thoughtwave.Models
         }
         
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public string AuthorId { get; set; }
         public virtual User Author { get; set; }
     }
 }
