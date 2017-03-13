@@ -120,11 +120,7 @@ namespace Thoughtwave.Controllers
             }
             else
             {
-                var imageFile = HttpContext.Request.Form.Files;
-                var dest = "dist/uploads/avatars";
-                var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
-                var avatarPath = await _fileManager.UploadFileAsync(imageFile, dest, validFormats);
-
+                var avatarPath = await UploadImage(HttpContext.Request.Form.Files);
                 if (avatarPath != null)
                 {
                     if (user.Avatar != defaultProfileImage)
@@ -144,7 +140,8 @@ namespace Thoughtwave.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.UpdateProfileSuccess });
+                return RedirectToAction(nameof(Index), 
+                    new { Message = ManageMessageId.UpdateProfileSuccess });
             }
 
             AddErrors(result);
@@ -280,7 +277,8 @@ namespace Thoughtwave.Controllers
             }
             var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, phoneNumber);
             // Send an SMS to verify the phone number
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            return phoneNumber == null ? View("Error") 
+                : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
         //
@@ -300,7 +298,8 @@ namespace Thoughtwave.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.AddPhoneSuccess });
+                    return RedirectToAction(nameof(Index), 
+                        new { Message = ManageMessageId.AddPhoneSuccess });
                 }
             }
             // If we got this far, something failed, redisplay the form
@@ -321,7 +320,8 @@ namespace Thoughtwave.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemovePhoneSuccess });
+                    return RedirectToAction(nameof(Index), 
+                        new { Message = ManageMessageId.RemovePhoneSuccess });
                 }
             }
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
@@ -353,7 +353,8 @@ namespace Thoughtwave.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+                    return RedirectToAction(nameof(Index), 
+                        new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 AddErrors(result);
                 return View(model);
@@ -388,7 +389,8 @@ namespace Thoughtwave.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.SetPasswordSuccess });
+                    return RedirectToAction(nameof(Index), 
+                        new { Message = ManageMessageId.SetPasswordSuccess });
                 }
                 AddErrors(result);
                 return View(model);
@@ -413,7 +415,8 @@ namespace Thoughtwave.Controllers
             }
             var userLogins = await _userManager.GetLoginsAsync(user);
             var otherLogins = _signInManager.GetExternalAuthenticationSchemes()
-                .Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+                .Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider))
+                .ToList();
             ViewData["ShowRemoveButton"] = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
             {
@@ -481,6 +484,13 @@ namespace Thoughtwave.Controllers
         private Task<User> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(HttpContext.User);
+        }
+
+        private async Task<string> UploadImage(IFormFileCollection imageFiles)
+        {
+            var dest = "dist/uploads/images";
+            var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
+            return await _fileManager.UploadFileAsync(imageFiles, dest, validFormats);
         }
 
         private async Task DeleteThoughtImagesAsync(User user)

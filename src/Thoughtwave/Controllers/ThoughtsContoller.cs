@@ -209,10 +209,7 @@ namespace Thoughtwave.Controllers
                 thought.Author = await GetCurrentUserAsync();
 
                 // set thought image
-                var imageFile = HttpContext.Request.Form.Files;
-                var dest = "dist/uploads/images";
-                var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
-                var imagePath = await _fileManager.UploadFileAsync(imageFile, dest, validFormats);
+                var imagePath = await UploadImage(HttpContext.Request.Form.Files);
                 if (imagePath != null)
                 {
                     thought.Image = imagePath;
@@ -309,10 +306,7 @@ namespace Thoughtwave.Controllers
             thought.Id = id.Value;
 
             // get new thought image
-            var imageFile = HttpContext.Request.Form.Files;
-            var dest = "dist/uploads/images";
-            var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
-            var imagePath = await _fileManager.UploadFileAsync(imageFile, dest, validFormats);
+            var imagePath = await UploadImage(HttpContext.Request.Form.Files);
             if (imagePath != null)
             {
                 // remove old image from file system
@@ -424,6 +418,13 @@ namespace Thoughtwave.Controllers
         private async Task<User> GetCurrentUserAsync()
         {
             return await _userManager.GetUserAsync(HttpContext.User);
+        }
+
+        private async Task<string> UploadImage(IFormFileCollection imageFiles)
+        {
+            var dest = "dist/uploads/images";
+            var validFormats = new string[]{ ".jpg", ".png", ".jpeg" };
+            return await _fileManager.UploadFileAsync(imageFiles, dest, validFormats);
         }
 
         private string GetThoughtUrl(Thought thought)
