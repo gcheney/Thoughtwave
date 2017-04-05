@@ -70,7 +70,7 @@ namespace Thoughtwave.Controllers
             }
 
             // comment was not added 
-            _logger.LogError($"Unable to find Thought with id {thoughtId}");
+            _logger.LogInformation($"Unable to save new comment for Thought with id {thoughtId}");
             TempData["error"] = "This thought does not exist";
             return Redirect(returnUrl);
         }
@@ -169,7 +169,7 @@ namespace Thoughtwave.Controllers
                 }
 
                 // comment was not added 
-                _logger.LogError($"Unable to find Thought with id {thoughtId}");
+                _logger.LogInformation($"Unable to find Thought with id {thoughtId}");
                 TempData["error"] = "This thought does not exist";
                 return Redirect(returnUrl);
             }

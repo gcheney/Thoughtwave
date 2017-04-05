@@ -49,7 +49,7 @@ namespace Thoughtwave.Controllers
 
             if (thoughts == null)
             {
-                _logger.LogError("Unable to retrieve all thoughts from repository");
+                _logger.LogInformation("Unable to retrieve all thoughts from repository");
                 return View("Error");
             }
             
@@ -81,7 +81,7 @@ namespace Thoughtwave.Controllers
 
                 if (thoughts == null)
                 {
-                    _logger.LogError("Unable to retrieve thoughts for category {categoryId}");
+                    _logger.LogInformation("Unable to retrieve thoughts for category {categoryId}");
                     return View("Error");
                 }
                 
@@ -113,7 +113,7 @@ namespace Thoughtwave.Controllers
 
             if (thoughts == null)
             {
-                _logger.LogError("Unable to retrieve thoughts for tag {tag}");
+                _logger.LogInformation("Unable to retrieve thoughts for tag {tag}");
                 return View("Error");
             }
             
@@ -319,9 +319,10 @@ namespace Thoughtwave.Controllers
             _repository.UpdateThought(thought); 
 
             var updatedThought = await _repository.GetThoughtByIdAsync(id.Value);
+
             if (updatedThought == null)
             {
-                _logger.LogError($"Unable to retrieve thought for id {id}");
+                _logger.LogInformation($"Unable to retrieve thought for id {id}");
                 return View("Error");
             }
 
@@ -379,7 +380,7 @@ namespace Thoughtwave.Controllers
 
             if (thought == null)
             {
-                _logger.LogError("Unable to retrieve thought with id {id}");
+                _logger.LogInformation("Unable to retrieve thought with id {id}");
                 return View("Error");
             }
 
