@@ -9,9 +9,10 @@ using Thoughtwave.Models;
 namespace Thoughtwave.Migrations
 {
     [DbContext(typeof(ThoughtwaveDbContext))]
-    partial class ThoughtwaveDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170312172217_AddForeignKeyProperties")]
+    partial class AddForeignKeyProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
