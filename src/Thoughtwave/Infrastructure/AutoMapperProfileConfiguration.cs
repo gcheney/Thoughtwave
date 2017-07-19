@@ -11,7 +11,7 @@ namespace Thoughtwave.Infrastructure
     {
         protected override void Configure()
         {
-            CreateMap<Thought, ThoughtViewModel>();
+            CreateMap<Thought, ThoughtViewModel>().ReverseMap();
 
             CreateMap<CreateThoughtViewModel, Thought>()
                 .BeforeMap((src, dest) => src.Content = WebUtility.HtmlEncode(src.Content))
