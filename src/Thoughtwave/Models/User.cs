@@ -13,13 +13,7 @@ namespace Thoughtwave.Models
         public string Bio { get; set; }
         public bool IsBanned { get; set; }
 
-        public string FullName 
-        { 
-            get 
-            {
-                return $"{this.FirstName} {this.LastName}";
-            }
-        }
+        public string FullName => $"{FirstName} {LastName}";
         
         public virtual ICollection<Thought> Thoughts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
