@@ -16,13 +16,7 @@ namespace Thoughtwave.Models
         public string Tags { get; set; }
         public string Image { get; set; }
 
-        public string Lead 
-        { 
-            get 
-            {
-                return Content.Length < 500 ? Content : Content.TruncateString(500) + "...";
-            }
-        }
+        public string Lead => Content.Length < 500 ? Content : Content.TruncateString(500) + "...";
 
         public string Slug
         {
