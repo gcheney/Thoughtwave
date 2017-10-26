@@ -31,54 +31,52 @@ var config = {
                 'wwwroot/dist/fonts', './wwwroot/dist/images']
 };
 
-gulp.task('bower', function() {
+gulp.task('bower', function () {
     return bower().pipe(gulp.dest(config.bowerDir));
 });
 
-gulp.task('jslint', function() {
-    console.log('Checking coding style...');
-    
-    return gulp.src(config.jsSrc)
-        .pipe(jshint())
-        .pipe(jshint.reporter(stylish));
+gulp.task('jslint', function () {
+   	 console.log('Checking coding style...');   
+	 return gulp.src(config.jsSrc)
+		.pipe(jshint())
+		.pipe(jshint.reporter(stylish));
 });
 
 gulp.task('clean', function () {
-    console.log('Cleaning dist folders...');
-    
+    	console.log('Cleaning dist folders...');    
 	return gulp.src(config.distDirs, {read: false})
-        .pipe(clean());
+	.pipe(clean());
 });
 
-gulp.task('css', function() {
+gulp.task('css', function () {
 	return gulp.src(bowerFiles())
 		.pipe(filter('**/*.css'))
-        .pipe(debug({title: 'css'}))
+		.pipe(debug({title: 'css'}))
 		.pipe(order(config.cssSrc))
 		.pipe(concat('bundle.css'))
 		.pipe(cssnano())
-        .pipe(rename('bundle.min.css'))
+		.pipe(rename('bundle.min.css'))
 		.pipe(gulp.dest(config.cssDest));
 });
 
-gulp.task('js', function() {
-    return gulp.src(bowerFiles())
-        .pipe(filter('**/*.js'))
-        .pipe(debug({title: 'js'}))
-        .pipe(order(['jquery.js', '*']))
-        .pipe(concat('bundle.js'))
-        .pipe(uglify())
-        .pipe(rename('bundle.min.js'))
-        .pipe(gulp.dest(config.jsDest));
+gulp.task('js', function () {
+	return gulp.src(bowerFiles())
+		.pipe(filter('**/*.js'))
+		.pipe(debug({title: 'js'}))
+		.pipe(order(['jquery.js', '*']))
+		.pipe(concat('bundle.js'))
+		.pipe(uglify())
+		.pipe(rename('bundle.min.js'))
+		.pipe(gulp.dest(config.jsDest));
 });
 
-gulp.task('fonts', function() {    
+gulp.task('fonts', function () {    
     return gulp.src(config.fontSrc)
         .pipe(debug({title: 'fonts'}))
         .pipe(gulp.dest(config.fontDest));
 });
 
-gulp.task('images', function(){
+gulp.task('images', function (){
     return gulp.src(config.imageSrc)
         .pipe(debug({title: 'images'}))
         .pipe(imagemin())
